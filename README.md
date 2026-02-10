@@ -6,7 +6,7 @@ An online U-Fund system built in Java **21** and ___ _replace with other platfor
 ## Team
 
 - Quinn Yates
-- MEMBER2
+- Aidan Sanderson
 - MEMBER3
 - MEMBER4
 
