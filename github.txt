@@ -1,0 +1,29 @@
+commit 6c893eae4f0528ed1052efaeab1b6d3b7bd9958e
+Author: ajo4857 <ajo4857@g.rit.edu>
+Date:   Mon Feb 9 19:38:17 2026 -0500
+
+    Update team member list in README
+
+commit 7a88b4e2703aaa901bdd925b04bc66833147ebe4
+Author: iz6341 <iz6341@rit.edu>
+Date:   Mon Feb 9 19:34:12 2026 -0500
+
+    Update team member list in README
+
+commit 46b56b6b60e4b16fadab0776f3cce7243a24d9d6
+Author: ars4041 <ars4041@g.rit.edu>
+Date:   Mon Feb 9 19:33:34 2026 -0500
+
+    Update README.md (Added my name to the readme)
+
+commit 2d4192c46510a15bf2c1b5247e2cce2287b8c7d6
+Author: QuinnYates29 <139060220+QuinnYates29@users.noreply.github.com>
+Date:   Mon Feb 9 19:32:47 2026 -0500
+
+    Update README.md
+
+commit ad4b65bf2d1b667a0a960fbb6a32f48799495ca2
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Thu Feb 5 02:40:33 2026 +0000
+
+    Initial commit
