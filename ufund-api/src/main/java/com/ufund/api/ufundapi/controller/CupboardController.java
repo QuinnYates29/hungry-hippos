@@ -154,7 +154,7 @@ public class CupboardController {
             try {
             Need n = cupboardDao.getNeed(need.getId());
             if (n == null) {
-                cupboardDao.createNeed(n);
+                cupboardDao.createNeed(need);
                 return new ResponseEntity<>(n,HttpStatus.CREATED);
             }
             else {
