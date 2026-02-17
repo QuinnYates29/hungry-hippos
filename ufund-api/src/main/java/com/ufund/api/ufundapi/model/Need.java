@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Represents a need entity
  * 
- * @author SWEN Faculty
+ * @author qry3977
  */
 public class Need {
     private static final Logger LOG = Logger.getLogger(Need.class.getName());
