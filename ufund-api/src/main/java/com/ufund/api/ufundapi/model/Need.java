@@ -16,6 +16,9 @@ public class Need {
 
     @JsonProperty("id") private int id;
     @JsonProperty("name") private String name;
+    @JsonProperty("type") private String type;
+    @JsonProperty("cost") private double cost;
+    @JsonProperty("quantity") private int quantity;
 
     /**
      * Create a need with the given id and name
@@ -27,9 +30,18 @@ public class Need {
      * is not provided in the JSON object, the Java field gets the default Java
      * value, i.e. 0 for int
      */
-    public Need(@JsonProperty("id") int id, @JsonProperty("name") String name) {
+    public Need(
+        @JsonProperty("id") int id, 
+        @JsonProperty("name") String name,
+        @JsonProperty("type") String type,
+        @JsonProperty("cost") double cost,
+        @JsonProperty("quantity") int quantity
+        ) {
         this.id = id;
         this.name = name;
+        this.type = type;
+        this.cost = cost;
+        this.quantity = quantity;
     }
 
     /**
@@ -39,16 +51,30 @@ public class Need {
     public int getId() { return id; }
 
     /**
+     * Retrieves the name of the need
+     * @return The name of the need
+     */
+    public String getName() {return name;}
+
+    public String getType() { return type; }
+
+    public double getCost() { return cost; }
+
+    public int getQuantity() { return quantity; }
+
+    // Setters (needed for JSON updates)
+
+    /**
      * Sets the name of the need - necessary for JSON object to Java object deserialization
      * @param name The name of the need
      */
     public void setName(String name) {this.name = name;}
 
-    /**
-     * Retrieves the name of the need
-     * @return The name of the need
-     */
-    public String getName() {return name;}
+    public void setType(String type) { this.type = type; }
+
+    public void setCost(double cost) { this.cost = cost; }
+
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
     /**
      * {@inheritDoc}
