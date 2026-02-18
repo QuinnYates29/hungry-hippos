@@ -12,7 +12,7 @@ geometry: margin=1in
 * Team name: 1a Codemonkeys
 * Team members
   * Quinn Yates
-  * MEMBER2
+  * Ilia Zhdanov
   * MEMBER3
   * MEMBER4
 
