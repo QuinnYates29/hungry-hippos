@@ -20,6 +20,19 @@ export interface Need {
   providedIn: 'root',
 })
 
+/**
+ * Service responsible for retrieving cupboard needs from the backend API.
+ */
 export class NeedsService {
-  private apiUrl = '';
+  private apiUrl = 'http://localhost:8080/cupboard';
+
+  constructor(private http: HttpClient) {}
+
+  /**
+  * Retrieves all cupboard needs from the backend
+  * @param Observable emitting the list of needs
+  */
+  getAllNeeds(): Observable<Need[]> {
+    return this.http.get<Need[]>(this.apiUrl);
+  }
 }
