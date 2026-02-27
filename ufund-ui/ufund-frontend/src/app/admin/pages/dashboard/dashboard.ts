@@ -26,6 +26,7 @@ export class Dashboard implements OnInit{
     this.loading = true;
     this.needsService.getAllNeeds().subscribe({
       next: (data) => {
+        console.log('Needs received from backend:', data); // debug
         this.needs = data;
         this.loading = false;
       },
