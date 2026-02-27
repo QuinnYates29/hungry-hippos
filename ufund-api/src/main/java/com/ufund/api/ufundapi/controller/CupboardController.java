@@ -1,5 +1,9 @@
 package com.ufund.api.ufundapi.controller;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.ufund.api.ufundapi.persistence.CupboardFileDAO;
 import com.ufund.api.ufundapi.model.Need;
+import com.ufund.api.ufundapi.persistence.CupboardDAO;
 
 /**
  * Handles CupboardDAO requests
@@ -29,7 +29,7 @@ import com.ufund.api.ufundapi.model.Need;
 @RequestMapping("cupboard")
 public class CupboardController {
     private static final Logger LOG = Logger.getLogger(CupboardController.class.getName());
-    private final CupboardFileDAO cupboardDao;
+    private final CupboardDAO cupboardDao;
 
     /**
      * Creates a REST API controller to reponds to requests
@@ -38,7 +38,7 @@ public class CupboardController {
      * <br>
      * This dependency is injected by the Spring Framework
      */
-    public CupboardController(CupboardFileDAO cupboardDao) {
+    public CupboardController(CupboardDAO cupboardDao) {
         this.cupboardDao = cupboardDao;
     }
 
@@ -54,17 +54,17 @@ public class CupboardController {
     @GetMapping("/{id}")
     public ResponseEntity<Need> getNeed(@PathVariable int id) {
         LOG.info("GET /needs/" + id);
-        ///try {
+        try {
             Need need = cupboardDao.getNeed(id);
             if (need != null)
                 return new ResponseEntity<Need>(need,HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        ///}
-        ///catch(IOException e) {
-            ///LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            ///return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        ///}
+        }
+        catch(IOException e) {
+            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -76,20 +76,17 @@ public class CupboardController {
      */
     @GetMapping("")
     public ResponseEntity<Need[]> getNeeds() {
-        LOG.info("GET /needs");
-
         try {
             Need[] needs = cupboardDao.getNeeds();
             if (needs != null && needs.length > 0) {
-                return new ResponseEntity<>(needs,HttpStatus.OK);
+                return ResponseEntity.ok(needs);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        } 
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Error retrieving cupboard needs", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
@@ -131,7 +128,7 @@ public class CupboardController {
             else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -158,7 +155,7 @@ public class CupboardController {
             else {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -185,7 +182,7 @@ public class CupboardController {
             else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -212,7 +209,7 @@ public class CupboardController {
             else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.log(Level.SEVERE,e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
