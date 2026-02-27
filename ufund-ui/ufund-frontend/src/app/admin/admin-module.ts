@@ -5,7 +5,6 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 
 
-
 @NgModule({
   declarations: [
     Login,
