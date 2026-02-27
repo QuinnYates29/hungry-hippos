@@ -11,16 +11,16 @@ import org.springframework.http.ResponseEntity;
 
 import com.ufund.api.ufundapi.controller.CupboardController;
 import com.ufund.api.ufundapi.model.Need;
-import com.ufund.api.ufundapi.persistence.CupboardFileDAO;
+import com.ufund.api.ufundapi.persistence.CupboardDAO;
 
 class CupboardControllerTest {
 
     private CupboardController cupboardController;
-    private CupboardFileDAO mockDao;
+    private CupboardDAO mockDao;
 
     @BeforeEach
     void setUp() {
-        mockDao = Mockito.mock(CupboardFileDAO.class);
+        mockDao = Mockito.mock(CupboardDAO.class);
         cupboardController = new CupboardController(mockDao);
     }
 
