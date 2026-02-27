@@ -1,1 +1,19 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+    <h2>U-fund Cupboard Needs</h2>
+  
+    <!-- Show loading state -->
+    <div *ngIf="loading">Loading needs...</div>
+  
+    <!-- Show empty state -->
+    <div *ngIf="!loading && needs.length === 0">No needs available.</div>
+  
+    <!-- Scrollable list of needs -->
+    <div *ngIf="needs.length > 0" class="needs-list">
+      <div *ngFor="let need of needs" class="need-card">
+        <h3>{{ need.name }}</h3>
+        <p>{{ need.description }}</p>
+        <p>Quantity: {{ need.quantity }}</p>
+        <p>Date Added: {{ need.dateAdded | date:'short' }}</p>
+      </div>
+    </div>
+  </div>
