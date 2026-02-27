@@ -1,16 +1,1 @@
-[
-    {
-      "id": 1,
-      "name": "Blankets",
-      "type": "Clothing",
-      "cost": 25.50,
-      "quantity": 10
-    },
-    {
-      "id": 2,
-      "name": "Canned Food",
-      "type": "Food",
-      "cost": 1.75,
-      "quantity": 100
-    }
-]  
+[{"id":1,"name":"Blankets","type":"Winter Clothing","cost":30.0,"quantity":15},{"id":2,"name":"Canned Food","type":"Food","cost":1.75,"quantity":100}]
