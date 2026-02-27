@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 
 /**
@@ -8,14 +8,16 @@ import { NeedsService, Need } from '../../../core/services/needs';
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  styleUrls: ['./dashboard.css'],
 })
 export class Dashboard implements OnInit{
   //List of needs retrieved from backend
   needs: Need[] = [];
   loading = false
 
-  constructor(private needsService: NeedsService) { }
+  constructor(private needsService: NeedsService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.fetchNeeds();
@@ -29,6 +31,8 @@ export class Dashboard implements OnInit{
         console.log('Needs received from backend:', data); // debug
         this.needs = data;
         this.loading = false;
+        // Force Angular to detect changes immediately
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching needs', err);
