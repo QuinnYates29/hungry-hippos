@@ -78,7 +78,6 @@ public class CupboardController {
     public ResponseEntity<Need[]> getNeeds() {
         LOG.info("GET /needs");
 
-        // Replace below with your implementation
         try {
             Need[] needs = cupboardDao.getNeeds();
             if (needs != null && needs.length > 0) {
@@ -110,7 +109,6 @@ public class CupboardController {
     public ResponseEntity<Need[]> searchNeeds(@RequestParam String name) {
         LOG.info("GET /needs/?name="+name);
 
-        // Replace below with your implementation
             try {
             Need[] needs = cupboardDao.getNeeds();
             int accepted_size = 0;
@@ -179,7 +177,6 @@ public class CupboardController {
     public ResponseEntity<Need> updateNeed(@RequestBody Need need) {
         LOG.info("PUT /needs " + need);
 
-        // Replace below with your implementation
             try {
             Need n = cupboardDao.updateNeed(need);
             if (n != null) {
@@ -207,7 +204,6 @@ public class CupboardController {
     public ResponseEntity<Need> deleteNeed(@PathVariable int id) {
         LOG.info("DELETE /needs/" + id);
 
-        // Replace below with your implementation
             try {
             boolean deleted = cupboardDao.deleteNeed(id);
             if (deleted != false) {
