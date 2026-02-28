@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HelperDashboard } from './helper/pages/helper-dashboard/helper-dashboard';
 
 const routes: Routes = [
   {
@@ -8,10 +9,16 @@ const routes: Routes = [
       import('./admin/admin-module').then(m => m.AdminModule)
   },
   {
+    path: 'helper',
+    loadChildren: () =>
+      import('./helper/helper-module').then(m=> m.HelperModule)
+  },
+  {
     path: '',
-    redirectTo: 'admin/dashboard',
+    redirectTo: 'helper/helper-dashboard',
     pathMatch: 'full' 
   }
+  
 ];
 
 @NgModule({

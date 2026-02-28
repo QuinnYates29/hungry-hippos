@@ -1,0 +1,23 @@
+<div class="helper-dashboard-container">
+  <h2>U-fund Cupboard Needs</h2>
+  <div *ngIf="loading">Loading needs...</div>
+  <div *ngIf="!loading && needs.length === 0">No needs available.</div>
+  <div *ngIf="!loading && needs.length > 0" class="needs-list">
+    <div *ngFor="let need of needs; let last = last">
+      <div class="need-card">
+        <div class="need-info">
+          <h3>{{ need.name }}</h3>
+          <p><strong>Type:</strong> {{ need.type }}</p>
+          <p><strong>Cost:</strong> ${{ need.cost }}</p>
+          <p><strong>Quantity:</strong> {{ need.quantity }}</p>
+        </div>
+        <div class="button-container">
+          <button class="add-button" (click)="addBasket(need)">
+            Add to Basket
+          </button>
+        </div>
+      </div>
+      <hr *ngIf="!last" class="need-divider">
+    </div>
+  </div>
+</div>

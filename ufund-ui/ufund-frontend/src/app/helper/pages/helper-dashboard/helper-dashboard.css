@@ -1,0 +1,41 @@
+.dashboard-container {
+    padding: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+  
+.needs-list {
+    max-height: 500px; /* limit height */
+    overflow-y: auto;   /* vertical scroll */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+}
+  
+.need-card {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.need-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+}
+  
+.need-card:last-child {
+    border-bottom: none;
+}
+
+.need-divider {
+  border: 0;
+  border-top: 5px solid #746d6d;
+  margin: 0;
+}
+.add-button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
