@@ -112,8 +112,6 @@ UfundApiApplicationTests --> UfundApiApplication
 
 This section describes the application domain.
 
-![Domain Model](domain-model-placeholder.png)
-
 > Sprint 2 - High level overview of the domain
 > In the highest level of our domain heirarchy, we have our backend (ufund-api) and our frontend(ufund-ui/ufund-frontend). In our backend, 
 > we have our data directory, containing json files, which store our cupboard and user information for persistence. Along 
