@@ -132,7 +132,7 @@ The following Tiers/Layers diagram shows a high-level view of the webapp's archi
 **NOTE**: detailed diagrams are required in later sections of this document.
 > _**[Sprint 1]** (Augment this diagram with your **own** rendition and representations of sample system classes, placing them into the appropriate Component box (blue rectangle) inside the corresponding Layer. Focus on what is currently required to support **Sprint 1 - Demo requirements**. Make sure to describe your design choices in the corresponding _**Tier Section**_ and also in the _**OO Design Principles**_ section below.)_
 
-![The Tiers & Layers of the Architecture](Architectrual model.png)
+![The Tiers & Layers of the Architecture](Architectural model.PNG)
 
 The web application is built using the **Presentation**(frontend), **Application**(backend), **Data** tiered architecture. 
 
