@@ -124,10 +124,16 @@ public class CupboardFileDAO implements CupboardDAO {
         needs = new TreeMap<>();
         nextId = 0;
 
-        // Deserializes the JSON objects from the file into an array of needs
-        // readValue will throw an IOException if there's an issue with the file
+        // ReadValue will throw an IOException if there's an issue with the file
         // or reading from the file
-        Need[] heroArray = objectMapper.readValue(new File(filename),Need[].class);
+        File file = new File(filename);
+        if (!file.exists() || file.length() == 0) {
+            LOG.info("Needs file is missing or empty. Starting with empty needs.");
+            return true; // safe: empty map already initialized
+        }
+
+        // Deserializes JSON from file into an array of needs
+        Need[] heroArray = objectMapper.readValue(file, Need[].class);
 
         // Add each need to the tree map and keep track of the greatest id
         for (Need need : heroArray) {

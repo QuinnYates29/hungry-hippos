@@ -78,7 +78,7 @@ public class CupboardController {
     public ResponseEntity<Need[]> getNeeds() {
         try {
             Need[] needs = cupboardDao.getNeeds();
-            if (needs != null && needs.length > 0) {
+            if (needs != null) {
                 return ResponseEntity.ok(needs);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
