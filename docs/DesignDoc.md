@@ -51,6 +51,65 @@ This section describes the features of the application.
 
 
 ## Application Domain
+# Full Domain Model
+
+```mermaid
+classDiagram
+%% ------------------ FRONTEND ------------------
+class AppModule
+class AppRoutingModule
+class AppComponent
+class AppCSS
+class StylesCSS
+
+AppModule --> AppComponent
+AppModule --> AppRoutingModule
+AppComponent --> AppCSS
+AppModule --> StylesCSS
+
+%% Admin
+class AdminModule
+class AdminRoutingModule
+class DashboardComponent
+AdminModule --> AdminRoutingModule
+AdminModule --> DashboardComponent
+
+%% Login
+class LoginComponent
+
+%% Services
+class NeedsService
+AppModule --> NeedsService
+
+%% ------------------ BACKEND ------------------
+class NeedsJSON
+class UfundApiApplication
+class WebConfig
+
+%% Controllers
+class CupboardController
+
+%% Models
+class Need
+
+%% Persistence
+class CupboardDAO
+class CupboardFileDAO
+
+%% Tests
+class CupboardControllerTest
+class UfundApiApplicationTests
+
+%% Connections
+NeedsService --> CupboardController
+CupboardController --> Need
+CupboardController --> CupboardDAO
+CupboardDAO <|-- CupboardFileDAO
+UfundApiApplication --> CupboardController
+UfundApiApplication --> WebConfig
+CupboardControllerTest --> CupboardController
+UfundApiApplicationTests --> UfundApiApplication
+```
 
 This section describes the application domain.
 
@@ -59,6 +118,14 @@ This section describes the application domain.
 > _**[Sprint 2 & 4]** Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
 > to each other._
+> Sprint 2 - High level overview of the domain
+> In the highest level of our domain heirarchy, we have our backend (ufund-api) and our frontend(ufund-ui/ufund-frontend). In our backend, 
+> we have our data directory, containing json files, which store our cupboard and user information for persistence. Along 
+> with this, inside src/main we have three layers: controller, model, and persistence. The last thing we have in our backend is our 
+> ApiApplication.
+> For our frontend, we have the basic angular project structure as well as a service class to interface with our backend conroller, as 
+> well as a main app module, which contains our admin/user modules, as well as their respective components. The last thing contained in 
+> our app module is a login module which will direct to a user/admin module after login.
 
 
 ## Architecture and Design
@@ -71,7 +138,7 @@ The following Tiers/Layers diagram shows a high-level view of the webapp's archi
 **NOTE**: detailed diagrams are required in later sections of this document.
 > _**[Sprint 1]** (Augment this diagram with your **own** rendition and representations of sample system classes, placing them into the appropriate Component box (blue rectangle) inside the corresponding Layer. Focus on what is currently required to support **Sprint 1 - Demo requirements**. Make sure to describe your design choices in the corresponding _**Tier Section**_ and also in the _**OO Design Principles**_ section below.)_
 
-![The Tiers & Layers of the Architecture](architecture-tiers-and-layers.png)
+![The Tiers & Layers of the Architecture](Architectrual model.png)
 
 The web application is built using the **Presentation**(frontend), **Application**(backend), **Data** tiered architecture. 
 
