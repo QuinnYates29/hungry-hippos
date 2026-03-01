@@ -15,7 +15,8 @@ export class Dashboard implements OnInit{
   needs: Need[] = [];
   loading = false
 
-  constructor(private needsService: NeedsService,
+  constructor(
+    private needsService: NeedsService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -23,19 +24,21 @@ export class Dashboard implements OnInit{
     this.fetchNeeds();
   }
 
-  //Gets needs from backend and stores them in local needs list
+  /**
+   * Fetches needs from backend and stores them in a local list. This effectively
+   * "refreshes" the list and should be called after every remove/add/page change
+   */
   fetchNeeds(): void {
     this.loading = true;
     this.needsService.getAllNeeds().subscribe({
       next: (data) => {
-        console.log('Needs received from backend:', data); // debug
         this.needs = data;
         this.loading = false;
-        // Force Angular to detect changes immediately
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching needs', err);
+        this.needs = [];
         this.loading = false;
       }
     });
@@ -52,8 +55,8 @@ export class Dashboard implements OnInit{
     }
     this.needsService.deleteNeed(id).subscribe({
       next: () => {
-        // Remove from local array so UI updates immediately
-        this.needs = this.needs.filter(n => n.id !== id);
+        // Call fetch needs to update local array
+        this.fetchNeeds();
       },
       error: (err) => {
         console.error('Error deleting need', err);
