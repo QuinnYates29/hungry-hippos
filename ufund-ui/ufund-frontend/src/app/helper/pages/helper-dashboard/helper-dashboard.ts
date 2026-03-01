@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
+import { Subject } from 'rxjs/internal/Subject';
 
 
 @Component({
@@ -10,7 +11,9 @@ import { NeedsService, Need } from '../../../core/services/needs';
 })
 export class HelperDashboard implements OnInit{
   needs: Need[] =[]
+  private searchTerms = new Subject<string>();
   loading = false
+
 
   constructor(private needsService: NeedsService,
     private cdr: ChangeDetectorRef
