@@ -35,4 +35,12 @@ export class NeedsService {
   getAllNeeds(): Observable<Need[]> {
     return this.http.get<Need[]>(this.apiUrl);
   }
+
+  /**
+   * Sends a HTML request to backend to remove a need from cupboard by id
+   * @param number id of need to remove
+   */
+  deleteNeed(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
