@@ -47,6 +47,9 @@ export class Dashboard implements OnInit{
    * @param id if of need to be deleted
    */
   removeNeed(id: number): void {
+    if (!confirm('Are you sure you want to delete this need?')) {
+      return;
+    }
     this.needsService.deleteNeed(id).subscribe({
       next: () => {
         // Remove from local array so UI updates immediately
