@@ -40,4 +40,21 @@ export class Dashboard implements OnInit{
       }
     });
   }
+
+  /**
+   * Calls need service class deleteNeed for given id
+   * If error, do nothing and report it
+   * @param id if of need to be deleted
+   */
+  removeNeed(id: number): void {
+    this.needsService.deleteNeed(id).subscribe({
+      next: () => {
+        // Remove from local array so UI updates immediately
+        this.needs = this.needs.filter(n => n.id !== id);
+      },
+      error: (err) => {
+        console.error('Error deleting need', err);
+      }
+    });
+  }
 }
