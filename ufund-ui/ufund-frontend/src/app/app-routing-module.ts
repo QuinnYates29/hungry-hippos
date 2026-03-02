@@ -10,14 +10,27 @@ const routes: Routes = [
   {
     path: 'helper',
     loadChildren: () =>
-      import('./helper/helper-module').then(m=> m.HelperModule)
+      import('./helper/helper-module').then(m => m.HelperModule)
+  },
+
+  // TEST ROUTES (can alternate)
+  {
+    path: 'admin-test',
+    redirectTo: 'admin/dashboard',
+    pathMatch: 'full'
   },
   {
-    path: '',
+    path: 'helper-test',
     redirectTo: 'helper/helper-dashboard',
+    pathMatch: 'full'
+  },
+
+  // DEFAULT ROUTE
+  {
+    path: '',
+    redirectTo: 'admin/dashboard',
     pathMatch: 'full' 
   }
-  
 ];
 
 @NgModule({
