@@ -108,7 +108,7 @@ class CupboardControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
-    
+
     // =========================
     // Tests for searchNeeds():
     // =========================
@@ -139,6 +139,7 @@ class CupboardControllerTest {
         assertEquals(1, response.getBody().length);
         assertEquals("Water", response.getBody()[0].getName());
     }
+    
     @Test
     public void testSearchNeeds_NotFound() throws IOException {
         Need[] mockNeeds = {
@@ -146,7 +147,7 @@ class CupboardControllerTest {
             new Need(2, "Water", "Drink", 0, 20)
         };
         when(mockDao.getNeeds()).thenReturn(mockNeeds);
-        ResponseEntity<Need[]> response = controller.searchNeeds("Fish");
+        ResponseEntity<Need[]> response = controller.searchNeeds("Cookie");
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(0, response.getBody().length);
