@@ -11,6 +11,8 @@
         <p><strong>Type:</strong> {{ need.type }}</p>
         <p><strong>Cost:</strong> ${{ need.cost }}</p>
         <p><strong>Quantity:</strong> {{ need.quantity }}</p>
+
+        <button (click)="removeNeed(need.id)">Remove</button>
     </div>
     </div>
   </div>
