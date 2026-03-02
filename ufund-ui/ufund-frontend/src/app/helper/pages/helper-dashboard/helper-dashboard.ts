@@ -1,30 +1,33 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
+import { Subject } from 'rxjs/internal/Subject';
 
-/**
- * Dashboard page for U-fund managers to view all cupboard needs.
- */
+
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-helper-dashboard',
   standalone: false,
-  templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css'],
+  templateUrl: './helper-dashboard.html',
+  styleUrl: './helper-dashboard.css',
 })
-export class Dashboard implements OnInit{
-  //List of needs retrieved from backend
-  needs: Need[] = [];
-  tempNeeds: Need[] = [];
+export class HelperDashboard implements OnInit{
+  needs: Need[] =[]
+  private searchTerms = new Subject<string>();
   loading = false
+
 
   constructor(private needsService: NeedsService,
     private cdr: ChangeDetectorRef
   ) { }
 
+  handleSearchResults(foundNeeds: Need[]): void {
+    this.needs = foundNeeds;
+    this.cdr.detectChanges(); // Ensure the cards update immediately
+  }
+
   ngOnInit(): void {
     this.fetchNeeds();
   }
 
-  //Gets needs from backend and stores them in local needs list
   fetchNeeds(): void {
     this.loading = true;
     this.needsService.getAllNeeds().subscribe({
@@ -41,4 +44,8 @@ export class Dashboard implements OnInit{
       }
     });
   }
+   addBasket(need: Need){
+      console.log('Adding to basket:', need.name);
+
+   }
 }

@@ -8,10 +8,16 @@ const routes: Routes = [
       import('./admin/admin-module').then(m => m.AdminModule)
   },
   {
+    path: 'helper',
+    loadChildren: () =>
+      import('./helper/helper-module').then(m=> m.HelperModule)
+  },
+  {
     path: '',
-    redirectTo: 'admin/dashboard',
+    redirectTo: 'helper/helper-dashboard',
     pathMatch: 'full' 
   }
+  
 ];
 
 @NgModule({
