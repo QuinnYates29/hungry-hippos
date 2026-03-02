@@ -1,3 +1,7 @@
+/// @file helper-module.ts
+/// @author iz6341
+///helper module for helper related components and services
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HelperDashboard } from './pages/helper-dashboard/helper-dashboard';
