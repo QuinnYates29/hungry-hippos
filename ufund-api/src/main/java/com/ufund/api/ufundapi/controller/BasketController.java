@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,9 +27,9 @@ import com.ufund.api.ufundapi.persistence.CupboardDAO;
  */
 
 @RestController
-@RequestMapping("cupboard")
-public class CupboardController {
-    private static final Logger LOG = Logger.getLogger(CupboardController.class.getName());
+@RequestMapping("basket")
+public class BasketController {
+    private static final Logger LOG = Logger.getLogger(BasketController.class.getName());
     private final CupboardDAO cupboardDao;
 
     /**
@@ -40,9 +39,8 @@ public class CupboardController {
      * <br>
      * This dependency is injected by the Spring Framework
      */
-    public CupboardController(
-    @Qualifier("cupboardFileDAO") CupboardDAO cupboardDao) {
-        this.cupboardDao = cupboardDao;
+    public BasketController(@Qualifier("basketFileDAO") CupboardDAO cupboardDao) {
+    this.cupboardDao = cupboardDao;
     }
 
     /**
