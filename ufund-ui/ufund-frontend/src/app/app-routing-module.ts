@@ -4,6 +4,10 @@ import { LoginComponent } from './login/login';
 
 const routes: Routes = [
   {
+    path: 'login', 
+    component: LoginComponent
+  },
+  {
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin-module').then(m => m.AdminModule)
@@ -29,7 +33,7 @@ const routes: Routes = [
   // DEFAULT ROUTE
   {
     path: '',
-    redirectTo: 'admin/dashboard',
+    redirectTo: '/login',
     pathMatch: 'full' 
   }
 ];
