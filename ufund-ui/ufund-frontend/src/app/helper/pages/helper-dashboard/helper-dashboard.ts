@@ -19,6 +19,11 @@ export class HelperDashboard implements OnInit{
     private cdr: ChangeDetectorRef
   ) { }
 
+  handleSearchResults(foundNeeds: Need[]): void {
+    this.needs = foundNeeds;
+    this.cdr.detectChanges(); // Ensure the cards update immediately
+  }
+
   ngOnInit(): void {
     this.fetchNeeds();
   }

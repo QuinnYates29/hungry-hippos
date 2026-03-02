@@ -1,4 +1,6 @@
-      
+/// @file helper-search.ts
+/// @author iz6341
+/// helper search component for searching needs by name    
       
 import { Component, OnInit, EventEmitter, Output} from '@angular/core';
 
@@ -17,25 +19,40 @@ import { NeedsService, Need } from '../../../core/services/needs';
   styleUrl: './helper-search.css',
 })
 export class HelperSearch implements OnInit {
+  // Event emitter to send search results to the parent component.
   @Output() resultsFound = new EventEmitter<Need[]>();
+  // Observable stream of needs matching the search term.
   needs$!: Observable<Need[]>;
+
   private searchTerms = new Subject<string>();
   constructor(private needService: NeedsService) {}
 
+  /**
+   * Trigger a search for needs matching the given term. 
+   * @param term 
+   */
   search(term: string): void {
     this.searchTerms.next(term);
   }
 
-
+  /**
+   * Set up the search stream to listen for search terms, debounce input, and fetch results from the backend. 
+   * Emits the search results to the parent component via the resultsFound event emitter.
+   */
   ngOnInit(): void {
     this.searchTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(term => term.trim() 
-        ? this.needService.searchNeeds(term) 
-        : this.needService.getAllNeeds())
+      switchMap(term => {
+        if (term.trim()) {
+          return this.needService.searchNeeds(term);
+        } else {
+          // If the search term is empty, return an empty array.
+          return this.needService.getAllNeeds();
+        }
+      })
     ).subscribe(results => {
-      // 2. Instead of just holding the results, EMIT them
+      //Emit the search results
       this.resultsFound.emit(results);
     });
   }

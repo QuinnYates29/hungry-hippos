@@ -1,6 +1,6 @@
 <div class="helper-dashboard-container">
   <h2>U-fund Cupboard Needs</h2>
-  <app-need-search (resultsFound)="needs = $event"></app-need-search>
+  <app-helper-search (resultsFound)="handleSearchResults($any($event))"></app-helper-search>
   <div *ngIf="loading">Loading needs...</div>
   <div *ngIf="!loading && needs.length === 0">No needs available.</div>
   <div *ngIf="!loading && needs.length > 0" class="needs-list">

@@ -102,7 +102,7 @@ public class CupboardController {
      * Example: Find all heroes that contain the text "ma"
      * GET http://localhost:8080/heroes/?name=ma
      */
-    @GetMapping("/")
+    @GetMapping("/search")
     public ResponseEntity<Need[]> searchNeeds(@RequestParam String name) {
         LOG.info("GET /needs/?name="+name);
 
@@ -110,19 +110,19 @@ public class CupboardController {
             Need[] needs = cupboardDao.getNeeds();
             int accepted_size = 0;
             for (Need need : needs) {
-                if (need.getName().contains(name)) {
+                if (need.getName().toLowerCase().contains(name.toLowerCase().trim())) {
                     accepted_size++;
                 }
             }
             Need[] accepted = new Need[accepted_size];
             int ind = 0;
             for (Need need : needs) {
-                if (need.getName().contains(name)) {
+                if (need.getName().toLowerCase().contains(name.toLowerCase().trim())) {
                     accepted[ind] = need;
                     ind++;
                 }
             }
-            if (accepted_size > 0) {
+            if (accepted_size >= 0) {
                 return new ResponseEntity<>(accepted,HttpStatus.OK);
             }
             else {
