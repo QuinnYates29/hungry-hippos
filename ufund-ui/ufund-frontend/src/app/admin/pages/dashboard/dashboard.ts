@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 
+
 /**
  * Dashboard page for U-fund managers to view all cupboard needs.
  */
@@ -15,6 +16,12 @@ export class Dashboard implements OnInit{
   needs: Need[] = [];
   tempNeeds: Need[] = [];
   loading = false
+
+  //add need box
+  displayAddNeedBox = false;
+  
+  newNeed: Need = {id: 0, name: '', type: '', cost: 0, quantity: 0};
+
 
   constructor(
     private needsService: NeedsService,
@@ -64,4 +71,27 @@ export class Dashboard implements OnInit{
       }
     });
   }
+
+  openAddNeedBox(): void {
+    this.displayAddNeedBox = true;
+  }
+
+  closeAddNeedBox(): void {
+    this.displayAddNeedBox = false;
+  }
+
+  addNewNeed(): void {
+    this.needsService.createNeed(this.newNeed).subscribe({
+      next: (createdNeed) => {
+        this.needs.push(createdNeed);
+        this.fetchNeeds();
+      },
+      error: (err) => {
+        console.error('Failed to add new need', err);
+      }
+    })
+    this.displayAddNeedBox = false;
+    this.newNeed = {id: 0, name: '', type: '', cost: 0, quantity: 0};
+  }
+
 }
