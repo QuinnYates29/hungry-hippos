@@ -83,11 +83,6 @@ class CupboardControllerTest {
     // =========================
 
     @Test
-    public void testDeleteNeed() throws Exception {
-        
-    }
-
-    @Test
     public void testDeleteNeed_Ok() throws IOException {
         when(mockDao.deleteNeed(1)).thenReturn(true);
 
