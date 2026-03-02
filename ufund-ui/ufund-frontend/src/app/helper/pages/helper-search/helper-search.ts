@@ -1,15 +1,12 @@
 /// @file helper-search.ts
 /// @author iz6341
 /// helper search component for searching needs by name    
-      
+    
 import { Component, OnInit, EventEmitter, Output} from '@angular/core';
-
 import { Observable, Subject } from 'rxjs';
-
 import {
    debounceTime, distinctUntilChanged, switchMap
  } from 'rxjs/operators';
-
 import { NeedsService, Need } from '../../../core/services/needs';
 
 @Component({
@@ -18,6 +15,7 @@ import { NeedsService, Need } from '../../../core/services/needs';
   templateUrl: './helper-search.html',
   styleUrl: './helper-search.css',
 })
+
 export class HelperSearch implements OnInit {
   // Event emitter to send search results to the parent component.
   @Output() resultsFound = new EventEmitter<Need[]>();
@@ -47,7 +45,7 @@ export class HelperSearch implements OnInit {
         if (term.trim()) {
           return this.needService.searchNeeds(term);
         } else {
-          // If the search term is empty, return an empty array.
+          // If the search term is empty, return all needs
           return this.needService.getAllNeeds();
         }
       })

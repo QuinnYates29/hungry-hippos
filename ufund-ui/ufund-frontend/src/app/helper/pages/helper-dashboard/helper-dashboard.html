@@ -1,9 +1,37 @@
 <div class="helper-dashboard-container">
+
+  <div class="header-row">
+    <!-- <h2>U-fund Cupboard Needs</h2> -->
+
+    <div class="basket-container">
+      <button class="basket-button" (click)="toggleBasket()">
+        🛒 Basket ({{ basketNeeds.length }})
+      </button>
+
+      <div *ngIf="showBasket" class="basket-dropdown">
+        <h3>Your Basket</h3>
+
+        <div *ngIf="basketNeeds.length === 0">
+          Basket is empty.
+        </div>
+
+        <div *ngFor="let item of basketNeeds">
+          <p>
+            {{ item.name }} (x{{ item.quantity }})
+          </p>
+          <button class="remove-button" (click)="removeFromBasket(item.id)">
+            Remove
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
   <h2>U-fund Cupboard Needs</h2>
   <app-helper-search (resultsFound)="handleSearchResults($any($event))"></app-helper-search>
-  <div *ngIf="loading">Loading needs...</div>
-  <div *ngIf="!loading && needs.length === 0">No needs available.</div>
-  <div *ngIf="!loading && needs.length > 0" class="needs-list">
+  <div *ngIf="loadingNeeds">Loading needs...</div>
+  <div *ngIf="!loadingNeeds && needs.length === 0">No needs available.</div>
+  <div *ngIf="!loadingNeeds && needs.length > 0" class="needs-list">
     <div *ngFor="let need of needs; let last = last">
       <div class="need-card">
         <div class="need-info">

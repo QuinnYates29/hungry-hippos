@@ -108,4 +108,56 @@ class CupboardControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
+
+    // =========================
+    // Tests for searchNeeds():
+    // =========================
+    @Test
+    public void testSearchNeedsFullName_Ok() throws IOException {
+        Need[] mockNeeds = { 
+        new Need(1, "Grass", "Food", 0, 10), 
+        new Need(2, "Water", "Drink", 0, 20) 
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+        assertEquals("Grass", response.getBody()[0].getName());
+    }
+
+    @Test
+    public void testSearchNeedsPartialName_Ok() throws IOException {
+        Need[] mockNeeds = { 
+            new Need(1, "Grass", "Food", 0, 10), 
+            new Need(2, "Water", "Drink", 0, 20) 
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("wat");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+        assertEquals("Water", response.getBody()[0].getName());
+    }
+    
+    @Test
+    public void testSearchNeeds_NotFound() throws IOException {
+        Need[] mockNeeds = {
+            new Need(1, "Grass", "Food", 0, 10),
+            new Need(2, "Water", "Drink", 0, 20)
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("Cookie");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().length);
+    }
+
+    @Test
+    public void testSearchNeeds_InternalServerError() throws IOException {
+        when(mockDao.getNeeds()).thenThrow(new IOException());
+        ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
 }
