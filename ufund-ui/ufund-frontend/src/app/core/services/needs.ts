@@ -5,7 +5,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, of } from 'rxjs';
 
 // Inerface for Need object
 export interface Need {
@@ -34,6 +34,38 @@ export class NeedsService {
   */
   getAllNeeds(): Observable<Need[]> {
     return this.http.get<Need[]>(this.apiUrl);
+  }
+
+  /**
+   * Seaches for need objects in the backend that match the search term.
+   * @param term 
+   * @returns 
+   */
+  searchNeeds(term: string): Observable<Need[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.http.get<Need[]>(`${this.apiUrl}/search?name=${term}`).pipe(
+      tap(x => x.length ?
+         console.log(`found needs matching "${term}"`) :
+         console.log(`no needs matching "${term}"`)),
+      catchError(this.handleError<Need[]>('searchNeeds', []))
+    );
+  }
+  
+  /**
+   * Handler for HTTP operation that failed.
+   * @param operation 
+   * @param result 
+   * @returns 
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // log to console instead
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 
   /**

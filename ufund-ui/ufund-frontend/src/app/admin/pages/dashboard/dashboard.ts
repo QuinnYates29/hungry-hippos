@@ -13,6 +13,7 @@ import { NeedsService, Need } from '../../../core/services/needs';
 export class Dashboard implements OnInit{
   //List of needs retrieved from backend
   needs: Need[] = [];
+  tempNeeds: Need[] = [];
   loading = false
 
   constructor(
