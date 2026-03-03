@@ -1,3 +1,10 @@
+/**
+ * Test file for CupboardController.java class
+ * @author Quinn, Ilia
+ * Specific test functions have authors above them for code submission for
+ * Unit Testing - Individual Assignment
+ */
+
 package com.ufund.api.ufundapi;
 
 import java.io.IOException;
@@ -28,6 +35,7 @@ class CupboardControllerTest {
 
     // =========================
     // Tests for getNeeds()
+    // Author: Quinn Yates
     // =========================
 
     @Test
@@ -80,6 +88,7 @@ class CupboardControllerTest {
 
     // =========================
     // Tests for deleteNeed()
+    // Author: Quinn Yates
     // =========================
 
     @Test
@@ -111,6 +120,7 @@ class CupboardControllerTest {
 
     // =========================
     // Tests for searchNeeds():
+    // Author: Ilia
     // =========================
     @Test
     public void testSearchNeedsFullName_Ok() throws IOException {
@@ -159,5 +169,4 @@ class CupboardControllerTest {
         ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
-
 }
