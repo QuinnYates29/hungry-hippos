@@ -147,10 +147,10 @@ public class UserFileDAO implements UserDAO {
     public User createHelper(String username, String password) throws IOException {
         synchronized(users) {
             User newUser = new User(nextId(), username, password, "HELPER");
-            users.put(username, newUser);
+            users.put(newUser.getId(), newUser);
             save();
+            return newUser;
     }
-    return newUser;
 }
 
     @Override
