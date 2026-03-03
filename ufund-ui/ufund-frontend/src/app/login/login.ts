@@ -33,7 +33,8 @@ export class LoginComponent {
     this.usersService.login(credentials)
       .subscribe({
         next: (user: User) => {
-
+          // Updates state of current user logged in
+          this.usersService.setCurrentUser(user);
           // Store entire user object in localStorage
           localStorage.setItem('currentUser', JSON.stringify(user));
 

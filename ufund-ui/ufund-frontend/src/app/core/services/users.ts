@@ -35,6 +35,23 @@ export class UsersService {
   private apiUrl = 'http://localhost:8080/users'; // Base URL for users API
 
   constructor(private http: HttpClient) {}
+  currentUser: any = null;
+
+  /**
+   * Function which keeps state by setting current user logged in
+   * @param user user object to update
+   */
+  setCurrentUser(user: any) {
+    this.currentUser = user;
+  }
+
+  /**
+   * Function returning current user state
+   * @returns user object of current user logged in
+   */
+  getCurrentUser() {
+    return this.currentUser;
+  }
 
   /**
    * Retrieves all users from the backend
