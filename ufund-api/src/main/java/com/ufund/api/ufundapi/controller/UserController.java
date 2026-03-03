@@ -80,28 +80,30 @@ public class UserController {
      * @return HTTP Status INTERNAL_SERVER_ERROR if an error occurs
      */
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            User user = userDao.findByUsername(loginRequest.getUsername());
+public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
+    try {
+        User user = userDao.findByUsername(loginRequest.username);
 
-            // If the user is an admin
-            if (user != null) {
-                if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-                    return ResponseEntity.ok(user);
-                }
-                else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-                }
+        if (user != null) {
+            if (!user.getPassword().equals(loginRequest.password)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-
-            // User does not exist -> create a new helper
-            userDao.createHelper(loginRequest.getUsername(), loginRequest.getPassword());
-            return ResponseEntity.ok(newUser);
-        } catch (IOException e) {
-            LOG.severe("Login failed: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.ok(user);
         }
+
+        // User does not exist -> create helper
+        User newUser = userDao.createHelper(
+            loginRequest.username,
+            loginRequest.password
+        );
+
+        return ResponseEntity.ok(newUser);
+
+    } catch (IOException e) {
+        LOG.severe("Login failed: " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
 
     /**
      * Creates a new user.
