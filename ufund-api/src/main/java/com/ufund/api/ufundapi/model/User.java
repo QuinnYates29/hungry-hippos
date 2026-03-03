@@ -16,7 +16,7 @@ public class User {
 
     static final String STRING_FORMAT = "User [id=%d, username=%s, role=%s]";
 
-    @JsonProperty("di") private int id;
+    @JsonProperty("id") private int id;
     @JsonProperty("username") private String username;
     @JsonProperty("password") private String password;
     @JsonProperty("role") private String role; // ADMIN or HELPER
