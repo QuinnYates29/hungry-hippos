@@ -54,7 +54,7 @@ public interface UserDAO {
      * @return the newly created {@link User} with assigned ID
      * @throws IOException if there is an error saving the user
      */
-    User createUser(String username, String password) throws IOException;
+    User createHelper(String username, String password) throws IOException;
 
     /**
      * Deletes a user by ID.

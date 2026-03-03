@@ -82,21 +82,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
         try {
-            User user = userDao.findByUsername(loginRequest.username);
+            User user = userDao.findByUsername(loginRequest.getUsername());
 
             // If the user is an admin
-            if (user != null && user.getRole() == "ADMIN") {
-                if (user != null && user.getPassword().equals(user.getPassword())) {
-                    return ResponseEntity.ok(user);
-                }
-                else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-                }
-            }
-
-            // If the user is NOT an admin
             if (user != null) {
-                if (user != null && user.getPassword().equals(user.getPassword())) {
+                if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
                     return ResponseEntity.ok(user);
                 }
                 else {
@@ -105,12 +95,7 @@ public class UserController {
             }
 
             // User does not exist -> create a new helper
-            User newUser = new User(
-                loginRequest.username,
-                loginRequest.password,
-                "HELPER"
-            );
-            userDao.createUser(newUser);
+            userDao.createHelper(loginRequest.getUsername(), loginRequest.getPassword());
             return ResponseEntity.ok(newUser);
         } catch (IOException e) {
             LOG.severe("Login failed: " + e.getMessage());
@@ -143,5 +128,8 @@ public class UserController {
     public static class LoginRequest {
         public String username;
         public String password;
+
+        public String getUsername() { return username; }
+        public String getPassword() { return password; }
     }
 }

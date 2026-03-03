@@ -145,9 +145,11 @@ public class UserFileDAO implements UserDAO {
 
     @Override
     public User createHelper(String username, String password) throws IOException {
-        User newUser = new User(NextId(), username, password, "HELPER");
-        users.put(username, newUser);
-        save();
+        synchronized(users) {
+            User newUser = new User(nextId(), username, password, "HELPER");
+            users.put(username, newUser);
+            save();
+    }
     return newUser;
 }
 
