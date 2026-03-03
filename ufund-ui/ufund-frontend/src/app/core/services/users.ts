@@ -36,10 +36,11 @@ export class UsersService {
 
   constructor(private http: HttpClient) {}
 
-  
+  /**
+   * Retrieves all users from the backend
+   * @returns Observable emitting an array of User objects
+   */
   getAllUsers(): Observable<User[]> {
-
-
     return this.http.get<User[]>(this.apiUrl).pipe(
       tap(users => console.log(`Fetched ${users.length} users`)),
       catchError(this.handleError<User[]>('getAllUsers', []))

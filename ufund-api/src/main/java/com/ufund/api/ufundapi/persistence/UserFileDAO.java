@@ -68,7 +68,7 @@ public class UserFileDAO implements UserDAO {
      * @return array of users
      */
     private User[] getUsersArray() {
-        return 
+        return users.values().toArray(new User[0]);
     }
 
     /**
