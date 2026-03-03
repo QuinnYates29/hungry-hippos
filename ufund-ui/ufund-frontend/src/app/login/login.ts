@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { UsersService, LoginRequest, User } from '../core/services/users';
 
 @Component({
   selector: 'app-login',
@@ -15,22 +15,34 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
-    private http: HttpClient,
+    private usersService: UsersService,
     private router: Router
   ) {}
 
-  
-  onSubmit() {
-    const body = {
+  /**
+   * Called when login form is submitted.
+   * Attempts to authenticate user with backend.
+   */
+  onSubmit(): void {
+
+    const credentials: LoginRequest = {
       username: this.username,
       password: this.password
     };
 
-    this.http.post<any>('http://localhost:8080/login', body)
+    this.usersService.login(credentials)
       .subscribe({
-        next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.router.navigate(['/dashboard']);
+        next: (user: User) => {
+
+          // Store entire user object in localStorage
+          localStorage.setItem('currentUser', JSON.stringify(user));
+
+          // Route based on role
+          if (user.role === 'ADMIN') {
+            this.router.navigate(['/admin']);
+          } else {
+            this.router.navigate(['/helper']);
+          }
         },
         error: () => {
           this.errorMessage = 'Invalid username or password';
