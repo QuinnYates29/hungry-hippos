@@ -86,8 +86,8 @@ public class UserController {
 
             // If the user is an admin
             if (user != null && user.getRole() == "ADMIN") {
-                if (existingUser != null && existingUser.getPassword().equals(loginUser.getPassword())) {
-                    return ResponseEntity.ok(existingUser);
+                if (user != null && user.getPassword().equals(user.getPassword())) {
+                    return ResponseEntity.ok(user);
                 }
                 else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -96,8 +96,8 @@ public class UserController {
 
             // If the user is NOT an admin
             if (user != null) {
-                if (existingUser != null && existingUser.getPassword().equals(loginUser.getPassword())) {
-                    return ResponseEntity.ok(existingUser);
+                if (user != null && user.getPassword().equals(user.getPassword())) {
+                    return ResponseEntity.ok(user);
                 }
                 else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -106,10 +106,10 @@ public class UserController {
 
             // User does not exist -> create a new helper
             User newUser = new User(
-                loginUser.getUsername(),
-                loginUser.getPassword(),
+                loginRequest.username,
+                loginRequest.password,
                 "HELPER"
-            )
+            );
             userDao.createUser(newUser);
             return ResponseEntity.ok(newUser);
         } catch (IOException e) {

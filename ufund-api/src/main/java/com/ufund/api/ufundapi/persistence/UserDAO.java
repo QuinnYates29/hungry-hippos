@@ -46,6 +46,17 @@ public interface UserDAO {
     User createUser(User user) throws IOException;
 
     /**
+     * Creates a new user and assigns a unique ID.
+     * User will be of role HELPER since only 1 admin exists
+     * 
+     * @param username Username of user being creted
+     * @param password password of user being created
+     * @return the newly created {@link User} with assigned ID
+     * @throws IOException if there is an error saving the user
+     */
+    User createUser(String username, String password) throws IOException;
+
+    /**
      * Deletes a user by ID.
      * 
      * @param id the unique ID of the user to delete

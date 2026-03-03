@@ -144,6 +144,14 @@ public class UserFileDAO implements UserDAO {
     }
 
     @Override
+    public User createHelper(String username, String password) throws IOException {
+        User newUser = new User(NextId(), username, password, "HELPER");
+        users.put(username, newUser);
+        save();
+    return newUser;
+}
+
+    @Override
     public boolean deleteUser(int id) throws IOException {
         synchronized(users) {
             if (users.containsKey(id)) {
