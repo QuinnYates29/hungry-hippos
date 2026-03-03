@@ -16,7 +16,7 @@ public class User {
 
     static final String STRING_FORMAT = "User [id=%d, username=%s, role=%s]";
 
-    @JsonProperty("id") private int id;
+    @JsonProperty("di") private int id;
     @JsonProperty("username") private String username;
     @JsonProperty("password") private String password;
     @JsonProperty("role") private String role; // ADMIN or HELPER
@@ -33,8 +33,8 @@ public class User {
         this.role = role;
     }
 
-    public int getId() { return id; }
-    public String getUsername() { return username; }
+    //public int getId() { return id; }
+    //public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getRole() { return role; }
 
@@ -44,6 +44,6 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format(STRING_FORMAT, id, username, role);
+        return 
     }
 }
