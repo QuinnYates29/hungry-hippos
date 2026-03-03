@@ -70,19 +70,48 @@ public class UserController {
 
     /**
      * Authenticates a user with username and password.
+     * If username entered in login request is admin -> verify password and log in as admin role
+     * If username is not admin and user exists -> verify password and log in as user
+     * Otherwise -> Create new user with helper role and log in
      * 
-     * @param loginRequest user credentials
-     * @return the user object if login succeeds, 401 if invalid
+     * @param loginRequest user credentials from login attempt
+     * @return the user object if login succeeds, 
+     * @return HTTP Status UNAURHTORIZED if password is incorrect
+     * @return HTTP Status INTERNAL_SERVER_ERROR if an error occurs
      */
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
         try {
             User user = userDao.findByUsername(loginRequest.username);
-            if (user != null && user.getPassword().equals(loginRequest.password)) {
-                return ResponseEntity.ok(user);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+            // If the user is an admin
+            if (user != null && user.getRole() == "ADMIN") {
+                if (existingUser != null && existingUser.getPassword().equals(loginUser.getPassword())) {
+                    return ResponseEntity.ok(existingUser);
+                }
+                else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
             }
+
+            // If the user is NOT an admin
+            if (user != null) {
+                if (existingUser != null && existingUser.getPassword().equals(loginUser.getPassword())) {
+                    return ResponseEntity.ok(existingUser);
+                }
+                else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+            }
+
+            // User does not exist -> create a new helper
+            User newUser = new User(
+                loginUser.getUsername(),
+                loginUser.getPassword(),
+                "HELPER"
+            )
+            userDao.createUser(newUser);
+            return ResponseEntity.ok(newUser);
         } catch (IOException e) {
             LOG.severe("Login failed: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -108,6 +137,8 @@ public class UserController {
 
     /**
      * Simple Data Transfer Object for login request.
+     * Allows for some security, as people don't have a way to
+     * "creaate" an admin role
      */
     public static class LoginRequest {
         public String username;
