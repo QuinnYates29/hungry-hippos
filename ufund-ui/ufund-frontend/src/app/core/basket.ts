@@ -29,8 +29,16 @@ export class Basket {
     );
   }
 
+  removeAllFromBasket(): Observable<void> {
+    // would this work?
+    return this.http.delete<void>(this.apiUrl);
+  }
+
   removeFromBasket(needId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${needId}`);
+    return this.http.delete<void>(`${this.apiUrl}/${needId}`).pipe(
+      tap(() => console.log(`Removed need with ID ${needId} from basket`)),
+      catchError(this.handleError<void>('removeFromBasket'))
+    );
   }
 
   getNeed(needId: number): Observable<Need> {

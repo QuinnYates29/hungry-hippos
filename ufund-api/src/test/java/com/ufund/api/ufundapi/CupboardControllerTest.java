@@ -3,7 +3,6 @@ package com.ufund.api.ufundapi;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,81 +30,31 @@ class CupboardControllerTest {
     // =========================
 
     @Test
-    void testGetNeeds() throws Exception {
-        Need[] mockNeeds = new Need[1];
-        mockNeeds[0] = new Need(1, "Tuna", "Food", 3.00, 10);
+public void testGetNeed_Ok() throws IOException {
+    Need need = new Need(1, "Tuna", "Food", 3.00, 10);
+    when(mockDao.getNeed(1)).thenReturn(need);
 
-        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+    ResponseEntity<Need> response = controller.getNeed(1);
 
-        ResponseEntity<Need[]> response = controller.getNeeds();
-        Need[] result = response.getBody();
-        
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(result);
-        assertEquals(1, result.length);           // size matches mock array
-        assertEquals("Tuna", result[0].getName()); // check name
-        assertEquals("Food", result[0].getType()); // check type
-        assertEquals(3.00, result[0].getCost());
-        assertEquals(10, result[0].getQuantity());
-    }
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(need, response.getBody());
+}
 
-    @Test
-    public void testGetNeeds_Ok() throws IOException {
-        Need[] needs = { new Need(1, "Grass", "Food", 0, 10) };
-        when(mockDao.getNeeds()).thenReturn(needs);
+@Test
+public void testGetNeed_NotFound() throws IOException {
+    when(mockDao.getNeed(1)).thenReturn(null);
 
-        ResponseEntity<Need[]> response = controller.getNeeds();
+    ResponseEntity<Need> response = controller.getNeed(1);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(needs, response.getBody());
-    }
+    assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+}
 
-    @Test
-    public void testGetNeeds_NotFound() throws IOException {
-        when(mockDao.getNeeds()).thenReturn(null);
+@Test
+public void testGetNeed_InternalServerError() throws IOException {
+    when(mockDao.getNeed(1)).thenThrow(new IOException());
 
-        ResponseEntity<Need[]> response = controller.getNeeds();
+    ResponseEntity<Need> response = controller.getNeed(1);
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    public void testGetNeeds_InternalServerError() throws IOException {
-        when(mockDao.getNeeds()).thenThrow(new IOException());
-
-        ResponseEntity<Need[]> response = controller.getNeeds();
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
-
-    // =========================
-    // Tests for deleteNeed()
-    // =========================
-
-    @Test
-    public void testDeleteNeed_Ok() throws IOException {
-        when(mockDao.deleteNeed(1)).thenReturn(true);
-
-        ResponseEntity<Need> response = controller.deleteNeed(1);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeleteNeed_NotFound() throws IOException {
-        when(mockDao.deleteNeed(1)).thenReturn(false);
-
-        ResponseEntity<Need> response = controller.deleteNeed(1);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-    }
-
-    @Test
-    public void testDeleteNeed_InternalServerError() throws IOException {
-        when(mockDao.deleteNeed(1)).thenThrow(new IOException());
-
-        ResponseEntity<Need> response = controller.deleteNeed(1);
-
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-    }
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+}
 }

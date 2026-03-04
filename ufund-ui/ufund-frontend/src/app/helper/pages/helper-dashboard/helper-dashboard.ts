@@ -66,10 +66,12 @@ export class HelperDashboard implements OnInit{
   }
   
    removeFromBasket(needId: number): void {
+      this.basketNeeds = this.basketNeeds.filter(item => item.id !== needId);
       this.basketService.removeFromBasket(needId).subscribe({
       next: () => {
         // console.log(`Successfully removed item with ID ${needId} from basket`);
         this.fetchBasket(); // Refresh basket after removal
+        this.cdr.detectChanges(); // Ensure the basket updates immediately
       },
       error: (err) => console.error(`Error removing item with ID ${needId} from basket`, err)
       });
@@ -79,15 +81,15 @@ export class HelperDashboard implements OnInit{
 
    addBasket(need: Need){
       console.log('Adding to basket:', need.name);
+      this.basketNeeds.push(need);
       this.basketService.addToBasket(need).subscribe({
         next: () => {
           // console.log(`Successfully added ${need.name} to basket`);
           this.fetchBasket(); // Refresh basket after adding
+          this.cdr.detectChanges(); // Ensure the basket updates immediately
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
-      // this.basketNeeds.push(need);
-      // this.cdr.detectChanges();
     }
 
     toggleBasket(): void {
