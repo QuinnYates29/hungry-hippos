@@ -1,10 +1,7 @@
-<!-- <div class="app-layout">
-  <div class="left-panel">
-    <h1>U-Fund Admin</h1>
-    <p>Manager Dashboard</p>
-  </div> -->
+<div class="top-bar">
+  <span *ngIf="username">
+    Logged in as: {{ username }}
+  </span>
+</div>
 
-  <div class="right-panel">
-    <router-outlet></router-outlet>
-  </div>
-<!-- </div> -->
+<router-outlet></router-outlet>

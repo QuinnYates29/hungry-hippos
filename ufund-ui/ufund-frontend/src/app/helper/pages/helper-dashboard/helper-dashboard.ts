@@ -121,4 +121,8 @@ export class HelperDashboard implements OnInit{
     toggleBasket(): void {
       this.showBasket = !this.showBasket;
     }
+
+    removeFromBasket(arg0: number) {
+      throw new Error('Method not implemented.');
+      }
 }

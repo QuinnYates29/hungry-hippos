@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 []
+=======
+[{"id":16,"name":"Carrots","type":"Vegetable","cost":2.0,"quantity":35},{"id":17,"name":"Zucchini","type":"Vegetable","cost":2.0,"quantity":28},{"id":18,"name":"Cucumbers","type":"Vegetable","cost":2.0,"quantity":30},{"id":19,"name":"Zucchini","type":"Vegetable","cost":2.0,"quantity":28},{"id":20,"name":"Carrots","type":"Vegetable","cost":2.0,"quantity":35},{"id":21,"name":"Carrots","type":"Vegetable","cost":2.0,"quantity":35},{"id":22,"name":"Bananas","type":"Fruit","cost":3.0,"quantity":24},{"id":23,"name":"Bananas","type":"Fruit","cost":3.0,"quantity":24},{"id":24,"name":"Apples","type":"Fruit","cost":3.0,"quantity":22},{"id":25,"name":"Apples","type":"Fruit","cost":3.0,"quantity":22},{"id":26,"name":"Sweet Potatoes","type":"Vegetable","cost":4.0,"quantity":18}]
+>>>>>>> f9bd0a59d53d5038ec1057d41dafbde01446be1f
