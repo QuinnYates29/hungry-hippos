@@ -55,6 +55,103 @@ public void testGetNeed_InternalServerError() throws IOException {
 
     ResponseEntity<Need> response = controller.getNeed(1);
 
+<<<<<<< HEAD
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 }
+=======
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetNeeds_InternalServerError() throws IOException {
+        when(mockDao.getNeeds()).thenThrow(new IOException());
+
+        ResponseEntity<Need[]> response = controller.getNeeds();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    // =========================
+    // Tests for deleteNeed()
+    // =========================
+
+    @Test
+    public void testDeleteNeed_Ok() throws IOException {
+        when(mockDao.deleteNeed(1)).thenReturn(true);
+
+        ResponseEntity<Need> response = controller.deleteNeed(1);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteNeed_NotFound() throws IOException {
+        when(mockDao.deleteNeed(1)).thenReturn(false);
+
+        ResponseEntity<Need> response = controller.deleteNeed(1);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteNeed_InternalServerError() throws IOException {
+        when(mockDao.deleteNeed(1)).thenThrow(new IOException());
+
+        ResponseEntity<Need> response = controller.deleteNeed(1);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    // =========================
+    // Tests for searchNeeds():
+    // =========================
+    @Test
+    public void testSearchNeedsFullName_Ok() throws IOException {
+        Need[] mockNeeds = { 
+        new Need(1, "Grass", "Food", 0, 10), 
+        new Need(2, "Water", "Drink", 0, 20) 
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+        assertEquals("Grass", response.getBody()[0].getName());
+    }
+
+    @Test
+    public void testSearchNeedsPartialName_Ok() throws IOException {
+        Need[] mockNeeds = { 
+            new Need(1, "Grass", "Food", 0, 10), 
+            new Need(2, "Water", "Drink", 0, 20) 
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("wat");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(1, response.getBody().length);
+        assertEquals("Water", response.getBody()[0].getName());
+    }
+    
+    @Test
+    public void testSearchNeeds_NotFound() throws IOException {
+        Need[] mockNeeds = {
+            new Need(1, "Grass", "Food", 0, 10),
+            new Need(2, "Water", "Drink", 0, 20)
+        };
+        when(mockDao.getNeeds()).thenReturn(mockNeeds);
+        ResponseEntity<Need[]> response = controller.searchNeeds("Cookie");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(0, response.getBody().length);
+    }
+
+    @Test
+    public void testSearchNeeds_InternalServerError() throws IOException {
+        when(mockDao.getNeeds()).thenThrow(new IOException());
+        ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+>>>>>>> d68a510153daab14890b41725d93382a791afe92
 }

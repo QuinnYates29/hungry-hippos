@@ -1,3 +1,8 @@
+/// @file helper-dashboard.ts
+/// @author iz6341
+///helper dashboard component for displaying all need and searching needs by name
+
+
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 import { Subject } from 'rxjs/internal/Subject';
@@ -10,7 +15,10 @@ import { Basket } from '../../../core/basket';
   templateUrl: './helper-dashboard.html',
   styleUrl: './helper-dashboard.css',
 })
+
+
 export class HelperDashboard implements OnInit{
+  // List of needs to display
   needs: Need[] =[]
   private searchTerms = new Subject<string>();
   loadingNeeds = false
@@ -23,11 +31,19 @@ export class HelperDashboard implements OnInit{
     private cdr: ChangeDetectorRef
   ) { }
 
+  /**
+   * Handle search results emitted from the HelperSearch component
+   * @param foundNeeds - Array of needs that match the search criteria
+   */
   handleSearchResults(foundNeeds: Need[]): void {
     this.needs = foundNeeds;
-    this.cdr.detectChanges(); // Ensure the cards update immediately
+    // Ensure the cards update immediately
+    this.cdr.detectChanges(); 
   }
 
+  /**
+   * Fetch needs when the component initializes
+   */
   ngOnInit(): void {
     this.fetchNeeds();
     this.fetchBasket();
@@ -47,6 +63,11 @@ export class HelperDashboard implements OnInit{
       }
     });
   }
+
+  /**
+   * Fetches all needs from the backend. 
+   * Sets loading state while fetching and updates the needs list once data is received. 
+   */
 
   fetchNeeds(): void {
     this.loadingNeeds = true;
@@ -79,7 +100,12 @@ export class HelperDashboard implements OnInit{
       // this.cdr.detectChanges();
   }
 
-   addBasket(need: Need){
+  
+  /**
+   * Placeholder function for adding a need to the helper's basket.
+   * @param need 
+   */
+  addBasket(need: Need){
       console.log('Adding to basket:', need.name);
       this.basketNeeds.push(need);
       this.basketService.addToBasket(need).subscribe({
