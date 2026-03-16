@@ -40,7 +40,6 @@ public class Need {
         @JsonProperty("quantity") int quantity
         ) {
         this.id = id;
-        this.userId=userId;
         this.name = name;
         this.type = type;
         this.cost = cost;
@@ -85,12 +84,5 @@ public class Need {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT,id,name);
-    }
-
-    public int getUserId(){
-        return userId;
-    }
-    public void setUserId(int userId){
-        this.userId=userId;
     }
 }
