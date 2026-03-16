@@ -41,7 +41,11 @@ public class UserController {
     @GetMapping
     public ResponseEntity<User[]> getAllUsers() {
         try {
-            return ResponseEntity.ok(userDao.getUsers());
+            User[] users = userDao.getUsers();
+            if (users != null) {
+                return ResponseEntity.ok(userDao.getUsers());
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } catch (IOException e) {
             LOG.severe("Failed to read users: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -80,30 +84,28 @@ public class UserController {
      * @return HTTP Status INTERNAL_SERVER_ERROR if an error occurs
      */
     @PostMapping("/login")
-public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
-    try {
-        User user = userDao.findByUsername(loginRequest.username);
+    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            User user = userDao.findByUsername(loginRequest.username);
 
-        if (user != null) {
-            if (!user.getPassword().equals(loginRequest.password)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            if (user != null) {
+                if (!user.getPassword().equals(loginRequest.password)) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+                return ResponseEntity.ok(user);
             }
-            return ResponseEntity.ok(user);
+
+            // User does not exist -> create helper
+            User newUser = userDao.createHelper(
+                loginRequest.username,
+                loginRequest.password
+            );
+            return ResponseEntity.ok(newUser);
+        } catch (IOException e) {
+            LOG.severe("Login failed: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        // User does not exist -> create helper
-        User newUser = userDao.createHelper(
-            loginRequest.username,
-            loginRequest.password
-        );
-
-        return ResponseEntity.ok(newUser);
-
-    } catch (IOException e) {
-        LOG.severe("Login failed: " + e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
-}
 
     /**
      * Creates a new user.
@@ -112,9 +114,9 @@ public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
      * @return the created user
      */
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody String username, @RequestBody String password) {
         try {
-            User created = userDao.createUser(user);
+            User created = userDao.createHelper(username, password);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IOException e) {
             LOG.severe("Failed to create user: " + e.getMessage());
@@ -131,6 +133,10 @@ public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
         public String username;
         public String password;
 
+        public LoginRequest(String username, String password) {
+            this.username = username;
+            this.password = password;
+        }
         public String getUsername() { return username; }
         public String getPassword() { return password; }
     }
