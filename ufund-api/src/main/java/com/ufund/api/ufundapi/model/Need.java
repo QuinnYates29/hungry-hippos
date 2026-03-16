@@ -15,6 +15,7 @@ public class Need {
     static final String STRING_FORMAT = "NEED [id=%d, name=%s]";
 
     @JsonProperty("id") private int id;
+    @JsonProperty("userId") private int userId;
     @JsonProperty("name") private String name;
     @JsonProperty("type") private String type;
     @JsonProperty("cost") private double cost;
@@ -32,12 +33,14 @@ public class Need {
      */
     public Need(
         @JsonProperty("id") int id, 
+        @JsonProperty("userId") int userId, 
         @JsonProperty("name") String name,
         @JsonProperty("type") String type,
         @JsonProperty("cost") double cost,
         @JsonProperty("quantity") int quantity
         ) {
         this.id = id;
+        this.userId=userId;
         this.name = name;
         this.type = type;
         this.cost = cost;
@@ -82,5 +85,12 @@ public class Need {
     @Override
     public String toString() {
         return String.format(STRING_FORMAT,id,name);
+    }
+
+    public int getUserId(){
+        return userId;
+    }
+    public void setUserId(int userId){
+        this.userId=userId;
     }
 }
