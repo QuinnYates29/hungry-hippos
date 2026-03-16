@@ -6,6 +6,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, tap, of } from 'rxjs';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 // Inerface for Need object
 export interface Need {
@@ -74,5 +75,9 @@ export class NeedsService {
    */
   deleteNeed(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  createNeed(need: Need): Observable<Need> {
+    return this.http.post<Need>(this.apiUrl, need)
   }
 }
