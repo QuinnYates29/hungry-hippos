@@ -102,33 +102,4 @@ public class BasketController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    /**
-     * Checks out a user's basket.
-     * Deletes each item in the basket from the main cupboard and then clears the basket.
-     * @param userId The ID of the user checking out
-     * @return HTTP OK if successful, otherwise INTERNAL_SERVER_ERROR
-     */
-    @PostMapping("/checkout/{userId}")
-    public ResponseEntity<Void> checkout(@PathVariable int userId) {
-        LOG.info("POST /basket/checkout/" + userId);
-        try {
-            //get all items currently in the user's basket
-            Need[] basketitems = basketDAO.getNeeds(userId);
-
-            //delete each from the main cupboard
-            for (Need item : basketitems) {
-                cupboardDAO.deleteNeed(item.getId());
-            }
-
-            //clear the user's basket
-            basketDAO.clearBasket(userId);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }
