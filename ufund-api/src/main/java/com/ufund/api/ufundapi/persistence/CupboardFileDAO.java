@@ -189,7 +189,6 @@ public class CupboardFileDAO implements CupboardDAO {
             // and we need to assign the next unique id
             Need newNeed = new Need(
                 nextId(),
-                need.getUserId(),
                 need.getName(),
                 need.getType(),
                 need.getCost(),

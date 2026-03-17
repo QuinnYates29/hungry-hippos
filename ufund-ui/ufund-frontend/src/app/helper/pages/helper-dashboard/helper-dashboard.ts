@@ -95,14 +95,10 @@ export class HelperDashboard implements OnInit{
    removeFromBasket(needId: number): void {
       this.basketService.removeFromBasket(this.currentUserId,needId).subscribe({
       next: () => {
-        // console.log(`Successfully removed item with ID ${needId} from basket`);
-        this.fetchBasket(); // Refresh basket after removal
-        this.cdr.detectChanges(); // Ensure the basket updates immediately
+        this.fetchBasket(); //refresh/fetch basket after removal
       },
       error: (err) => console.error(`Error removing item with ID ${needId} from basket`, err)
       });
-      // this.basketNeeds = this.basketNeeds.filter(item => item.id !== needId);
-      // this.cdr.detectChanges();
   }
 
   
@@ -114,19 +110,24 @@ export class HelperDashboard implements OnInit{
       console.log('Adding to basket:', need.name);
       this.basketService.addToBasket(this.currentUserId, need).subscribe({
         next: () => {
-          // console.log(`Successfully added ${need.name} to basket`);
-          this.fetchBasket(); // Refresh basket after adding
-          this.cdr.detectChanges(); // Ensure the basket updates immediately
+          this.fetchBasket(); // refresh/fetch basket after adding
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
     }
 
+  checkout(): void {
+      this.basketService.checkout(this.currentUserId).subscribe({
+      next: () => {
+        this.basketNeeds = []; //clear the basket
+        this.fetchNeeds();     //update cupboard
+        this.fetchBasket();    //update basket
+      },
+      error: (err) => console.error('Checkout failed', err)
+  });
+}
+
     toggleBasket(): void {
       this.showBasket = !this.showBasket;
     }
-
-    // removeFromBasket(arg0: number) {
-    //   throw new Error('Method not implemented.');
-    //   }
 }
