@@ -52,6 +52,55 @@
   font-weight: 800;
   text-align: center;
 }
+
+  .edit-need-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-need-box {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 350px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  
+}
+
+.edit-box-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+  .edit-need-box label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  font-size: 18px;
+  gap: 4px;
+}
+
+.edit-need-box h3 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+}
   
   .needs-list {
     max-height: 500px; /* limit height */
