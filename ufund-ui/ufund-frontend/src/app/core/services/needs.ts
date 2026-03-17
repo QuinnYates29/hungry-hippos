@@ -78,6 +78,10 @@ export class NeedsService {
   }
 
   createNeed(need: Need): Observable<Need> {
-    return this.http.post<Need>(this.apiUrl, need)
+    return this.http.post<Need>(this.apiUrl, need);
+  }
+
+  editNeedServ(need: Need): Observable<Need> {
+    return this.http.put<Need>(this.apiUrl, need);
   }
 }
