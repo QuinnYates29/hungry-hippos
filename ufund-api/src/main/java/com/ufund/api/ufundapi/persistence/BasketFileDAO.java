@@ -69,7 +69,7 @@ public class BasketFileDAO implements BasketDAO{
             return true;
         }
 
-        
+
         userBaskets = objectMapper.readValue(file, new TypeReference<>() {});
 
         return true;
@@ -116,9 +116,9 @@ public class BasketFileDAO implements BasketDAO{
     @Override
     public boolean removeFromBasket(int userId, int needId) throws IOException {
         synchronized (userBaskets) {
-            Map<Integer, Need> myBasket = userBaskets.get(userId);
-            if (myBasket != null && myBasket.containsKey(needId)) {
-                myBasket.remove(needId);
+            Map<Integer, Need> currentBasket = userBaskets.get(userId);
+            if (currentBasket != null && currentBasket.containsKey(needId)) {
+                currentBasket.remove(needId);
                 return save();
             }
             return false;
