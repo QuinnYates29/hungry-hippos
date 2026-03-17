@@ -15,7 +15,6 @@ public class Need {
     static final String STRING_FORMAT = "NEED [id=%d, name=%s]";
 
     @JsonProperty("id") private int id;
-    @JsonProperty("userId") private int userId;
     @JsonProperty("name") private String name;
     @JsonProperty("type") private String type;
     @JsonProperty("cost") private double cost;
@@ -33,7 +32,6 @@ public class Need {
      */
     public Need(
         @JsonProperty("id") int id, 
-        @JsonProperty("userId") int userId, 
         @JsonProperty("name") String name,
         @JsonProperty("type") String type,
         @JsonProperty("cost") double cost,
