@@ -14,7 +14,7 @@ geometry: margin=1in
   * Quinn Yates
   * Ilia Zhdanov
   * Aidan Sanderson
-  * MEMBER4
+  * Adam Omelette
 
 ## Executive Summary
 
@@ -23,6 +23,7 @@ This is a summary of the project.
 ### Purpose
 >  _**[Sprint 2 & 4]** Provide a very brief statement about the project and the most
 > important user group and user goals._
+Our project is a mutli-paged web application for our UFund campaign **Hungry Hippos**. It allows users to log in, along with an admin role and helper role. The admin can define what **Needs** they require for feeding their hippos, and helpers can fund those **Needs**.
 
 ### Glossary and Acronyms
 > _**[Sprint 2 & 4]** Provide a table of terms and acronyms._
@@ -30,6 +31,11 @@ This is a summary of the project.
 | Term | Definition |
 |------|------------|
 | SPA | Single Page |
+| DAO | Data Access Object |
+| API | Application Programming Interface |
+| UI | User Interface |
+| OO | Object Oriented |
+| Hippo | Hippopotamus |
 
 
 ## Requirements
@@ -151,10 +157,7 @@ Our User Interface is relatively simple, and only consists of three different "p
 
 ![Our UI layout for helper page](UI_Example_Sprint2.png)
 
-### 
 Above is our most complicated and most likely more traveled page, the user's "dashboard". It consists of many UI elements such as displaying current user and a logout button near the top. Along with this, much of the functionality lies in the needs list and funding basket. Both of these are made to be simple and clear, while also being a significant focus of the UI. One thing this layout screenshot does not show is the funding basket, which is collapsible to minimize clutter. The last feature of this layout is the search bar, which will dynamically refresh the list of needs when a user wants to search for a specific need.
->  (Add low-fidelity mockups prior to initiating your **[Sprint 2]**  work so you have a good idea of the user interactions.) Eventually replace with representative screenshots of your high-fidelity results as these become available and finally include future recommendations improvement recommendations for your **[Sprint 4]** )_
-
 
 ### Presentation Tier
 > _**[Sprint 4]** Provide a summary of the Presentation Tier UI of your architecture.
@@ -182,8 +185,6 @@ Above is our most complicated and most likely more traveled page, the user's "da
 #### API Layer
 **[Sprint 1, 4]** Provide a summary of this architectural layer.
 > Sprint 1: The API layer is simple, consisting of a controller class which allows access to our initial cupboard. It allows us to add/remove/edit/access needs stored in the cupboard as a developer.
-
-**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
 
 **CupboardController.Java**
 > This class represents the access to our cupboard Data Access Object and implements behaviors the admin can access via HTTP requests.
@@ -241,8 +242,6 @@ UserController --> LoginRequest
 #### Persistence Layer
 **[Sprint 1, 4]** Provide a summary of this architectural layer.
 > Our persistence layer naturally relates closely to the API and Business layer, but implements data access to our json files used for storage and persistence.
-
-**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
 
 **BasketFileDAO** 
 > This class implements the actions defined in BasketDAO and accesses the basket.json file storing all funding basket information. It implements actions such as add/remove/get a need from each given basket.
