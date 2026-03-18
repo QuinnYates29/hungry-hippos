@@ -233,23 +233,116 @@ UserController --> LoginRequest
 #### Business Layer
 **[Sprint 1, 4]** Provide a summary of this architectural layer.
 > Sprint 2: Since the business logic required for our current project is relatively simple, our business layer is not entirely seperated from our API layer. Most of our very simple business logic is simply contained inside the controller functions and classes defined above.
-> 
 > [Link to related classes](#api-layer)
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
-> 
-![Replace with your Business Layer class diagram 1, etc.](business-layer-placeholder.png)
 
 #### Persistence Layer
-> _**[Sprint 1, 4]** Provide a summary of this architectural layer._
->
-> _**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose._
+**[Sprint 1, 4]** Provide a summary of this architectural layer.
+> Our persistence layer naturally relates closely to the API and Business layer, but implements data access to our json files used for storage and persistence.
 
-> _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
-> static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
-> 
-![Replace with your Persistence Layer class diagram 1, etc.](persistence-layer-placeholder.png)
+**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
+
+**BasketFileDAO** 
+> This class implements the actions defined in BasketDAO and accesses the basket.json file storing all funding basket information. It implements actions such as add/remove/get a need from each given basket.
+
+**CupboardFileDAO**
+> This class implements the actions defined in CupboardDAO and accesses the needs.json file storing all needs contained in the cupboard. It also implements actions relating to the cupboard such as search/get/add/remove/edit a need in the file.
+
+**UserFileDAO**
+> This class implements the actions defined in UserDAO and accesses the users.json file storing all user information. It allows for adding/removing/verifying user information.
+
+```mermaid
+classDiagram
+
+%% Interfaces
+class BasketDAO {
+  <<interface>>
+}
+
+class UserDAO {
+  <<interface>>
+}
+
+class CupboardDAO {
+  <<interface>>
+}
+
+%% Implementations
+class BasketFileDAO {
+  -save()
+  -load()
+  +getNeeds(userId)
+  +addToBasket(userId, need)
+  +removeFromBasket(userId, need)
+  +clearBasket(userId)
+}
+
+class UserFileDAO {
+  - __nextId() int__
+  - getUsersArray() User[]
+  - save() boolean
+  - load() boolean
+  + getUsers() User[]
+  + getUser(id) User
+  + findByUsername(username) User
+  - createUser(user) User
+  + createHelper(username, password) User
+  + deleteUser(id) boolean
+  +updateUser(user) User
+}
+
+class CupboardFileDAO {
+  - __nextId() int__
+  - getNeedsArray() Need[]
+  - getNeedsArray(containsText) Need[]
+  - save() boolean
+  - load() boolean
+  + getNeeds() Need[] 
+  + findNeeds(containsText) Need[]
+  + getNeed(id) Need
+  + createNeed(need) Need
+  + updateNeed(need) Need
+  + deleteNeed(id) boolean
+}
+
+%% Domain Models
+class Need {
+}
+
+class User {
+}
+
+%% File Resources (represented as classes for diagram clarity)
+class basket_json {
+  <<file>>
+}
+
+class users_json {
+  <<file>>
+}
+
+class needs_json {
+  <<file>>
+}
+
+%% Interface Implementations
+BasketFileDAO ..|> BasketDAO
+UserFileDAO ..|> UserDAO
+CupboardFileDAO ..|> CupboardDAO
+
+%% File Access Relationships
+BasketFileDAO --> basket_json : reads/writes
+UserFileDAO --> users_json : reads/writes
+CupboardFileDAO --> needs_json : reads/writes
+
+%% Domain Usage
+BasketFileDAO --> Need
+CupboardFileDAO --> Need
+UserFileDAO --> User
+```
+
 
 ### Data Tier
 > _**[Sprint 1, 4]** Provide a summary of this tier of your architecture. This
