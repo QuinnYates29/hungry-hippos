@@ -1,3 +1,9 @@
+/// @file dashboard.ts
+/// @author qry3977
+/// @author ars4041
+/// Dashboard shows current UI changes and sends and receives signals to service for updating the cupboard backend and updating the current page
+/// Used for admin dashboard
+
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 
@@ -76,15 +82,24 @@ export class Dashboard implements OnInit{
     });
   }
 
+  /**
+   * Sends a signal for the UI to open the add need box
+   */
   openAddNeedBox(): void {
     this.displayAddNeedBox = true;
   }
-
+  /**
+   * Sends a signal for the UI to close the add need box and resets the new need for next5 time
+   */
   closeAddNeedBox(): void {
     this.newNeed = {id: 0, name: '', type: '', cost: 0, quantity: 0};
     this.displayAddNeedBox = false;
   }
 
+  /**
+   * Calls need service class to create and add a new need to the cupboard
+   * If error, do nothing and report it
+   */
   addNewNeed(): void {
     if (!confirm('Are you sure you want to add this need?')) {
       return;
@@ -102,6 +117,9 @@ export class Dashboard implements OnInit{
     this.newNeed = {id: 0, name: '', type: '', cost: 0, quantity: 0};
   }
 
+  /**
+   * Sends a signal for the UI to open the edit need box with the current needs data displayed
+   */
   openEditNeedBox(need: Need): void {
     this.editCurNeed.id = need.id;
     this.editCurNeed.name = need.name;
@@ -111,11 +129,18 @@ export class Dashboard implements OnInit{
     this.displayEditNeedBox = true;
   }
 
+  /**
+   * Sends a signal for the UI to close the edit need box and resets the current needs data
+   */
   closeEditNeedBox(): void {
     this.editCurNeed = {id: 0, name: '', type: '', cost: 0, quantity: 0};
     this.displayEditNeedBox = false;
   }
 
+  /**
+   * Calls need service class edit and update an existing need in the cupboard
+   * If error, do nothing and report it
+   */
   editNeed(): void {
     if (!confirm('Are you sure you want to edit this need?')) {
       return;
