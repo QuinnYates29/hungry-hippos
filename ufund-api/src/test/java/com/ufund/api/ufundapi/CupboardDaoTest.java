@@ -141,7 +141,6 @@ public class CupboardDaoTest {
 
         Need result = assertDoesNotThrow(() -> cupboardFileDAO.updateNeed(need),
                                                 "Unexpected exception thrown");
-
         assertNull(result);
     }
 
@@ -152,7 +151,6 @@ public class CupboardDaoTest {
     public void testDeleteNeedNotFound() {
         boolean result = assertDoesNotThrow(() -> cupboardFileDAO.deleteNeed(50),
                                                 "Unexpected exception thrown");
-
         assertEquals(result,false);
         assertEquals(testNeeds.length, cupboardFileDAO.getNeeds().length);
     }
