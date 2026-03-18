@@ -1,6 +1,6 @@
 /**
  * Test file for CupboardController.java class
- * @author Quinn, Ilia
+ * @author Quinn, Ilia, Aidan
  * Specific test functions have authors above them for code submission for
  * Unit Testing - Individual Assignment
  */
@@ -169,4 +169,45 @@ class CupboardControllerTest {
         ResponseEntity<Need[]> response = controller.searchNeeds("Grass");
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
+
+
+   // @Author Aidan Sanderson (ars4041)
+    //
+    // =========================
+    // Tests for createNeed():
+    // =========================
+
+    @Test
+    public void testCreateNeed_Ok() throws IOException {
+        Need newNeed = new Need(2, "Pizza", "Food", 12, 6);
+        when(mockDao.getNeed(newNeed.getId())).thenReturn(null);
+        when(mockDao.createNeed(newNeed)).thenReturn(newNeed);
+        ResponseEntity<Need> response = controller.createNeed(newNeed);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Pizza", response.getBody().getName());
+        assertEquals("Food", response.getBody().getType());
+        assertEquals(12, response.getBody().getCost());
+        assertEquals(6, response.getBody().getQuantity());
+    }
+
+    @Test
+    public void testCreateNeed_Conflict() throws IOException {
+        Need existingNeed = new Need(1, "Grass", "Food", 0, 10);
+        when(mockDao.getNeed(existingNeed.getId())).thenReturn(existingNeed);
+        ResponseEntity<Need> response = controller.createNeed(existingNeed);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
+    public void testCreateNeed_InternalServerError() throws IOException {
+        Need newNeed = new Need(3, "Grapes", "Food", 3.50, 13);
+        when(mockDao.getNeed(newNeed.getId())).thenThrow(new IOException());
+        ResponseEntity<Need> response = controller.createNeed(newNeed);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+    
 }
