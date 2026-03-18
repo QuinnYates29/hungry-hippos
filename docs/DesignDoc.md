@@ -147,13 +147,12 @@ Both the Application and Data tiers are implemented using Java and the Spring Fr
 
 ### Overview of User Interface
 
-This section describes the web interface and flow; this is how the user views and interacts with the web application.
->_For the reference below, provide an initial draft image/sketch of possible layout of a mayor page of your User Interface and a brief description of the elements it contains **[Sprint 1]**_
+Our User Interface is relatively simple, and only consists of three different "pages". We first have our landing page which is our login page, and is relatively simple visually with only a box in the middle containing fields for entering username, password, and a login button. This page then is able to navigate to our helper page(shown below) and our admin page. These two are going to be quite similar, with the exception of admin not having a funding basket or checkout. The layout of the helper page shown below is going to be similar to our design theme for sprint 3. Both of these pages can route back to the login page using the logout button at the top.
 
 ![Our UI layout for helper page](UI_Example_Sprint2.png)
 
 ### 
-> _Provide a summary of the application's user interface.  Describe, from the user's perspective, the flow of the pages/navigation in the web application.
+Above is our most complicated and most likely more traveled page, the user's "dashboard". It consists of many UI elements such as displaying current user and a logout button near the top. Along with this, much of the functionality lies in the needs list and funding basket. Both of these are made to be simple and clear, while also being a significant focus of the UI. One thing this layout screenshot does not show is the funding basket, which is collapsible to minimize clutter. The last feature of this layout is the search bar, which will dynamically refresh the list of needs when a user wants to search for a specific need.
 >  (Add low-fidelity mockups prior to initiating your **[Sprint 2]**  work so you have a good idea of the user interactions.) Eventually replace with representative screenshots of your high-fidelity results as these become available and finally include future recommendations improvement recommendations for your **[Sprint 4]** )_
 
 
