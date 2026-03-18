@@ -1,5 +1,6 @@
 /// @file needs.ts
 /// @author qry3977
+/// @author ars4041
 /// Needs service class provides an interface for Need object, and a connection to backend
 /// Used for admin and helper
 
@@ -77,10 +78,18 @@ export class NeedsService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  /**
+   * Sends a HTML request to backend to create a new need in the cupboard
+   * @param need the need to create in the cupboard
+   */
   createNeed(need: Need): Observable<Need> {
     return this.http.post<Need>(this.apiUrl, need);
   }
 
+  /**
+   * Sends a HTML request to backend to update a need in the cupboard
+   * @param need the need to update in the cupboard
+   */
   editNeedServ(need: Need): Observable<Need> {
     return this.http.put<Need>(this.apiUrl, need);
   }
