@@ -153,4 +153,29 @@ class BasketControllerTest {
         ResponseEntity<Need> response = controller.addToBasket(userId, newneed);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());  
     }
+
+    /**
+     * Test checkout (Status OK) from controller.
+     * @author iz6341
+     */
+    @Test
+    public void testCheckout_Ok() throws IOException {
+        int userId = 2;
+        Need[] items = { new Need(1, "Apple", "Fruit", 0, 10) };
+        when(mockDaoBasket.getNeeds(userId)).thenReturn(items);
+        ResponseEntity<Void> response = controller.checkout(userId);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    /**
+     * Test checkout (Status INTERNAL_SERVER_ERROR) from controller.
+     * @author iz6341
+     */
+    @Test
+    public void testCheckout_InternalServerError() throws IOException {
+        int userId = 2;
+        when(mockDaoBasket.getNeeds(userId)).thenThrow(new IOException());
+        ResponseEntity<Void> response = controller.checkout(userId);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 }
