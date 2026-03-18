@@ -180,7 +180,7 @@ Above is our most complicated and most likely more traveled page, the user's "da
 > Tier above._
 > 
 #### API Layer
-**[Sprint 1, 4]** Provide a summary of this architectural layer._
+**[Sprint 1, 4]** Provide a summary of this architectural layer.
 > Sprint 1: The API layer is simple, consisting of a controller class which allows access to our initial cupboard. It allows us to add/remove/edit/access needs stored in the cupboard as a developer.
 
 **[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
@@ -231,9 +231,10 @@ UserController --> LoginRequest
 ```
 
 #### Business Layer
-> _**[Sprint 1, 4]** Provide a summary of this architectural layer._
->
-> _**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose._
+**[Sprint 1, 4]** Provide a summary of this architectural layer.
+> Sprint 2: Since the business logic required for our current project is relatively simple, our business layer is not entirely seperated from our API layer. Most of our very simple business logic is simply contained inside the controller functions and classes defined above.
+> 
+> [Link to related classes](#api-layer)
 
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
