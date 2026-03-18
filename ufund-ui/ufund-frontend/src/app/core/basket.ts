@@ -18,24 +18,29 @@ export class Basket {
 
   constructor(private http: HttpClient) {}
 
-  getAllNeeds(): Observable<Need[]> {
-      return this.http.get<Need[]>(this.apiUrl);
-    }
+  getAllNeeds(userId: number): Observable<Need[]> {
+    return this.http.get<Need[]>(`${this.apiUrl}/${userId}`);
+  }
 
-  addToBasket(need: Need): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, need ).pipe(
-      tap(() => console.log(`Added need with ID ${need.id} to basket`)),
-      catchError(this.handleError<Need[]>('addToBasket', []))
+
+  addToBasket(userId: number, need: Need): Observable<Need | null> {
+    return this.http.post<Need>(`${this.apiUrl}/${userId}`, need).pipe(
+      tap(() => console.log(`Added need with ID ${need.id} to basket for user ${userId}`)),
+      catchError(this.handleError<Need | null>('addToBasket', null))
     );
-  }
+}
 
-  removeFromBasket(needId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${needId}`);
-  }
+  removeFromBasket(userId: number, needId: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${userId}/${needId}`).pipe(
+    tap(() => console.log(`Removed need with ID ${needId} from basket for user ${userId}`)),
+    catchError(this.handleError<void>('removeFromBasket'))
+  );
+}
 
-  getNeed(needId: number): Observable<Need> {
-    return this.http.get<Need>(`${this.apiUrl}/${needId}`);
-  }
+
+  // getNeed(userId: number, needId: number): Observable<Need> {
+  //   return this.http.get<Need>(`${this.apiUrl}/${userId}/${needId}`);
+  // }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
