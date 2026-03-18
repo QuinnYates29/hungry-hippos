@@ -1,4 +1,11 @@
 <div class="helper-dashboard-container">
+  <div *ngIf="showSuccess" class="checkout-window">
+    <div class="message-checkout">
+      <div class="success-message"></div>
+      <h2>Checkout Complete!</h2>
+      <button class="confirm-button" (click)="closeWindow()">OK</button>
+    </div>
+  </div>
 
   <div class="header-row">
     <!-- <h2>U-fund Cupboard Needs</h2> -->

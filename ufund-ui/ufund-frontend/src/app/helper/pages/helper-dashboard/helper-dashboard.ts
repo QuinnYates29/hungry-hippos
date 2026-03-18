@@ -1,5 +1,5 @@
 /// @file helper-dashboard.ts
-/// @author iz6341
+/// @author iz6341, 
 ///helper dashboard component for displaying all need and searching needs by name
 
 
@@ -26,6 +26,7 @@ export class HelperDashboard implements OnInit{
   showBasket = false;
   basketNeeds: Need[] = [];
   currentUserId: number = 0;
+  showSuccess: boolean = false;
 
 
   constructor(private needsService: NeedsService, private basketService: Basket,
@@ -55,6 +56,10 @@ export class HelperDashboard implements OnInit{
     this.fetchBasket();
   }
 
+  /**
+   * Retrieves all needs in the current user's basket from the backend.
+   * Updates the local basket state and triggers manual change detection on success.
+   */
   fetchBasket(): void {
     this.loadingBasket = true;
     this.basketService.getAllNeeds(this.currentUserId).subscribe({
@@ -92,7 +97,11 @@ export class HelperDashboard implements OnInit{
     });
   }
   
-   removeFromBasket(needId: number): void {
+  /**
+   * Remove item from the basket method
+   * @param needId
+   */
+  removeFromBasket(needId: number): void {
       this.basketService.removeFromBasket(this.currentUserId,needId).subscribe({
       next: () => {
         this.fetchBasket(); //refresh/fetch basket after removal
@@ -114,20 +123,33 @@ export class HelperDashboard implements OnInit{
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
-    }
+  }
 
+  /**
+   * Checkout method
+   * @param currentUserId
+   */
   checkout(): void {
       this.basketService.checkout(this.currentUserId).subscribe({
       next: () => {
-        this.basketNeeds = []; //clear the basket
-        this.fetchNeeds();     //update cupboard
-        this.fetchBasket();    //update basket
+        this.showSuccess = true;
+        this.fetchNeeds();
+        this.fetchBasket();  
       },
       error: (err) => console.error('Checkout failed', err)
-  });
-}
-
-    toggleBasket(): void {
-      this.showBasket = !this.showBasket;
-    }
+      });
+  }
+  /**
+   * Toggles the visibility of the basket component.
+   * Switches the `showBasket` boolean between true and false.
+   */
+  toggleBasket(): void {
+    this.showBasket = !this.showBasket;
+  }
+  /**
+   * Closs the checkout window.
+   */
+  closeWindow(): void{
+    this.showSuccess=false;
+  }
 }
