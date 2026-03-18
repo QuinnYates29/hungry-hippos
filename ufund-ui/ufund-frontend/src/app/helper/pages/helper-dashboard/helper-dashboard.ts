@@ -7,6 +7,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Basket } from '../../../core/basket';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class HelperDashboard implements OnInit{
 
 
   constructor(private needsService: NeedsService, private basketService: Basket,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef, private router: Router
   ) { }
 
   /**
@@ -126,6 +127,12 @@ export class HelperDashboard implements OnInit{
       this.showBasket = !this.showBasket;
     }
 
+    logout(): void {
+      // Clear user session data
+      localStorage.removeItem('currentUser');
+      // Redirect to login page
+      this.router.navigate(['/login']);
+    }
     // removeFromBasket(arg0: number) {
     //   throw new Error('Method not implemented.');
     //   }
