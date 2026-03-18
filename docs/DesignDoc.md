@@ -382,8 +382,9 @@ UserFileDAO --> User
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets._
 
->_**[Sprint 2, 3 & 4]** **Include images of your code coverage report.** If there are any anomalies, discuss
-> those._
+> [Ufund Api Coverage](ufund-api_coverage.png)
+> [Persistence Layer Coverage](persistence_coverage.png)
+> [API Layer Coverage](controller_coverage.png)
 
 ## Ongoing Rationale
 >_**[Sprint 1, 2, 3 & 4]** Throughout the project, provide a time stamp **(yyyy/mm/dd): Sprint # and description** of any _**mayor**_ team decisions or design milestones/changes and corresponding justification._
