@@ -6,6 +6,7 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
+import { Router } from '@angular/router';
 
 
 /**
@@ -35,7 +36,8 @@ export class Dashboard implements OnInit{
 
   constructor(
     private needsService: NeedsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -156,4 +158,10 @@ export class Dashboard implements OnInit{
       }
     });
   }
+  logout(): void {
+      // Clear user session data
+      localStorage.removeItem('currentUser');
+      // Redirect to login page
+      this.router.navigate(['/login']);
+    }
 }
