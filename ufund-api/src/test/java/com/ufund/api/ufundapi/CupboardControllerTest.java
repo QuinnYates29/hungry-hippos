@@ -171,10 +171,9 @@ class CupboardControllerTest {
     }
 
 
-   // @Author Aidan Sanderson (ars4041)
-    //
     // =========================
     // Tests for createNeed():
+    // Author: Aidan Sanderson
     // =========================
 
     @Test
@@ -209,5 +208,42 @@ class CupboardControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
+
+    // =========================
+    // Tests for updateNeed():
+    // Author: Aidan Sanderson
+    // =========================
     
+    @Test
+    public void testUpdateNeed_Ok() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenReturn(need);
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Grapes", response.getBody().getName());
+        assertEquals("Food", response.getBody().getType());
+        assertEquals(3, response.getBody().getCost());
+        assertEquals(13, response.getBody().getQuantity());
+    }
+
+    @Test
+    public void testUpdateNeed_NotFound() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenReturn(null);
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    public void testUpdateNeed_InternalServerError() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenThrow(new IOException());
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 }
