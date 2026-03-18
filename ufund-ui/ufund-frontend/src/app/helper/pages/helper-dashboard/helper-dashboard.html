@@ -31,6 +31,13 @@
           </button>
         </div>
       </div>
+
+      <div *ngIf="basketNeeds.length > 0" class="basket-footer">
+        <hr>
+        <button class="checkout-button" (click)="checkout()">
+          Checkout
+        </button>
+      </div>
     </div>
 
     <!-- ✅ Logout Button Added Here -->
