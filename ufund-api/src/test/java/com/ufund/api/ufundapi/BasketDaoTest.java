@@ -47,6 +47,7 @@ public class BasketDaoTest {
         File tempFile = new File("doesnt_matter.txt");
         mockObjectMapper.writeValue(tempFile, mockData);
         basketFileDAO = new BasketFileDAO("doesnt_matter.txt", mockObjectMapper);
+        tempFile.deleteOnExit();
     }
 
     /**
