@@ -31,16 +31,17 @@ export class Basket {
 }
 
   removeFromBasket(userId: number, needId: number): Observable<void> {
-  return this.http.delete<void>(`${this.apiUrl}/${userId}/${needId}`).pipe(
-    tap(() => console.log(`Removed need with ID ${needId} from basket for user ${userId}`)),
-    catchError(this.handleError<void>('removeFromBasket'))
-  );
-}
+    return this.http.delete<void>(`${this.apiUrl}/${userId}/${needId}`).pipe(
+      tap(() => console.log(`Removed need with ID ${needId} from basket for user ${userId}`)),
+      catchError(this.handleError<void>('removeFromBasket'))
+    );
+  }
 
-
-  // getNeed(userId: number, needId: number): Observable<Need> {
-  //   return this.http.get<Need>(`${this.apiUrl}/${userId}/${needId}`);
-  // }
+  checkout(userId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/checkout/${userId}`, {}).pipe(
+      catchError(this.handleError<any>())
+    );
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

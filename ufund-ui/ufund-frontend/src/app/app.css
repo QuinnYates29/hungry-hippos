@@ -19,3 +19,12 @@
     overflow-y: auto; /* Enables scrolling */
     background-color: #f4f6f9;
   }
+  .top-bar {
+    max-width: 800x;     
+    margin: 10px auto;     
+    padding: 0 24px;    
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #5733aa;      
+    font-weight: 600;
+    font-size: 0.9rem;
+}

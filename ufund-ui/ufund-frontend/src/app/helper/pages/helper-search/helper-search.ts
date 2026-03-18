@@ -45,12 +45,12 @@ export class HelperSearch implements OnInit {
         if (term.trim()) {
           return this.needService.searchNeeds(term);
         } else {
-          // If the search term is empty, return all needs
+          // if the search term is empty, return all needs
           return this.needService.getAllNeeds();
         }
       })
     ).subscribe(results => {
-      //Emit the search results
+      //emitt the search results
       this.resultsFound.emit(results);
     });
   }
