@@ -54,7 +54,11 @@ public class BasketController {
         LOG.info("GET /basket/" + userId);
         try {
             Need[] needs = basketDAO.getNeeds(userId);
-            return new ResponseEntity<>(needs, HttpStatus.OK);
+            if(needs!=null){
+                return new ResponseEntity<>(needs, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(needs, HttpStatus.NOT_FOUND);
+            }
         } catch (IOException e) {
             LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -103,6 +107,7 @@ public class BasketController {
         }
     }
 
+
     /**
      * Checks out a user's basket.
      * Deletes each item in the basket from the main cupboard and then clears the basket.
@@ -130,5 +135,4 @@ public class BasketController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
