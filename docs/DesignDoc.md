@@ -13,7 +13,7 @@ geometry: margin=1in
 * Team members
   * Quinn Yates
   * Ilia Zhdanov
-  * MEMBER3
+  * Aidan Sanderson
   * MEMBER4
 
 ## Executive Summary
