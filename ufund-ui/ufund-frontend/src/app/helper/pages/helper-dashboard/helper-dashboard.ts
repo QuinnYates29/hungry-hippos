@@ -7,6 +7,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Basket } from '../../../core/basket';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class HelperDashboard implements OnInit{
 
 
   constructor(private needsService: NeedsService, private basketService: Basket,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef, private router: Router
   ) { }
 
   /**
@@ -125,31 +126,13 @@ export class HelperDashboard implements OnInit{
       });
   }
 
-  /**
-   * Checkout method
-   * @param currentUserId
-   */
-  checkout(): void {
-      this.basketService.checkout(this.currentUserId).subscribe({
-      next: () => {
-        this.showSuccess = true;
-        this.fetchNeeds();
-        this.fetchBasket();  
-      },
-      error: (err) => console.error('Checkout failed', err)
-      });
-  }
-  /**
-   * Toggles the visibility of the basket component.
-   * Switches the `showBasket` boolean between true and false.
-   */
-  toggleBasket(): void {
-    this.showBasket = !this.showBasket;
-  }
-  /**
-   * Closs the checkout window.
-   */
-  closeWindow(): void{
-    this.showSuccess=false;
-  }
+    logout(): void {
+      // Clear user session data
+      localStorage.removeItem('currentUser');
+      // Redirect to login page
+      this.router.navigate(['/login']);
+    }
+    // removeFromBasket(arg0: number) {
+    //   throw new Error('Method not implemented.');
+    //   }
 }
