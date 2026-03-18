@@ -132,7 +132,33 @@ export class HelperDashboard implements OnInit{
       // Redirect to login page
       this.router.navigate(['/login']);
     }
-    // removeFromBasket(arg0: number) {
-    //   throw new Error('Method not implemented.');
-    //   }
+    
+  /**
+   * Toggles the visibility of the basket component.
+   * Switches the `showBasket` boolean between true and false.
+   */
+  toggleBasket(): void {
+    this.showBasket = !this.showBasket;
+  }
+  /**
+   * Closs the checkout window.
+   */
+  closeWindow(): void{
+    this.showSuccess=false;
+  }
+  
+  /**
+   * Checkout method
+   * @param currentUserId
+   */
+  checkout(): void {
+      this.basketService.checkout(this.currentUserId).subscribe({
+      next: () => {
+        this.showSuccess = true;
+        this.fetchNeeds();
+        this.fetchBasket();  
+      },
+      error: (err) => console.error('Checkout failed', err)
+      });
+  }
 }
