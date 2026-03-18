@@ -370,11 +370,7 @@ UserFileDAO --> User
 > and the results of the testing._
 
 ### Acceptance Testing
-> _**[Sprint 2 & 4]** Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+> _Sprint 2: We have passedd all 34 acceptance criteria for sprint 2. Each acceptance criteria has been tested thouroughly by the person who implemented it, as well as a seperate team member to ensure that all critera were met.
 
 ### Unit Testing and Code Coverage
 > _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
@@ -382,9 +378,11 @@ UserFileDAO --> User
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets._
 
-> [Ufund Api Coverage](ufund-api_coverage.png)
-> [Persistence Layer Coverage](persistence_coverage.png)
-> [API Layer Coverage](controller_coverage.png)
+> ![Ufund Api Coverage](ufund-api_coverage.png)
+> ![Persistence Layer Coverage](persistence_coverage.png)
+> ![API Layer Coverage](controller_coverage.png)
 
 ## Ongoing Rationale
+Sprint 2:
+> Add more hippos - March 18th
 >_**[Sprint 1, 2, 3 & 4]** Throughout the project, provide a time stamp **(yyyy/mm/dd): Sprint # and description** of any _**mayor**_ team decisions or design milestones/changes and corresponding justification._
