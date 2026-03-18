@@ -1,121 +1,158 @@
-.dashboard-container {
-    padding: 16px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(#6ec6ff, #2196f3);
+  margin: 0;
+  padding: 20px;
+  color: #03396c;
+}
 
-  .add-need-popup {
+/* 🫧 bubbles */
+.bubble {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.35);
-  
+  width: 30px;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  animation: float 6s infinite;
+}
+.bubble:nth-child(1){ left:10%; top:70%; }
+.bubble:nth-child(2){ left:80%; top:60%; }
+.bubble:nth-child(3){ left:50%; top:80%; }
 
+@keyframes float {
+  50% { transform: translateY(-30px); }
+}
+
+/* 📦 container */
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+/* 🦛 header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hippo {
+  font-size: 2rem;
+}
+
+h1 {
+  flex: 1;
+  text-align: center;
+}
+
+.header button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 📊 stats */
+.stats {
+  margin: 15px 0;
+  font-weight: bold;
+}
+
+/* ℹ️ info */
+.info {
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* 📦 grid */
+.grid {
+  display: grid;
+  gap: 15px;
+}
+
+/* 📄 card */
+.card {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.card h3 {
+  margin: 0 0 5px;
+}
+
+/* actions */
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* 🪟 popup */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.add-need-box {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  width: 350px;
+/* ✅ Improve popup clarity WITHOUT breaking design */
 
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-
-  
+/* make popup content left-aligned (not centered) */
+.popup-box {
+  text-align: left;
 }
 
-.box-buttons {
-  display: flex;
-  justify-content: space-between;
+/* labels */
+.popup-box label {
+  display: block;
+  font-weight: bold;
   margin-top: 10px;
+  font-size: 0.9rem;
 }
 
-  .add-need-box label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 600;
-  font-size: 18px;
-  gap: 4px;
-}
-
-.add-need-box h3 {
-  margin-top: 30px;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 800;
-  text-align: center;
-}
-
-  .edit-need-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* inputs (slight upgrade, not override) */
+.popup-box input {
   width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.35);
-  
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.edit-need-box {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  width: 350px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-
-  
-}
-
-.edit-box-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-  .edit-need-box label {
-  display: flex;
-  flex-direction: column;
-  font-weight: 600;
-  font-size: 18px;
-  gap: 4px;
-}
-
-.edit-need-box h3 {
-  margin-top: 30px;
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: 800;
+/* section spacing */
+.popup-box h2 {
   text-align: center;
+  margin-bottom: 10px;
 }
-  
-  .needs-list {
-    max-height: 500px; /* limit height */
-    overflow-y: auto;   /* vertical scroll */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
-  }
-  
-  .need-card {
-    border-bottom: 1px solid #eee;
-    padding: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .need-card:last-child {
-    border-bottom: none;
-  }
+
+/* buttons layout */
+.popup-actions {
+  margin-top: 15px;
+}
+
+/* primary button (Add / Save) */
+.popup-actions button:first-child {
+  background: #1976d2;
+  color: white;
+}
+
+/* cancel button */
+.popup-actions button:last-child {
+  background: #e0e0e0;
+}
