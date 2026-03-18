@@ -180,10 +180,18 @@ Above is our most complicated and most likely more traveled page, the user's "da
 > Tier above._
 > 
 #### API Layer
-> _**[Sprint 1, 4]** Provide a summary of this architectural layer._
->
-> _**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose._
-> 
+**[Sprint 1, 4]** Provide a summary of this architectural layer._
+> Sprint 1: The API layer is simple, consisting of a controller class which allows access to our initial cupboard. It allows us to add/remove/edit/access needs stored in the cupboard as a developer.
+
+**[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
+**CupboardController.Java**
+> _This class represents the access to our cupboard Data Access Object and implements behaviors the admin can access via HTTP requests.
+**BasketController.Java**
+> _This class represents the access to our funding basket Data Access Object and implements the behaviors a user can use to view/edit/remove Needs
+> to/from their funding basket.
+**UserController.Java**
+> _This class represents access to our user Data Access Object and implements methdods for accessing user data. This is primarily used by the system
+> for user authorization and data persistence.
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
 > 
