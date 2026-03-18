@@ -150,7 +150,7 @@ Both the Application and Data tiers are implemented using Java and the Spring Fr
 This section describes the web interface and flow; this is how the user views and interacts with the web application.
 >_For the reference below, provide an initial draft image/sketch of possible layout of a mayor page of your User Interface and a brief description of the elements it contains **[Sprint 1]**_
 
-![Replace with your First concept of a layout for a mayor page in the User Interface](draft-layout-ui.png)
+![Our UI layout for helper page](UI_Example_Sprint2.png)
 
 ### 
 > _Provide a summary of the application's user interface.  Describe, from the user's perspective, the flow of the pages/navigation in the web application.
