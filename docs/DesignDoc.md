@@ -184,18 +184,51 @@ Above is our most complicated and most likely more traveled page, the user's "da
 > Sprint 1: The API layer is simple, consisting of a controller class which allows access to our initial cupboard. It allows us to add/remove/edit/access needs stored in the cupboard as a developer.
 
 **[Sprint 1, 2, 3]** List the classes supporting this layer and provide a brief description of their purpose.
+
 **CupboardController.Java**
-> _This class represents the access to our cupboard Data Access Object and implements behaviors the admin can access via HTTP requests.
+> This class represents the access to our cupboard Data Access Object and implements behaviors the admin can access via HTTP requests.
+
 **BasketController.Java**
-> _This class represents the access to our funding basket Data Access Object and implements the behaviors a user can use to view/edit/remove Needs
+> This class represents the access to our funding basket Data Access Object and implements the behaviors a user can use to view/edit/remove Needs
 > to/from their funding basket.
+
 **UserController.Java**
-> _This class represents access to our user Data Access Object and implements methdods for accessing user data. This is primarily used by the system
+> This class represents access to our user Data Access Object and implements methdods for accessing user data. This is primarily used by the system
 > for user authorization and data persistence.
+
 > _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
 > static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
-> 
-![Replace with your API Layer class diagram 1, etc.](api-layer-placeholder.png)
+
+```mermaid
+classDiagram
+
+class CupboardController {
+  +getNeed(id)
+  +getNeeds()
+  +searchNeeds(name)
+  +createNeed(need)
+  +updateNeed(need)
+  +deleteNeed(id)
+}
+
+class UserController {
+  +getAllUsers()
+  +getUser(id)
+  +login(request)
+  +createUser(username, password)
+}
+
+class LoginRequest
+
+class BasketController {
+  +getBasket(userid)
+  +addToBasket(userid, need)
+  +removeFromBasket(userid, needId)
+  +checkout(userId)
+}
+
+UserController --> LoginRequest
+```
 
 #### Business Layer
 > _**[Sprint 1, 4]** Provide a summary of this architectural layer._
