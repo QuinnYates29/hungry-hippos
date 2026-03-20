@@ -125,8 +125,10 @@ export class HelperDashboard implements OnInit{
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
   }
-
-    logout(): void {
+  /**
+   * Logs out the current user by clearing session data and redirecting to the login page.
+   */
+  logout(): void {
       // Clear user session data
       localStorage.removeItem('currentUser');
       // Redirect to login page
