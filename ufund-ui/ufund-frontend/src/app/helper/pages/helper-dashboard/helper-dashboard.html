@@ -1,4 +1,11 @@
 <div class="helper-dashboard-container">
+  <div *ngIf="showSuccess" class="checkout-window">
+    <div class="message-checkout">
+      <div class="success-message"></div>
+      <h2>Checkout Complete!</h2>
+      <button class="confirm-button" (click)="closeWindow()">OK</button>
+    </div>
+  </div>
 
   <div class="header-row">
     <!-- <h2>U-fund Cupboard Needs</h2> -->
@@ -23,14 +30,30 @@
             Remove
           </button>
         </div>
+      </div>
 
+      <div *ngIf="basketNeeds.length > 0" class="basket-footer">
+        <hr>
+        <button class="checkout-button" (click)="checkout()">
+          Checkout
+        </button>
       </div>
     </div>
+
+    <!-- ✅ Logout Button Added Here -->
+    <button class="logout-button" (click)="logout()">
+      Logout
+    </button>
+
   </div>
+
   <h2>U-fund Cupboard Needs</h2>
+
   <app-helper-search (resultsFound)="handleSearchResults($any($event))"></app-helper-search>
+
   <div *ngIf="loadingNeeds">Loading needs...</div>
   <div *ngIf="!loadingNeeds && needs.length === 0">No needs available.</div>
+
   <div *ngIf="!loadingNeeds && needs.length > 0" class="needs-list">
     <div *ngFor="let need of needs; let last = last">
       <div class="need-card">
@@ -49,4 +72,5 @@
       <hr *ngIf="!last" class="need-divider">
     </div>
   </div>
+
 </div>

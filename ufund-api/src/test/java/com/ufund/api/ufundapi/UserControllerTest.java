@@ -1,4 +1,4 @@
-
+package com.ufund.api.ufundapi;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

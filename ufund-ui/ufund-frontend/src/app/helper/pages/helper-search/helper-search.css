@@ -7,15 +7,24 @@ label {
 
 }
 input {
-  padding: .5rem;
+  padding: 12px 20px;
   width: 100%;
   max-width: 600px;
   box-sizing: border-box;
   display: block;
+  border: 1px solid #ddd;
+  border-radius: 25px; 
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #fdfdfd;
 }
 
 input:focus {
-  outline: #336699 auto 1px;
+  outline: none;
+  border-color: #683dcd;
+  box-shadow: 0 0 10px rgba(104, 61, 205, 0.15);
+  background-color: #fff;
 }
 
 li {

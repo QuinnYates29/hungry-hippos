@@ -1,5 +1,5 @@
 /// @file helper-dashboard.ts
-/// @author iz6341
+/// @author iz6341, 
 ///helper dashboard component for displaying all need and searching needs by name
 
 
@@ -7,6 +7,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Basket } from '../../../core/basket';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -25,10 +26,12 @@ export class HelperDashboard implements OnInit{
   loadingBasket = false
   showBasket = false;
   basketNeeds: Need[] = [];
+  currentUserId: number = 0;
+  showSuccess: boolean = false;
 
 
   constructor(private needsService: NeedsService, private basketService: Basket,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef, private router: Router
   ) { }
 
   /**
@@ -45,17 +48,26 @@ export class HelperDashboard implements OnInit{
    * Fetch needs when the component initializes
    */
   ngOnInit(): void {
+    const currentSession = localStorage.getItem('currentUser');
+    if(currentSession){
+      const user= JSON.parse(currentSession);
+      this.currentUserId= user.id
+    }
     this.fetchNeeds();
     this.fetchBasket();
   }
 
+  /**
+   * Retrieves all needs in the current user's basket from the backend.
+   * Updates the local basket state and triggers manual change detection on success.
+   */
   fetchBasket(): void {
     this.loadingBasket = true;
-    this.basketService.getAllNeeds().subscribe({
+    this.basketService.getAllNeeds(this.currentUserId).subscribe({
       next: (data) => {
         console.log('Basket needs received from backend:', data); // debug
         this.basketNeeds = data;
-        this.loadingBasket = false;
+        this.cdr.detectChanges()
       },
       error: (err) => {
         console.error('Error fetching basket needs', err);
@@ -85,28 +97,68 @@ export class HelperDashboard implements OnInit{
       }
     });
   }
+  
+  /**
+   * Remove item from the basket method
+   * @param needId
+   */
+  removeFromBasket(needId: number): void {
+      this.basketService.removeFromBasket(this.currentUserId,needId).subscribe({
+      next: () => {
+        this.fetchBasket(); //refresh/fetch basket after removal
+      },
+      error: (err) => console.error(`Error removing item with ID ${needId} from basket`, err)
+      });
+  }
+
+  
   /**
    * Placeholder function for adding a need to the helper's basket.
    * @param need 
    */
   addBasket(need: Need){
       console.log('Adding to basket:', need.name);
-      this.basketService.addToBasket(need).subscribe({
+      this.basketService.addToBasket(this.currentUserId, need).subscribe({
         next: () => {
-          // console.log(`Successfully added ${need.name} to basket`);
-          this.fetchBasket(); // Refresh basket after adding
+          this.fetchBasket(); // refresh/fetch basket after adding
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
-      // this.basketNeeds.push(need);
-      // this.cdr.detectChanges();
-    }
+  }
 
-    toggleBasket(): void {
-      this.showBasket = !this.showBasket;
+    logout(): void {
+      // Clear user session data
+      localStorage.removeItem('currentUser');
+      // Redirect to login page
+      this.router.navigate(['/login']);
     }
-
-    removeFromBasket(arg0: number) {
-      throw new Error('Method not implemented.');
-      }
+    
+  /**
+   * Toggles the visibility of the basket component.
+   * Switches the `showBasket` boolean between true and false.
+   */
+  toggleBasket(): void {
+    this.showBasket = !this.showBasket;
+  }
+  /**
+   * Closs the checkout window.
+   */
+  closeWindow(): void{
+    this.showSuccess=false;
+  }
+  
+  /**
+   * Checkout method
+   * @param currentUserId
+   */
+  checkout(): void {
+      this.basketService.checkout(this.currentUserId).subscribe({
+      next: () => {
+        this.showSuccess = true;
+        this.fetchNeeds();
+        this.fetchBasket();  
+      },
+      error: (err) => console.error('Checkout failed', err)
+      });
+  }
 }

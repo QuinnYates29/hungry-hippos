@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,3 +119,91 @@
 
 </body>
 </html>
+=======
+<div class="dashboard-container">
+
+    <div class="header-row">
+        <h2>U-fund Cupboard Needs</h2>
+
+        <!-- ✅ Logout Button -->
+        <button class="logout-button" (click)="logout()">
+            Logout
+        </button>
+    </div>
+  
+    <button class="add-need-btn" (click)="openAddNeedBox()">Add Need</button>
+
+    <div *ngIf="displayAddNeedBox" class="add-need-popup">
+        <div class="add-need-box">
+            <h3>New Need</h3>
+
+            <label>
+                Name:
+                <input type="text" [(ngModel)]="newNeed.name" />
+            </label>
+            <label>
+                Type:
+                <input type="text" [(ngModel)]="newNeed.type" />
+            </label>
+            <label>
+                Cost:
+                <input type="number" [(ngModel)]="newNeed.cost" />
+            </label>
+            <label>
+                Quantity:
+                <input type="number" [(ngModel)]="newNeed.quantity" />
+            </label>
+
+            <div class="box-buttons">
+                <button (click)="addNewNeed()">Add</button>
+                <button (click)="closeAddNeedBox()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="loading">Loading needs...</div>
+
+    <div *ngIf="!loading && needs.length === 0">No needs available.</div>
+
+    <div *ngIf="!loading && needs.length > 0" class="needs-list">
+        <div *ngFor="let need of needs" class="need-card">
+            <h3>{{ need.name }}</h3>
+            <p><strong>Type:</strong> {{ need.type }}</p>
+            <p><strong>Cost:</strong> ${{ need.cost }}</p>
+            <p><strong>Quantity:</strong> {{ need.quantity }}</p>
+
+            <button (click)="removeNeed(need.id)">Remove</button>
+            <button class="edit-need-btn" (click)="openEditNeedBox(need)">Edit</button>
+        </div>
+    </div>
+
+    <div *ngIf="displayEditNeedBox" class="edit-need-popup">
+        <div class="edit-need-box">
+            <h3>Edit Need</h3>
+
+            <label>
+                Name:
+                <input type="text" [(ngModel)]="editCurNeed.name" />
+            </label>
+            <label>
+                Type:
+                <input type="text" [(ngModel)]="editCurNeed.type" />
+            </label>
+            <label>
+                Cost:
+                <input type="number" [(ngModel)]="editCurNeed.cost" />
+            </label>
+            <label>
+                Quantity:
+                <input type="number" [(ngModel)]="editCurNeed.quantity" />
+            </label>
+
+            <div class="edit-box-buttons">
+                <button (click)="editNeed()">Edit</button>
+                <button (click)="closeEditNeedBox()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+>>>>>>> main
