@@ -17,24 +17,6 @@
     overflow-y: auto;
     background-color: #f4f6f9;
   }
-<<<<<<< HEAD
-
-  /* 🔷 top bar styled like dashboard */
-.top-bar {
-  max-width: 800px;
-  margin: 0 auto 15px auto;
-  padding: 10px 15px;
-  background: #e3f2fd;
-  border-radius: 10px;
-  text-align: center;
-}
-
-/* match title style */
-.user-text {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #0056b3;
-=======
   .top-bar {
     max-width: 800x;     
     margin: 10px auto;     
@@ -43,5 +25,4 @@
     color: #5733aa;      
     font-weight: 600;
     font-size: 1.0 rem;
->>>>>>> main
 }
