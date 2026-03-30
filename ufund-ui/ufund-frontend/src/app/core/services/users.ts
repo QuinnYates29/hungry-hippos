@@ -2,7 +2,7 @@
 /// @author qry3977
 /// Users service class provides an interface for User objects and a connection to the backend API.
 
-import { Injectable } from '@angular/core';
+import { signal, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap, catchError } from 'rxjs';
 
@@ -33,12 +33,12 @@ export interface LoginRequest {
  */
 export class UsersService {
   private apiUrl = 'http://localhost:8080/users'; // Base URL for users API
-  currentUser: any = null;
+  currentUser = signal<User | null>(null);
 
   constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('logged_user');
     if (savedUser) {
-      this.currentUser = JSON.parse(savedUser);
+      this.currentUser.set(JSON.parse(savedUser));
     }
   }
 
@@ -46,8 +46,8 @@ export class UsersService {
    * Function which keeps state by setting current user logged in
    * @param user user object to update
    */
-  setCurrentUser(user: any) {
-    this.currentUser = user;
+  setCurrentUser(user: User) {
+    this.currentUser.set(user);
     localStorage.setItem('logged_user', JSON.stringify(user));
   }
 
@@ -55,8 +55,8 @@ export class UsersService {
    * Function returning current user state
    * @returns user object of current user logged in
    */
-  getCurrentUser() {
-    return this.currentUser;
+  getCurrentUser(): User | null {
+    return this.currentUser();
   }
 
   /**
@@ -124,13 +124,19 @@ export class UsersService {
    */
   login(credentials: LoginRequest): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/login`, credentials).pipe(
-      tap(user => console.log(`User ${user.username} logged in`)),
+      tap(user => {
+        if (user) {
+          // Automatically save the user to memory AND localStorage
+          this.setCurrentUser(user); 
+          console.log(`User ${user.username} persisted to storage`);
+        }
+      }),
       catchError(this.handleError<User>('login'))
     );
   }
 
   logout() {
-    this.currentUser = null;
+    this.currentUser.set(null);
     localStorage.removeItem('logged_user');
   }
 

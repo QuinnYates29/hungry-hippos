@@ -163,9 +163,7 @@ export class Dashboard implements OnInit{
    * Logs out the current user by clearing session data and redirecting to the login page.
    */
   logout(): void {
-      // Clear user session data
       localStorage.removeItem('currentUser');
-      // Redirect to login page
       this.router.navigate(['/login']);
     }
 }

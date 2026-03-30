@@ -1,7 +1,30 @@
-<div class="top-bar" *ngIf="username">
-  <span class="user-text">
-    🦛 Logged in as: {{ username }}
-  </span>
-</div>
+<nav class="navbar">
+  <div class="nav-left">
+    <span class="logo">🦛 Hippo Cupboard</span>
+    <a routerLink="/home" routerLinkActive="active" class="nav-btn">Home</a>
+    
+    <a *ngIf="username" [routerLink]="fundingLink" routerLinkActive="active" class="nav-btn">Funding</a>
+  </div>
+
+  <div class="nav-right">
+    <ng-container *ngIf="username; else guestMode">
+      <button class="user-trigger" (click)="toggleProfile()">
+        👤 {{ username }}
+      </button>
+
+      <div class="user-popup" *ngIf="showProfile">
+        <div class="popup-content">
+          <p class="popup-user">Logged in as: <strong>{{ username }}</strong></p>
+          <hr>
+          <button class="logout-btn" (click)="onLogout()">Logout</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #guestMode>
+      <button class="login-nav-btn" routerLink="/login">Login</button>
+    </ng-template>
+  </div>
+</nav>
 
 <router-outlet></router-outlet>

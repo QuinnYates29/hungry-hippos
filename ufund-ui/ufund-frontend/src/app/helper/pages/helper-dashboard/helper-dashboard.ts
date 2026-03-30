@@ -1,14 +1,9 @@
-/// @file helper-dashboard.ts
-/// @author iz6341, 
-///helper dashboard component for displaying all need and searching needs by name
-
-
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
 import { Subject } from 'rxjs/internal/Subject';
 import { Basket } from '../../../core/basket';
 import { Router } from '@angular/router';
-
+import { UsersService } from '../../../core/services/users';
 
 @Component({
   selector: 'app-helper-dashboard',
@@ -17,21 +12,26 @@ import { Router } from '@angular/router';
   styleUrl: './helper-dashboard.css',
 })
 
-
-export class HelperDashboard implements OnInit{
-  // List of needs to display
-  needs: Need[] =[]
+export class HelperDashboard implements OnInit {
+  needs: Need[] = [];
   private searchTerms = new Subject<string>();
-  loadingNeeds = false
-  loadingBasket = false
+  loadingNeeds = false;
+  loadingBasket = false;
   showBasket = false;
   basketNeeds: Need[] = [];
-  currentUserId: number = 0;
   showSuccess: boolean = false;
 
+  get currentUserId(): number {
+    const user = this.usersService.getCurrentUser();
+    return user?.id ?? 0;
+  }
 
-  constructor(private needsService: NeedsService, private basketService: Basket,
-    private cdr: ChangeDetectorRef, private router: Router
+  constructor(
+    private needsService: NeedsService, 
+    private basketService: Basket,
+    private cdr: ChangeDetectorRef, 
+    private router: Router, 
+    private usersService: UsersService
   ) { }
 
   /**
@@ -40,7 +40,6 @@ export class HelperDashboard implements OnInit{
    */
   handleSearchResults(foundNeeds: Need[]): void {
     this.needs = foundNeeds;
-    // Ensure the cards update immediately
     this.cdr.detectChanges(); 
   }
 
@@ -48,11 +47,6 @@ export class HelperDashboard implements OnInit{
    * Fetch needs when the component initializes
    */
   ngOnInit(): void {
-    const currentSession = localStorage.getItem('currentUser');
-    if(currentSession){
-      const user= JSON.parse(currentSession);
-      this.currentUserId= user.id
-    }
     this.fetchNeeds();
     this.fetchBasket();
   }
@@ -62,12 +56,14 @@ export class HelperDashboard implements OnInit{
    * Updates the local basket state and triggers manual change detection on success.
    */
   fetchBasket(): void {
+    if (this.currentUserId === 0) return;
     this.loadingBasket = true;
     this.basketService.getAllNeeds(this.currentUserId).subscribe({
       next: (data) => {
-        console.log('Basket needs received from backend:', data); // debug
+        console.log('Basket needs received from backend:', data);
         this.basketNeeds = data;
-        this.cdr.detectChanges()
+        this.loadingBasket = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching basket needs', err);
@@ -80,15 +76,13 @@ export class HelperDashboard implements OnInit{
    * Fetches all needs from the backend. 
    * Sets loading state while fetching and updates the needs list once data is received. 
    */
-
   fetchNeeds(): void {
     this.loadingNeeds = true;
     this.needsService.getAllNeeds().subscribe({
       next: (data) => {
-        console.log('Needs received from backend:', data); // debug
+        console.log('Needs received from backend:', data);
         this.needs = data;
         this.loadingNeeds = false;
-        // Force Angular to detect changes immediately
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -103,15 +97,14 @@ export class HelperDashboard implements OnInit{
    * @param needId
    */
   removeFromBasket(needId: number): void {
-      this.basketService.removeFromBasket(this.currentUserId,needId).subscribe({
+      this.basketService.removeFromBasket(this.currentUserId, needId).subscribe({
       next: () => {
-        this.fetchBasket(); //refresh/fetch basket after removal
+        this.fetchBasket();
       },
       error: (err) => console.error(`Error removing item with ID ${needId} from basket`, err)
       });
   }
 
-  
   /**
    * Placeholder function for adding a need to the helper's basket.
    * @param need 
@@ -120,18 +113,17 @@ export class HelperDashboard implements OnInit{
       console.log('Adding to basket:', need.name);
       this.basketService.addToBasket(this.currentUserId, need).subscribe({
         next: () => {
-          this.fetchBasket(); // refresh/fetch basket after adding
+          this.fetchBasket();
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
   }
+
   /**
    * Logs out the current user by clearing session data and redirecting to the login page.
    */
   logout(): void {
-      // Clear user session data
-      localStorage.removeItem('currentUser');
-      // Redirect to login page
+      this.usersService.logout();
       this.router.navigate(['/login']);
     }
     
@@ -142,6 +134,7 @@ export class HelperDashboard implements OnInit{
   toggleBasket(): void {
     this.showBasket = !this.showBasket;
   }
+
   /**
    * Closs the checkout window.
    */
