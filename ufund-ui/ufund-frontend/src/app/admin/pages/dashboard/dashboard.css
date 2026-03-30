@@ -1,6 +1,8 @@
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(#6ec6ff, #2196f3);
+  background-attachment: fixed; 
+  min-height: 100vh;
   margin: 0;
   padding: 20px;
   color: #03396c;
@@ -23,13 +25,25 @@ body {
   50% { transform: translateY(-30px); }
 }
 
-/* 📦 container */
 .container {
   max-width: 800px;
   margin: auto;
   background: white;
   padding: 20px;
   border-radius: 15px;
+  
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* grid */
+.grid {
+  display: grid;
+  gap: 15px;
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 10px;
 }
 
 /* 🦛 header */
