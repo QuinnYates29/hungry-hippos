@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login';
 import { Home } from './home/home';
+import { HippoMap } from './components/hippo-map/hippo-map';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    Home
+    Home,
+    HippoMap
   ],
   imports: [
     BrowserModule,
