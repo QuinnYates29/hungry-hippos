@@ -1,38 +1,139 @@
-<div class="login-container">
-    <h2>Login</h2>
-  
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div>
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          [(ngModel)]="username"
-          required
-        />
-      </div>
-  
-      <div>
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          [(ngModel)]="password"
-          required
-        />
-      </div>
-  
-      <p *ngIf="errorMessage" style="color:red">
-        {{ errorMessage }}
-      </p>
-  
-      <button type="submit">Login</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hungry Hippos Login</title>
 
-      <p class="login-note">
-        To log in as admin, use username <strong>admin</strong> with the correct password.
-        Any other username will automatically create an account and log in as a
-        <strong>helper</strong>.
-      </p>
-      
-    </form>
-  </div>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Nunito:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #5A4A8A;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            color: #8B7BB8;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #5A4A8A;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #9B8AC4;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #7A6BA8;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #5A4A8A;
+        }
+
+        .login-note {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Hungry Hippos</h2>
+        <p class="tagline">U-Fund Campaign</p>
+
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+            <div class="input-group">
+                <label>Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    [(ngModel)]="username"
+                    required
+                />
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    required
+                />
+            </div>
+
+            <button type="submit">Login</button>
+
+            <p class="login-note">
+                Admin: <strong>admin</strong><br>
+                Other usernames create helper accounts.
+            </p>
+
+        </form>
+    </div>
+</body>
+</html>
