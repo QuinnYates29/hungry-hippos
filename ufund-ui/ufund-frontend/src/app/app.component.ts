@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { UsersService } from './core/services/users';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,31 @@ import { UsersService } from './core/services/users';
 export class AppComponent {
 
   protected readonly title = signal('ufund-frontend');
+  showProfile = false;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router) {}
 
   get username(): string | null {
     const user = this.usersService.getCurrentUser();
     return user ? user.username : null;
   }
 
+  get fundingLink(): string {
+    const user = this.usersService.getCurrentUser();
+    if (user?.role === 'ADMIN') {
+      return '/admin/dashboard';
+    } else {
+      return '/helper/helper-dashboard';
+    }
+  }
+
+  toggleProfile() {
+    this.showProfile = !this.showProfile;
+  }
+
   onLogout() {
-    this.usersService.logout
+    this.showProfile = false; 
+    this.usersService.logout(); 
+    this.router.navigate(['/login']);
   }
 }
