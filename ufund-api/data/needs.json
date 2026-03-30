@@ -1,1 +1,1 @@
-[{"id":36,"name":"Baby Hippos","type":"Animal","cost":1000.0,"quantity":15}]
+[{"id":9,"name":"Carrots","type":"Vegetable","cost":2.0,"quantity":35},{"id":11,"name":"Cucumbers","type":"Vegetable","cost":2.0,"quantity":30},{"id":12,"name":"Sweet Potatoes","type":"Vegetable","cost":4.0,"quantity":18},{"id":14,"name":"Apples","type":"Fruit","cost":3.0,"quantity":22},{"id":15,"name":"Bananas","type":"Fruit","cost":3.0,"quantity":24},{"id":17,"name":"Watermelon","type":"Fruit","cost":12.0,"quantity":200},{"id":19,"name":"Beans","type":"Food","cost":2.0,"quantity":20}]

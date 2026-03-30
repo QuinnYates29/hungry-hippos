@@ -33,9 +33,14 @@ export interface LoginRequest {
  */
 export class UsersService {
   private apiUrl = 'http://localhost:8080/users'; // Base URL for users API
-
-  constructor(private http: HttpClient) {}
   currentUser: any = null;
+
+  constructor(private http: HttpClient) {
+    const savedUser = localStorage.getItem('logged_user');
+    if (savedUser) {
+      this.currentUser = JSON.parse(savedUser);
+    }
+  }
 
   /**
    * Function which keeps state by setting current user logged in
@@ -43,6 +48,7 @@ export class UsersService {
    */
   setCurrentUser(user: any) {
     this.currentUser = user;
+    localStorage.setItem('logged_user', JSON.stringify(user));
   }
 
   /**
@@ -125,7 +131,7 @@ export class UsersService {
 
   logout() {
     this.currentUser = null;
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('logged_user');
   }
 
   /**

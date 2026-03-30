@@ -14,8 +14,7 @@ export class AppComponent {
   constructor(private usersService: UsersService) {}
 
   get username(): string | null {
-    const user = this.usersService.getCurrentUser();
-    return user ? user.username : null;
+    return this.usersService.currentUser?.username ?? null;
   }
 
   onLogout() {
