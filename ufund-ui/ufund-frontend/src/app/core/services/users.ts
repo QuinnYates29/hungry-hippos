@@ -123,6 +123,11 @@ export class UsersService {
     );
   }
 
+  logout() {
+    this.currentUser = null;
+    localStorage.removeItem('currentUser');
+  }
+
   /**
    * Generic error handler for HTTP operations
    * @param operation Name of the operation that failed

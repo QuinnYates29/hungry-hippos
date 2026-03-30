@@ -17,4 +17,8 @@ export class AppComponent {
     const user = this.usersService.getCurrentUser();
     return user ? user.username : null;
   }
+
+  onLogout() {
+    this.usersService.logout
+  }
 }
