@@ -1,32 +1,202 @@
 [
-    {
-      "id": 1,
-      "name": "Moto Moto",
-      "species": "Common Hippo",
-      "gender": "Male",
-      "birthDate": [2010, 5, 24],
-      "weight": 2800.5,
-      "latitude": -13.1234,
-      "longitude": 31.5678
-    },
-    {
-      "id": 2,
-      "name": "Kyle",
-      "species": "Pygmy Hippo",
-      "gender": "Male",
-      "birthDate": [2018, 11, 12],
-      "weight": 260.0,
-      "latitude": -13.1240,
-      "longitude": 31.5685
-    },
-    {
-      "id": 3,
-      "name": "Fiona",
-      "species": "Common Hippo",
-      "gender": "Female",
-      "birthDate": [2017, 1, 24],
-      "weight": 1400.0,
-      "latitude": -13.1255,
-      "longitude": 31.5690
-    }
-  ]
+  {
+    "id": 1,
+    "name": "Moto Moto",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2010, 5, 24],
+    "weight": 2800.5,
+    "latitude": -13.1234,
+    "longitude": 31.5678
+  },
+  {
+    "id": 2,
+    "name": "Kyle",
+    "species": "Pygmy Hippo",
+    "gender": "Male",
+    "birthDate": [2018, 11, 12],
+    "weight": 260.0,
+    "latitude": 41.7766,
+    "longitude": -87.6163
+  },
+  {
+    "id": 3,
+    "name": "Gloria",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2012, 3, 15],
+    "weight": 1600.0,
+    "latitude": -13.1255,
+    "longitude": 31.5690
+  },
+  {
+    "id": 4,
+    "name": "Hungry Hungry",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2015, 7, 4],
+    "weight": 1550.2,
+    "latitude": -13.1300,
+    "longitude": 31.5710
+  },
+  {
+    "id": 5,
+    "name": "Tank",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2008, 12, 1],
+    "weight": 3100.0,
+    "latitude": 0.4500,
+    "longitude": 32.5800
+  },
+  {
+    "id": 6,
+    "name": "Bubbles",
+    "species": "Pygmy Hippo",
+    "gender": "Female",
+    "birthDate": [2021, 1, 20],
+    "weight": 210.5,
+    "latitude": 6.3100,
+    "longitude": -10.8000
+  },
+  {
+    "id": 7,
+    "name": "Fiona",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2017, 1, 24],
+    "weight": 1300.0,
+    "latitude": 39.1031,
+    "longitude": -84.5120
+  },
+  {
+    "id": 8,
+    "name": "Otis",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2005, 9, 30],
+    "weight": 2950.0,
+    "latitude": -25.7479,
+    "longitude": 28.2293
+  },
+  {
+    "id": 9,
+    "name": "Mochi",
+    "species": "Pygmy Hippo",
+    "gender": "Female",
+    "birthDate": [2022, 6, 14],
+    "weight": 180.0,
+    "latitude": 5.9500,
+    "longitude": -8.3600
+  },
+  {
+    "id": 10,
+    "name": "Hodor",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2011, 4, 11],
+    "weight": 3200.0,
+    "latitude": -1.2864,
+    "longitude": 36.8172
+  },
+  {
+    "id": 11,
+    "name": "Zelda",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2019, 8, 22],
+    "weight": 1400.0,
+    "latitude": -15.4167,
+    "longitude": 28.2833
+  },
+  {
+    "id": 12,
+    "name": "Bibi",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [1999, 2, 10],
+    "weight": 1750.0,
+    "latitude": -20.1500,
+    "longitude": 28.5833
+  },
+  {
+    "id": 13,
+    "name": "Tiny",
+    "species": "Pygmy Hippo",
+    "gender": "Male",
+    "birthDate": [2023, 11, 5],
+    "weight": 120.0,
+    "latitude": 7.4800,
+    "longitude": -11.8900
+  },
+  {
+    "id": 14,
+    "name": "Hugo",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2000, 5, 5],
+    "weight": 3400.0,
+    "latitude": -4.3250,
+    "longitude": 15.3222
+  },
+  {
+    "id": 15,
+    "name": "Daisy",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2014, 10, 31],
+    "weight": 1580.0,
+    "latitude": -17.8248,
+    "longitude": 31.0530
+  },
+  {
+    "id": 16,
+    "name": "Rumpel",
+    "species": "Pygmy Hippo",
+    "gender": "Male",
+    "birthDate": [2020, 12, 25],
+    "weight": 240.0,
+    "latitude": 4.3700,
+    "longitude": -7.7100
+  },
+  {
+    "id": 17,
+    "name": "Pebbles",
+    "species": "Pygmy Hippo",
+    "gender": "Female",
+    "birthDate": [2021, 4, 1],
+    "weight": 195.0,
+    "latitude": 8.4800,
+    "longitude": -13.2300
+  },
+  {
+    "id": 18,
+    "name": "Brutus",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [1995, 8, 14],
+    "weight": 3600.0,
+    "latitude": -22.5700,
+    "longitude": 17.0800
+  },
+  {
+    "id": 19,
+    "name": "Lola",
+    "species": "Common Hippo",
+    "gender": "Female",
+    "birthDate": [2016, 2, 29],
+    "weight": 1420.0,
+    "latitude": -33.9249,
+    "longitude": 18.4241
+  },
+  {
+    "id": 20,
+    "name": "Gus",
+    "species": "Common Hippo",
+    "gender": "Male",
+    "birthDate": [2013, 11, 11],
+    "weight": 2700.0,
+    "latitude": 15.3200,
+    "longitude": 32.5300
+  }
+]
