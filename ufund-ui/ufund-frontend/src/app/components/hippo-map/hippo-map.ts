@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
+import { HippoService } from '../../core/services/hippo';
 
 interface Hippo {
   id: number;
@@ -20,36 +21,13 @@ interface Hippo {
 })
 export class HippoMap implements AfterViewInit, OnDestroy {
   private map!: L.Map;
+  hippos: Hippo[] = [];
 
-  // Mock data for testing without the backend
-  private mockHippos: Hippo[] = [
-    {
-      id: 1,
-      name: "Moto Moto",
-      species: "Common Hippo",
-      gender: "Male",
-      birthDate: [2010, 5, 24],
-      weight: 2800.5,
-      latitude: -13.1234,
-      longitude: 31.5678
-    },
-    {
-      id: 2,
-      name: "Kyle",
-      species: "Pygmy Hippo",
-      gender: "Male",
-      birthDate: [2018, 11, 12],
-      weight: 260.0,
-      latitude: -13.1240,
-      longitude: 31.5685
-    }
-  ];
-
-  constructor() {}
+  constructor(private hippoService: HippoService) {}
 
   ngAfterViewInit(): void {
     this.initMap();
-    this.plotMockHippos();
+    this.plotHippos();
   
     setTimeout(() => {
       this.map.invalidateSize();
@@ -76,12 +54,31 @@ export class HippoMap implements AfterViewInit, OnDestroy {
     L.Marker.prototype.options.icon = DefaultIcon;
   }
 
-  private plotMockHippos(): void {
-    this.mockHippos.forEach(hippo => {
-      L.marker([hippo.latitude, hippo.longitude])
-        .addTo(this.map)
-        .bindPopup(`<b>${hippo.name}</b><br>Weight: ${hippo.weight}kg`);
+  private plotHippos(): void {
+    this.hippoService.getHippos().subscribe({
+      next: (data) => {
+        console.log('Hippos received from backend', data);
+        this.hippos = data;
+
+        // THE FIX: The loop must be INSIDE the subscribe block!
+        this.hippos.forEach(hippo => {
+          L.marker([hippo.latitude, hippo.longitude])
+            .addTo(this.map)
+            .bindPopup(`<b>${hippo.name}</b><br>Weight: ${hippo.weight}kg`);
+        });
+        
+        // Optional: If you want the map to automatically zoom out to see all hippos
+        if (this.hippos.length > 0) {
+            const group = L.featureGroup(this.hippos.map(h => L.marker([h.latitude, h.longitude])));
+            this.map.fitBounds(group.getBounds().pad(0.1));
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching hippos', err);
+      }
     });
+    
+    // Anything placed here runs BEFORE the hippos arrive!
   }
 
   ngOnDestroy(): void {
