@@ -4,26 +4,22 @@
 
 <div class="container">
 
-  <!-- 🦛 Header -->
   <div class="header">
     <div class="hippo">🦛</div>
     <h1>Hippos</h1>
+    <button (click)="openAddHippoBox()">+ Add Hippo</button>
   </div>
 
-  <!-- 📊 Stats -->
   <div class="stats" *ngIf="!loading && hippos.length > 0">
     Total Hippos: {{ hippos.length }}
   </div>
 
-  <!-- ⏳ Loading -->
   <div *ngIf="loading" class="info">Loading...</div>
 
-  <!-- 📭 Empty -->
   <div *ngIf="!loading && hippos.length === 0" class="info">
     No hippos yet 🦛
   </div>
 
-  <!-- 📦 Hippos -->
   <div class="grid" *ngIf="!loading && hippos.length > 0">
     <div class="card" *ngFor="let hippo of hippos">
       <h3>{{ hippo.name }}</h3>
@@ -36,6 +32,52 @@
 
       <div class="actions">
         <button (click)="deleteHippo(hippo.id)">🗑</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="displayAddHippoBox" class="popup">
+    <div class="popup-box hippo-popup">
+      <h2>🦛 Add Hippo</h2>
+
+      <label>
+        Name
+        <input [(ngModel)]="newHippo.name" placeholder="e.g. Paul">
+      </label>
+
+      <label>
+        Species
+        <input [(ngModel)]="newHippo.species" placeholder="e.g. Pygmy Hippo">
+      </label>
+
+      <label>
+        Gender
+        <input [(ngModel)]="newHippo.gender" placeholder="e.g. Male">
+      </label>
+
+      <label>
+        Birth Date
+        <input type="date" [(ngModel)]="newHippoDateStr">
+      </label>
+
+      <label>
+        Weight
+        <input type="number" [(ngModel)]="newHippo.weight" placeholder="0">
+      </label>
+
+      <label>
+        Latitude
+        <input type="number" step="any" [(ngModel)]="newHippo.latitude" placeholder="0">
+      </label>
+
+      <label>
+        Longitude
+        <input type="number" step="any" [(ngModel)]="newHippo.longitude" placeholder="0">
+      </label>
+
+      <div class="popup-actions">
+        <button class="primary" (click)="addNewHippo()">Add</button>
+        <button (click)="closeAddHippoBox()">Cancel</button>
       </div>
     </div>
   </div>

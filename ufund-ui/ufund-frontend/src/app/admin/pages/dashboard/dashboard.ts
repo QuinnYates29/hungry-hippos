@@ -75,7 +75,7 @@ export class Dashboard implements OnInit{
     });
   }
 
-    /**
+  /**
    * Fetches hippos from backend and stores them in a local list. This effectively
    * "refreshes" the list and should be called after every remove/add/page change
    */
@@ -189,50 +189,6 @@ export class Dashboard implements OnInit{
       }
     });
   }
-
-  /**
-   * Sends a signal for the UI to open the add hippo box
-   */
-  openAddHippoBox(): void {
-    this.displayAddHippoBox = true;
-  }
-
-    /**
-   * Sends a signal for the UI to close the add hippo box and resets the new hippo for next time
-   */
-  closeAddHippoBox(): void {
-    this.newHippo = {id: 0, name: '', species: '', gender: '', birthDate: [2026,1,1], weight: 0.0, latitude: 0.0, longitude: 0.0};
-    this.newHippoDateStr = '2026-01-01';
-    this.displayAddHippoBox = false;
-  }
-
-    /**
-   * Calls hippo service class to create and add a new hippo to the hippos backend
-   * If error, do nothing and report it
-   */
-  addNewHippo(): void {
-    if (!confirm('Are you sure you want to add this hippo?')) {
-      return;
-    }
-    const [year, month, day] = this.newHippoDateStr.split('-').map(s => +s);
-    const hippoCorrected: Hippo = {
-    ...this.newHippo,
-    birthDate: [year, month, day]
-  };
-    this.hippoService.createHippo(hippoCorrected).subscribe({
-      next: (createdHippo) => {
-        this.hippos.push(createdHippo);
-        this.fetchHippos();
-      },
-      error: (err) => {
-        console.error('Failed to add new hippo', err);
-      }
-    })
-    this.displayAddHippoBox = false;
-    this.newHippo = {id: 0, name: '', species: '', gender: '', birthDate: [2026,1,1], weight: 0.0, latitude: 0.0, longitude: 0.0};
-    this.newHippoDateStr = '2026-01-01';
-  }
-
 
   /**
    * Logs out the current user by clearing session data and redirecting to the login page.

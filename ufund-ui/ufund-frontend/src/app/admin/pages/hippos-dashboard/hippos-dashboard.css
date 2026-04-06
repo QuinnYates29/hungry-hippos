@@ -9,7 +9,7 @@
   color: #0c3d6c;
 }
 
-/* 🫧 bubbles */
+
 .bubble {
   position: fixed;
   width: 30px;
@@ -37,9 +37,10 @@
   display: flex;
   flex-direction: column;
   transform: translateX(20px);
+  overflow: hidden;
 }
 
-/* grid */
+
 .grid {
   display: grid;
   gap: 15px;
@@ -48,7 +49,7 @@
   padding-right: 10px;
 }
 
-/* 🦛 header */
+
 .header {
   display: flex;
   align-items: center;
@@ -73,7 +74,7 @@ h1 {
   cursor: pointer;
 }
 
-/* 📊 stats */
+
 .stats {
   margin: 15px 0;
   font-weight: bold;
@@ -85,13 +86,13 @@ h1 {
   margin: 30px 0;
 }
 
-/* 📦 grid */
+
 .grid {
   display: grid;
   gap: 15px;
 }
 
-/* 📄 card */
+
 .card {
   background: #e3f2fd;
   padding: 15px;
@@ -102,7 +103,7 @@ h1 {
   margin: 0 0 5px;
 }
 
-/* actions */
+
 .actions {
   margin-top: 10px;
   display: flex;
@@ -116,7 +117,7 @@ h1 {
   border-radius: 6px;
 }
 
-/* 🪟 popup */
+
 .popup {
   position: fixed;
   inset: 0;
@@ -126,18 +127,20 @@ h1 {
   align-items: center;
 }
 
-/* make popup content left-aligned (not centered) */
+
 .popup-box {
   background: white;
   border-radius: 12px;
   padding: 25px;
   max-width: 400px;
   width: 90%;
+  max-height: 75vh;
+  overflow-y: auto;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
   text-align: left;
 }
 
-/* labels */
+
 .popup-box label {
   display: block;
   font-weight: bold;
@@ -145,23 +148,21 @@ h1 {
   font-size: 0.9rem;
 }
 
-/* inputs (slight upgrade, not override) */
+
 .popup-box input {
   width: 100%;
   margin-top: 4px;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 4px;
   border-radius: 6px;
   border: 1px solid #ccc;
 }
 
-/* section spacing */
 .popup-box h2 {
   text-align: center;
   margin-bottom: 10px;
 }
 
-/* Popup Action Buttons */
 
 .popup-actions {
   display: flex;
