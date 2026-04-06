@@ -1,4 +1,10 @@
 <div class="helper-dashboard-container">
+  <div class="hippo-checkout-banner" *ngIf="activeHippo" 
+       style="background: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+    <h3 style="margin: 0; color: #2d5a27;">🛒 Shopping for: {{ activeHippo.name }}</h3>
+    <small style="color: #4caf50;">Species: {{ activeHippo.species }}</small>
+  </div>
+
   <div *ngIf="showSuccess" class="checkout-window">
     <div class="message-checkout">
       <div class="success-message"></div>
@@ -8,7 +14,6 @@
   </div>
 
   <div class="header-row">
-
     <div class="basket-container">
       <button class="basket-button" (click)="toggleBasket()">
         🛒 Basket ({{ basketNeeds.length }})
@@ -42,11 +47,9 @@
     <button class="logout-button" (click)="logout()">
       Logout
     </button>
-
   </div>
 
   <h2>U-fund Cupboard Needs</h2>
-
   <app-helper-search (resultsFound)="handleSearchResults($any($event))"></app-helper-search>
 
   <div *ngIf="loadingNeeds">Loading needs...</div>
@@ -70,5 +73,4 @@
       <hr *ngIf="!last" class="need-divider">
     </div>
   </div>
-
 </div>

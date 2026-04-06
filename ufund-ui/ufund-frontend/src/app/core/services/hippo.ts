@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Interface matching the Hippo model in the backend.
@@ -24,7 +25,14 @@ export class HippoService {
   // Ensure this matches your Spring Boot server port
   private readonly URL = 'http://localhost:8080/hippos';
 
+  private selectedHippoSource = new BehaviorSubject<Hippo | null>(null);
+  selectedHippo$ = this.selectedHippoSource.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  setSelectedHippo(hippo: Hippo | null) {
+    this.selectedHippoSource.next(hippo);
+  }
 
   /** GET /hippos - Retrieves all hippos */
   getHippos(): Observable<Hippo[]> {
