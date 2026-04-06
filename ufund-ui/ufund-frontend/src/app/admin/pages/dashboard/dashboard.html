@@ -19,7 +19,8 @@
   <div class="header">
     <div class="hippo">🦛</div>
     <h1>Hippo Cupboard</h1>
-    <button (click)="openAddNeedBox()">+ Add</button>
+    <button class="need-btn" (click)="openAddNeedBox()">+ Add Need</button>
+    <button class="hippo-btn" (click)="openAddHippoBox()">+ Add Hippo</button>
   </div>
 
   <!-- 📊 Stats -->
@@ -50,10 +51,10 @@
     </div>
   </div>
 
-<!-- ➕ Add Popup -->
+<!-- ➕ Add Need Popup -->
 <div *ngIf="displayAddNeedBox" class="popup">
     <div class="popup-box">
-      <h2>🦛 Add Item</h2>
+      <h2>🦛 Add Need</h2>
   
       <label>
         Name
@@ -78,6 +79,53 @@
       <div class="popup-actions">
         <button class="primary" (click)="addNewNeed()">Add</button>
         <button (click)="closeAddNeedBox()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ➕ Add Hippo Popup -->
+  <div *ngIf="displayAddHippoBox" class="popup">
+    <div class="popup-box hippo-popup">
+      <h2>🦛 Add Hippo</h2>
+  
+      <label>
+        Name
+        <input [(ngModel)]="newHippo.name" placeholder="e.g. Paul">
+      </label>
+  
+      <label>
+        Species
+        <input [(ngModel)]="newHippo.species" placeholder="e.g. Pygmy Hippo">
+      </label>
+
+      <label>
+        Gender
+        <input [(ngModel)]="newHippo.gender" placeholder="e.g. Male">
+      </label>
+
+      <label>
+        Birth Date
+        <input type = "date" [(ngModel)]="newHippoDateStr" placeholder="e.g. 2026-1-1">
+      </label>
+
+      <label>
+        Weight
+        <input type="number" [(ngModel)]="newHippo.weight" placeholder="0">
+      </label>
+
+      <label>
+        Latitude
+        <input type="number" step="any" [(ngModel)]="newHippo.latitude" placeholder="0">
+      </label>
+
+      <label>
+        Longitude
+        <input type="number" step="any" [(ngModel)]="newHippo.longitude" placeholder="0">
+      </label>
+  
+      <div class="popup-actions">
+        <button class="hippo-primary" (click)="addNewHippo()">Add</button>
+        <button (click)="closeAddHippoBox()">Cancel</button>
       </div>
     </div>
   </div>
