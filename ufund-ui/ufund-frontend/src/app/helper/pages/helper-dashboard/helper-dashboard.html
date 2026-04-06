@@ -1,14 +1,27 @@
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
 <div class="helper-dashboard-container">
-  <div class="hippo-checkout-banner" *ngIf="activeHippo" 
-       style="background: #e8f5e9; border: 2px solid #4caf50; padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
-    <h3 style="margin: 0; color: #2d5a27;">🛒 Shopping for: {{ activeHippo.name }}</h3>
-    <small style="color: #4caf50;">Species: {{ activeHippo.species }}</small>
+  <div class="header">
+    <div class="header-left">
+      <h1>🦛 Hippos Needs</h1>
+      <div class="helper-tag">Helper Access</div>
+    </div>
+    <div class="header-right">
+      <div class="hippo-checkout-banner" *ngIf="activeHippo">
+        <h3>🛒 Shopping for: {{ activeHippo.name }}</h3>
+        <small>Species: {{ activeHippo.species }}</small>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="showSuccess" class="checkout-window">
     <div class="message-checkout">
       <div class="success-message"></div>
       <h2>Checkout Complete!</h2>
+      <p *ngIf="activeHippo">
+        💜 You just helped <strong>{{ activeHippo.name }}</strong>
+      </p>
       <button class="confirm-button" (click)="closeWindow()">OK</button>
     </div>
   </div>
@@ -34,19 +47,15 @@
             Remove
           </button>
         </div>
-      </div>
-
-      <div *ngIf="basketNeeds.length > 0" class="basket-footer">
+        <div *ngIf="basketNeeds.length > 0" class="basket-footer">
         <hr>
         <button class="checkout-button" (click)="checkout()">
           Checkout
         </button>
       </div>
-    </div>
+      </div>
 
-    <button class="logout-button" (click)="logout()">
-      Logout
-    </button>
+    </div>
   </div>
 
   <h2>U-fund Cupboard Needs</h2>

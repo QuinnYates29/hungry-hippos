@@ -123,6 +123,8 @@ export class HelperDashboard implements OnInit {
       this.basketService.addToBasket(this.currentUserId, need).subscribe({
         next: () => {
           this.fetchBasket();
+          this.showBasket = true;
+
         },
         error: (err) => console.error(`Error adding ${need.name} to basket`, err)
       });
