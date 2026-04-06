@@ -1,0 +1,98 @@
+:host {
+  display: block;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(#2d5a27, #4caf50);
+  background-attachment: fixed; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  color: #1b3a1d;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 15px;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #e8f5e9;
+  padding-bottom: 10px;
+}
+
+.helper-tag {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  gap: 15px;
+  overflow-y: auto;
+  margin-top: 15px;
+}
+
+.card {
+  background: #f9fbf9;
+  border: 1px solid #c8e6c9;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.obs-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.obs-btn:hover {
+  background: #388e3c;
+}
+
+.bubble {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  animation: float 6s infinite;
+}
+/* ... existing styles ... */
+
+.checkout-status {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e8f5e9;
+  border-radius: 10px;
+  border: 2px dashed #4caf50;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+.checkout-status h3 {
+  margin: 0 0 5px 0;
+  color: #2d5a27;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes float { 50% { transform: translateY(-20px); } }
