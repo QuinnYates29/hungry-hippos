@@ -4,7 +4,6 @@ import { Subject } from 'rxjs/internal/Subject';
 import { Basket } from '../../../core/basket';
 import { Router } from '@angular/router';
 import { UsersService } from '../../../core/services/users';
-import { Hippo, HippoService } from '../../../core/services/hippo';
 
 @Component({
   selector: 'app-helper-dashboard',
@@ -27,12 +26,9 @@ export class HelperDashboard implements OnInit {
     return user?.id ?? 0;
   }
 
-  activeHippo: Hippo | null = null;
-
   constructor(
     private needsService: NeedsService, 
     private basketService: Basket,
-    private hippoService: HippoService,
     private cdr: ChangeDetectorRef, 
     private router: Router, 
     private usersService: UsersService
@@ -53,11 +49,6 @@ export class HelperDashboard implements OnInit {
   ngOnInit(): void {
     this.fetchNeeds();
     this.fetchBasket();
-
-    this.hippoService.selectedHippo$.subscribe(hippo => {
-      this.activeHippo = hippo;
-      this.cdr.detectChanges();
-    });
   }
 
   /**
