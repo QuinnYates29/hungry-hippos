@@ -16,7 +16,7 @@ import com.ufund.api.ufundapi.model.Hippo;
 /**
  * Implementation of HippoDAO using a JSON file for persistence.
  * * @author Quinn Yates (qry3977)
- * @author Ilia
+ * @author Ilia Zhdanov (iz6341)
  */
 @Component
 public class HippoFileDAO implements HippoDAO {
