@@ -1,19 +1,48 @@
 :host {
-    display: block;
-    padding: 40px 20px;
-    background-color: #8787ee;
+  display: block;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(#c52fdc, #4379c6);
+  background-attachment: fixed; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  color: #1b3a1d;
+}
+.helper-tag {
+  background: #e7a9ff;
+  margin: 10px;
+  color: #7c0d97;
+  padding: 8px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
+.bubble {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  animation: float 6s infinite;
+}
+.bubble:nth-child(1){ left:10%; top:70%; }
+.bubble:nth-child(2){ left:50%; top:60%; }
+.bubble:nth-child(3){ left:50%; top:80%; }
+@keyframes float {
+  50% { transform: translateY(-30px); }
+}
 .helper-dashboard-container {
     padding: 24px;
     max-width: 900px;
     margin: 0 auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
+    color: #0c0d5e;
     background: linear-gradient(135deg, #f5f7fa 0%, #b7c8dc 100%);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     min-height: 90vh;
+    transform: translateX(12px);
 }
 
 .needs-list {
@@ -167,3 +196,44 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left h1 {
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.hippo-checkout-banner {
+  background: #e8f5e9;
+  border: 2px solid #4caf50;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hippo-checkout-banner h3 {
+  margin: 0;
+  color: #2d5a27;
+  font-size: 0.95rem;
+}
+
+.hippo-checkout-banner small {
+  color: #4caf50;
+}
+

@@ -24,14 +24,15 @@
 .header {
   display: flex;
   align-items: center;
-  border-bottom: 2px solid #e8f5e9;
   padding-bottom: 10px;
 }
 
 .helper-tag {
+  margin-bottom: 7px;
+  margin-left: 10px;
   background: #e8f5e9;
   color: #2e7d32;
-  padding: 5px 10px;
+  padding: 9px 10px;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: bold;
@@ -74,7 +75,7 @@
   border-radius: 50%;
   animation: float 6s infinite;
 }
-/* ... existing styles ... */
+
 
 .checkout-status {
   margin-top: 20px;
