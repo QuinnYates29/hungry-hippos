@@ -6,6 +6,7 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NeedsService, Need } from '../../../core/services/needs';
+import { HippoService, Hippo } from '../../../core/services/hippo';
 import { Router } from '@angular/router';
 
 
@@ -21,7 +22,9 @@ import { Router } from '@angular/router';
 export class Dashboard implements OnInit{
   //List of needs retrieved from backend
   needs: Need[] = [];
+  hippos: Hippo[] = [];
   tempNeeds: Need[] = [];
+  tempHippos: Hippo[] = [];
   loading = false
 
   //add need box
@@ -33,15 +36,23 @@ export class Dashboard implements OnInit{
   newNeed: Need = {id: 0, name: '', type: '', cost: 0, quantity: 0};
   editCurNeed: Need = {id: 0, name: '', type: '', cost: 0, quantity: 0};
 
+  //add hippo box
+  displayAddHippoBox = false;
+
+  newHippo: Hippo = {id: 0, name: '', species: '', gender: '', birthDate: [2026,1,1], weight: 0.0, latitude: 0.0, longitude: 0.0};
+  newHippoDateStr: string = '2026-01-01';
+
 
   constructor(
     private needsService: NeedsService,
+    private hippoService: HippoService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.fetchNeeds();
+    this.fetchHippos
   }
 
   /**
@@ -59,6 +70,26 @@ export class Dashboard implements OnInit{
       error: (err) => {
         console.error('Error fetching needs', err);
         this.needs = [];
+        this.loading = false;
+      }
+    });
+  }
+
+  /**
+   * Fetches hippos from backend and stores them in a local list. This effectively
+   * "refreshes" the list and should be called after every remove/add/page change
+   */
+  fetchHippos(): void {
+    this.loading = true;
+    this.hippoService.getHippos().subscribe({
+      next: (data) => {
+        this.hippos = data;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching hippos', err);
+        this.hippos = [];
         this.loading = false;
       }
     });
@@ -91,7 +122,7 @@ export class Dashboard implements OnInit{
     this.displayAddNeedBox = true;
   }
   /**
-   * Sends a signal for the UI to close the add need box and resets the new need for next5 time
+   * Sends a signal for the UI to close the add need box and resets the new need for next time
    */
   closeAddNeedBox(): void {
     this.newNeed = {id: 0, name: '', type: '', cost: 0, quantity: 0};

@@ -28,6 +28,14 @@ export class AppComponent {
       return '/helper/helper-dashboard';
     }
   }
+  get hipposLink(): string {
+    const user = this.usersService.getCurrentUser();
+    if (user?.role === 'ADMIN') {
+      return '/admin/hippos-dashboard';
+    } else {
+      return '/helper/hippos-dashboard';
+    }
+  }
 
   toggleProfile() {
     this.showProfile = !this.showProfile;
