@@ -226,6 +226,10 @@ class BasketController {
   +checkout(userId)
 }
 
+class HippoController.java {
+  
+}
+
 UserController --> LoginRequest
 ```
 
@@ -263,6 +267,10 @@ class UserDAO {
 }
 
 class CupboardDAO {
+  <<interface>>
+}
+
+class HippoDAO {
   <<interface>>
 }
 
@@ -304,11 +312,19 @@ class CupboardFileDAO {
   + deleteNeed(id) boolean
 }
 
+class HippoFileDAO {
+
+}
+
 %% Domain Models
 class Need {
 }
 
 class User {
+}
+
+class Hippo {
+
 }
 
 %% File Resources (represented as classes for diagram clarity)
@@ -324,20 +340,27 @@ class needs_json {
   <<file>>
 }
 
+class hippos_json {
+  <<file>>
+}
+
 %% Interface Implementations
 BasketFileDAO ..|> BasketDAO
 UserFileDAO ..|> UserDAO
 CupboardFileDAO ..|> CupboardDAO
+HippoFileDAO ..|> HippoDAO
 
 %% File Access Relationships
 BasketFileDAO --> basket_json : reads/writes
 UserFileDAO --> users_json : reads/writes
 CupboardFileDAO --> needs_json : reads/writes
+HippoFileDAO --> hippos_json : reads/writes
 
 %% Domain Usage
 BasketFileDAO --> Need
 CupboardFileDAO --> Need
 UserFileDAO --> User
+HippoFileDAO --> Hippo
 ```
 
 
@@ -371,13 +394,17 @@ Finally, we followed the Single Responsibility Principle (SRP) by giving each cl
 > and the results of the testing._
 
 ### Acceptance Testing
-> _Sprint 2: We have passed all 34 acceptance criteria for sprint 2. Each acceptance criteria has been tested thouroughly by the person who implemented it, as well as a seperate team member to ensure that all critera were met.
+> Sprint 2: We have passed all 34 acceptance criteria for sprint 2. Each acceptance criteria has been tested thouroughly by the person who implemented it, as well as a seperate team member to ensure that all critera were met.
+
+> Sprint 3: We have now passed all of our acceptacnce criteria for sprint 3 aswell. Each criteria has been tested by every member of the team to ensure no small bugs were missed.
 
 ### Unit Testing and Code Coverage
 > _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
 > achieved from unit testing of the code base. Discuss the team's
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets._
+
+> **[Sprint 3]** As of sprint 3, we have added an extra model for our Hippo data, and implemented testing for this. Our overall test coverage is still above 90% after these changes.
 
 > ![Ufund Api Coverage](ufund-api_coverage.png)
 > ![Persistence Layer Coverage](persistence_coverage.png)
