@@ -4,6 +4,7 @@
     <a routerLink="/home" routerLinkActive="active" class="nav-btn">Home</a>
     
     <a *ngIf="username" [routerLink]="fundingLink" routerLinkActive="active" class="nav-btn">Funding</a>
+     <a *ngIf="username" [routerLink]="hipposLink" routerLinkActive="active" class="nav-btn">Hippos</a>
   </div>
 
   <div class="nav-right">
