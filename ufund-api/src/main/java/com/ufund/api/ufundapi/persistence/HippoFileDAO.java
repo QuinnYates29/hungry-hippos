@@ -27,28 +27,51 @@ public class HippoFileDAO implements HippoDAO {
     private String filename;
     private static int nextId;
 
+    /** Constructor for HippoFileDAO 
+     * @param filename The name of the JSON file to use for persistence
+     * @param objectMapper The ObjectMapper to use for JSON serialization/deserialization
+     * @throws IOException if there is an error loading the hippos from the file
+     */
     public HippoFileDAO(@Value("${hippos.file}") String filename, ObjectMapper objectMapper) throws IOException {
         this.filename = filename;
         this.objectMapper = objectMapper;
         load();
     }
 
+    /**
+     * Generates the next unique ID for a new hippo.
+     * @return The next unique ID
+     */
     private synchronized static int nextId() {
         int id = nextId;
         ++nextId;
         return id;
     }
 
+    /**
+     * Converts the hippos map to an array for JSON serialization.
+     * @return An array of all hippos
+     */
     private Hippo[] getHipposArray() {
         return hippos.values().toArray(new Hippo[0]);
     }
 
+    /**
+     * Saves the current hippos to the JSON file.
+     * @return true if the save was successful, false otherwise
+     * @throws IOException if there is an error writing to the file
+     */
     private boolean save() throws IOException {
         Hippo[] hippoArray = getHipposArray();
         objectMapper.writeValue(new File(filename), hippoArray);
         return true;
     }
 
+    /**
+     * Loads the hippos from the JSON file. If the file does not exist or is empty, starts with an empty collection.
+     * @return true if the load was successful, false otherwise
+     * @throws IOException if there is an error reading from the file
+     */
     private boolean load() throws IOException {
         hippos = new TreeMap<>();
         nextId = 0;
@@ -68,6 +91,9 @@ public class HippoFileDAO implements HippoDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Hippo[] getHippos() {
         synchronized(hippos) {
@@ -75,6 +101,9 @@ public class HippoFileDAO implements HippoDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Hippo getHippo(int id) {
         synchronized(hippos) {
@@ -101,6 +130,9 @@ public class HippoFileDAO implements HippoDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Hippo updateHippo(Hippo hippo) throws IOException {
         synchronized(hippos) {
@@ -111,6 +143,9 @@ public class HippoFileDAO implements HippoDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteHippo(int id) throws IOException {
         synchronized(hippos) {
@@ -123,6 +158,9 @@ public class HippoFileDAO implements HippoDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Hippo[] findHippos(String containsText) {
         synchronized(hippos) {

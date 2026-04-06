@@ -51,22 +51,103 @@ public class Hippo {
         this.longitude = longitude;
     }
 
+    /**
+     * Get the id of the hippo.
+     * @return The id of the hippo
+     */
     public int getId() { return id; }
+
+    /**
+     * Get the name of the hippo.
+     * @return The name of the hippo
+     */
     public String getName() { return name; }
+
+    /**
+     * Get the species of the hippo.
+     * @return The species of the hippo
+     */
     public String getSpecies() { return species; }
+
+    /**
+     * Get the gender of the hippo.
+     * @return The gender of the hippo
+     */
     public String getGender() { return gender; }
+
+    /**
+     * Get the birthdate of the hippo.
+     * @return The birthdate of the hippo
+     */
     public LocalDate getBirthdate() { return birthdate; }
+
+    /**
+     * Get the weight of the hippo.
+     * @return The weight of the hippo
+     */
     public double getWeight() { return weight; }
+
+    /**
+     * Get the latitude of the hippo's location.
+     * @return The latitude of the hippo's location
+     */
     public double getLatitude() { return latitude; }
+
+    /**
+     * Get the longitude of the hippo's location.
+     * @return The longitude of the hippo's location
+     */
     public double getLongitude() { return longitude; }
 
+    /**
+     * Sets the id of the hippo - necessary for JSON object to Java object deserialization
+     * @param id The id of the hippo
+     */
     public void setId(int id) { this.id = id; }
+
+    /**
+    * Sets the name of the hippo - necessary for JSON object to Java object deserialization
+    * @param name The name of the hippo
+    */
     public void setName(String name) { this.name = name; }
+
+    /**
+    * Sets the species of the hippo - necessary for JSON object to Java object deserialization
+    * @param species The species of the hippo
+    */
     public void setSpecies(String species) { this.species = species; }
+
+    /**
+     * Sets the gender of the hippo - necessary for JSON object to Java object deserialization
+     * @param gender The gender of the hippo
+     */
     public void setGender(String gender) { this.gender = gender; }
+
+    
+    /**
+     * Sets the birthdate of the hippo - necessary for JSON object to Java object deserialization
+     * @param birthdate The birthdate of the hippo
+     */
     public void setBirthdate(LocalDate birthdate) { this.birthdate = birthdate; }
+
+
+    /**
+     * Sets the weight of the hippo - necessary for JSON object to Java object deserialization
+     * @param weight The weight of the hippo
+     */
     public void setWeight(double weight) { this.weight = weight; }
+
+    /**
+     * Sets the latitude of the hippo's location - necessary for JSON object to Java object deserialization
+     * @param latitude The latitude of the hippo's location
+     */
     public void setLatitude(double latitude) { this.latitude = latitude; }
+
+
+    /**
+     * Sets the longitude of the hippo's location - necessary for JSON object to Java object deserialization
+     * @param longitude The longitude of the hippo's location
+     */
     public void setLongitude(double longitude) { this.longitude = longitude; }
 
     /**

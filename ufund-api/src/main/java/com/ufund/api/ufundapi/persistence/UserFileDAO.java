@@ -107,6 +107,9 @@ public class UserFileDAO implements UserDAO {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User[] getUsers() {
         synchronized(users) {
@@ -114,6 +117,9 @@ public class UserFileDAO implements UserDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User getUser(int id) {
         synchronized(users) {
@@ -121,6 +127,9 @@ public class UserFileDAO implements UserDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User findByUsername(String username) {
         synchronized(users) {
@@ -133,6 +142,9 @@ public class UserFileDAO implements UserDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User createUser(User user) throws IOException {
         synchronized(users) {
@@ -143,6 +155,9 @@ public class UserFileDAO implements UserDAO {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User createHelper(String username, String password) throws IOException {
         synchronized(users) {
@@ -150,9 +165,12 @@ public class UserFileDAO implements UserDAO {
             users.put(newUser.getId(), newUser);
             save();
             return newUser;
+        }
     }
-}
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean deleteUser(int id) throws IOException {
         synchronized(users) {
@@ -164,7 +182,10 @@ public class UserFileDAO implements UserDAO {
             return false;
         }
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User updateUser(User user) throws IOException {
         synchronized(users) {

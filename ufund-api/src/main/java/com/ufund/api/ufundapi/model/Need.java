@@ -56,10 +56,22 @@ public class Need {
      */
     public String getName() {return name;}
 
+    /**
+     * Retrieves the type of the need
+     * @return The type of the need
+     */
     public String getType() { return type; }
-
+    
+    /**
+     * Retrieves the cost of the need
+     * @return The cost of the need
+     */
     public double getCost() { return cost; }
 
+    /**
+     * Retrieves the quantity of the need
+     * @return The quantity of the need
+     */
     public int getQuantity() { return quantity; }
 
     // Setters (needed for JSON updates)
@@ -70,10 +82,22 @@ public class Need {
      */
     public void setName(String name) {this.name = name;}
 
+    /**
+     * Sets the type of the need - necessary for JSON object to Java object deserialization
+     * @param type The type of the need
+     */
     public void setType(String type) { this.type = type; }
 
+    /**
+     * Sets the cost of the need - necessary for JSON object to Java object deserialization
+     * @param cost The cost of the need
+     */
     public void setCost(double cost) { this.cost = cost; }
 
+    /**
+     * Sets the quantity of the need - necessary for JSON object to Java object deserialization
+     * @param quantity The quantity of the need
+     */
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
     /**
