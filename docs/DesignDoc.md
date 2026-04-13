@@ -151,11 +151,21 @@ Both the Application and Data tiers are implemented using Java and the Spring Fr
 
 ### Overview of User Interface
 
-Our User Interface is relatively simple, and only consists of three different "pages". We first have our landing page which is our login page, and is relatively simple visually with only a box in the middle containing fields for entering username, password, and a login button. This page then is able to navigate to our helper page(shown below) and our admin page. These two are going to be quite similar, with the exception of admin not having a funding basket or checkout. The layout of the helper page shown below is going to be similar to our design theme for sprint 3. Both of these pages can route back to the login page using the logout button at the top.
+Our User Interface now includes a number of pages, including Home, Login, Helper Cuboard/Checkout, Helper Hippo List, Admin Cupboard, and Admin Hippo List. These routing and "what" the pages are is described below.
 
-![Our UI layout for helper page](UI_Example_Sprint2.png)
+The "landing page" for our application is the home page shown below. Users can see hippos live and also log in. The login UI is also displayed below and shows what the users sees after pressing the login button. This page is also always visible to users when logged in by navigating with the "Home" button.
 
-Above is our most complicated and most likely more traveled page, the user's "dashboard". It consists of many UI elements such as displaying current user and a logout button near the top. Along with this, much of the functionality lies in the needs list and funding basket. Both of these are made to be simple and clear, while also being a significant focus of the UI. One thing this layout screenshot does not show is the funding basket, which is collapsible to minimize clutter. The last feature of this layout is the search bar, which will dynamically refresh the list of needs when a user wants to search for a specific need.
+![Our Home Page](homepage.png)
+![Login Page](login.png)
+These are our two admin pages. Admins can define needs with the first UI below. Our second page for admins is the Hippos page, which allows them to add/remove hippos that need to be funded.
+![Admin Cupboard](admin_cupboard.png)
+![Admin Hippo View](admin_hippos.png)
+
+These are our two helper pages. With the first one, helpers can buy needs either generally, or for a selected hippo. These can be selected through the Hippo page, and when navigating back to the Funding page after selecting a hippo, there is a display on the screen showing which hippo you are funding while adding/purchasing needs.
+
+The second page, the hippo list for helpers, displays a list of all active hippos and has a button for users to select a hippo. After doing this there is a popup saying which hippo was just selected.
+![Helper Cupboard](helper_cupboard.png)
+![Helper Hippo View](helper_hippos.png)
 
 ### Presentation Tier
 > _**[Sprint 4]** Provide a summary of the Presentation Tier UI of your architecture.
