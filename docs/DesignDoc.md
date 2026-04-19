@@ -69,8 +69,10 @@ The system stores users, needs, baskets, and hippo information in files so that 
 The admin can create, update, and remove hippos, while helpers can view the list of hippos and choose which hippo they want to fund.
 
 ### Enhancements
-> _**[Sprint 4]** Describe what enhancements you have implemented for the project._
-As 
+**Enhancement 1: Hippo Selection and Display**
+Helpers can select a specific hippo to fund needs for, and the interface will display which hippo they are currently funding while they add needs to their basket and check out.
+**Enhancement 2: Hippos Map**
+The main page of the application includes a map that shows the locations of all active hippos, allowing users to see where the hippos are located and choose which ones they want to fund.
 
 ## U-Fund Domain Model
 
@@ -96,8 +98,8 @@ flowchart LR
     Admin -->|manages| Cupboard
     Admin -->|views| Backlog
 
-    Hippo -->|has| Need
-    Helper -->|chooses| Hippo
+    Hippo -->|associated with| Basket
+    Helper -->|chooses/funds| Hippo
 
     Basket -->|tracks selected needs| Backlog
     Checkout -->|updates funded needs in| Backlog
@@ -107,15 +109,11 @@ flowchart LR
 
 
 This section describes the application domain.
+>The main roles in the system are the admin and the helper. The admin manages the cupboard by creating, updating, and removing needs, >and also manages the hippos in the system. Helpers can view available needs, search for items, choose a hippo to support, add needs to >a funding basket, and check out to fund those needs.
 
-> Sprint 2 - High level overview of the domain
-> In the highest level of our domain heirarchy, we have our backend (ufund-api) and our frontend(ufund-ui/ufund-frontend). In our backend, 
-> we have our data directory, containing json files, which store our cupboard and user information for persistence. Along 
-> with this, inside src/main we have three layers: controller, model, and persistence. The last thing we have in our backend is our 
-> ApiApplication.
-> For our frontend, we have the basic angular project structure as well as a service class to interface with our backend conroller, as 
-> well as a main app module, which contains our admin/user modules, as well as their respective components. The last thing contained in 
-> our app module is a login module which will direct to a user/admin module after login.
+>The main domain concepts are the cupboard, needs, hippos, funding basket, checkout process, and data backlog. Needs are stored in the >cupboard and are associated with hippos. Helpers interact with these needs by selecting items to place in their funding basket and >then completing checkout. The checkout process funds the selected needs and updates the system’s stored information. The data backlog >represents the tracked information in the system, including available needs and funded items.
+
+Overall, the domain model shows the main concepts of the U-Fund system and how users interact with them at a conceptual level, without focusing on technical implementation details such as controllers, DAOs, or frontend components.
 
 
 ## Architecture and Design

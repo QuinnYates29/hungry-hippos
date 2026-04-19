@@ -22,6 +22,9 @@ export class HippoDashboard implements OnInit {
     this.fetchHippos();
   }
 
+  /**
+   * 
+   */
   fetchHippos(): void {
     this.loading = true;
     this.hippoService.getHippos().subscribe({
