@@ -285,11 +285,11 @@ sequenceDiagram
 ```
 
 
-> _**[Sprint 4]** To effectively illustrate the system, you should include static **class diagrams**  where they are relevant to your design. Some additional guidance is provided below:_
+<!-- > _**[Sprint 4]** To effectively illustrate the system, you should include static **class diagrams**  where they are relevant to your design. Some additional guidance is provided below:_
  >* _Class diagrams apply to the **Application** tier and more specifically within its relevant **Layers**._
 >* _A single class diagram of the entire system will not be effective. You may start with one, but will need to break it down into smaller sections to account for requirements of each of the Layer's static models below._
  >* _Correct labeling of relationships with proper notation for the relationship type, multiplicities, and navigation information will be important._
- >* _Include other details such as attributes and method signatures that you think are needed to support the level of detail in your discussion._
+ >* _Include other details such as attributes and method signatures that you think are needed to support the level of detail in your discussion._ -->
 
 ### Application Tier
 The Application Tier is the backend part of the system. It receives requests from the Angular frontend, handles the main actions of the system, and works with stored data. This tier includes controllers, model classes, and DAO components. The controllers handle requests, the model classes represent the main data, and the DAO components save and retrieve data.
@@ -627,6 +627,252 @@ HippoFileDAO --> hippos : reads/writes
 ### Data Tier
 The Data Tier is the part of the system responsible for storing and retrieving persistent data. In this project, data is stored in JSON files rather than in a database. This tier works closely with the persistence layer of the Application Tier, where the DAO implementations read from and write to these files. The Data Tier includes the JSON files that hold the cupboard needs, user information, funding baskets, and hippo information. These files are accessed and modified by the corresponding DAO classes in the persistence layer to ensure that changes made through the API layer are saved and can be retrieved in future sessions.
 > [Link to related classes](#persistence-layer)
+
+## Connected Application Class Diagram
+
+```mermaid
+classDiagram
+
+%% =========================
+%% API LAYER
+%% =========================
+class CupboardController {
+  -cupboardDAO: CupboardDAO
+  +CupboardController(cupboardDAO: CupboardDAO)
+  +getNeed(id: int)
+  +getNeeds()
+  +searchNeeds(name: String)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketController {
+  -basketDAO: BasketDAO
+  -cupboardDAO: CupboardDAO
+  +BasketController(basketDAO: BasketDAO, cupboardDAO: CupboardDAO)
+  +getBasket(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +checkout(userId: int)
+}
+
+class UserController {
+  -userDAO: UserDAO
+  +UserController(userDAO: UserDAO)
+  +getAllUsers()
+  +getUser(id: int)
+  +login(loginRequest: LoginRequest)
+  +createUser(username: String, password: String)
+}
+
+class HippoController {
+  -hippoDAO: HippoDAO
+  +HippoController(hippoDAO: HippoDAO)
+  +getAllHippos()
+  +getHippo(id: int)
+  +searchHippos(name: String)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+}
+
+class LoginRequest {
+  -username: String
+  -password: String
+  +LoginRequest(username: String, password: String)
+  +getUsername()
+  +getPassword()
+}
+
+%% =========================
+%% MODEL CLASSES
+%% =========================
+class Need
+class User
+class Hippo
+
+%% =========================
+%% DAO INTERFACES
+%% =========================
+class CupboardDAO {
+  <<interface>>
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketDAO {
+  <<interface>>
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
+}
+
+class UserDAO {
+  <<interface>>
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
+}
+
+class HippoDAO {
+  <<interface>>
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
+}
+
+%% =========================
+%% FILE DAO IMPLEMENTATIONS
+%% =========================
+class CupboardFileDAO {
+  -filename: String
+  -needs: Map~Integer, Need~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +CupboardFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getNeedsArray()
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketFileDAO {
+  -filename: String
+  -userBaskets: Map~Integer, Map~Integer, Need~~
+  -objectMapper: ObjectMapper
+  +BasketFileDAO(filename: String, objectMapper: ObjectMapper)
+  -save()
+  -load()
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
+}
+
+class UserFileDAO {
+  -filename: String
+  -users: Map~Integer, User~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +UserFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getUsersArray()
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
+}
+
+class HippoFileDAO {
+  -filename: String
+  -hippos: Map~Integer, Hippo~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +HippoFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getHipposArray()
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
+}
+
+%% =========================
+%% DATA FILES
+%% =========================
+class needs_json {
+  <<file>>
+}
+
+class basket_json {
+  <<file>>
+}
+
+class users_json {
+  <<file>>
+}
+
+class hippos_json {
+  <<file>>
+}
+
+%% =========================
+%% API -> DAO RELATIONSHIPS
+%% =========================
+CupboardController --> CupboardDAO : uses
+CupboardController --> Need : manages
+
+BasketController --> BasketDAO : uses
+BasketController --> CupboardDAO : uses
+BasketController --> Need : accepts / returns
+
+UserController --> UserDAO : uses
+UserController --> LoginRequest : accepts
+UserController --> User : returns
+
+HippoController --> HippoDAO : uses
+HippoController --> Hippo : accepts / returns
+
+%% =========================
+%% DAO -> MODEL RELATIONSHIPS
+%% =========================
+CupboardDAO --> Need : stores / returns
+BasketDAO --> Need : stores / returns
+UserDAO --> User : stores / returns
+HippoDAO --> Hippo : stores / returns
+
+%% =========================
+%% FILE DAO IMPLEMENTATIONS
+%% =========================
+CupboardFileDAO ..|> CupboardDAO
+BasketFileDAO ..|> BasketDAO
+UserFileDAO ..|> UserDAO
+HippoFileDAO ..|> HippoDAO
+
+%% =========================
+%% FILE DAO -> MODEL
+%% =========================
+CupboardFileDAO --> Need : accepts / returns
+BasketFileDAO --> Need : accepts / returns
+UserFileDAO --> User : accepts / returns
+HippoFileDAO --> Hippo : accepts / returns
+
+%% =========================
+%% FILE DAO -> DATA FILES
+%% =========================
+CupboardFileDAO --> needs_json : reads / writes
+BasketFileDAO --> basket_json : reads / writes
+UserFileDAO --> users_json : reads / writes
+HippoFileDAO --> hippos_json : reads / writes
+```
 
 
 ## OO Design Principles
