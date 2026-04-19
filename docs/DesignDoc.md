@@ -109,12 +109,9 @@ flowchart LR
 
 
 This section describes the application domain.
->The main roles in the system are the admin and the helper. The admin manages the cupboard by creating, updating, and removing needs, >and also manages the hippos in the system. Helpers can view available needs, search for items, choose a hippo to support, add needs to >a funding basket, and check out to fund those needs.
+>The main roles in the system are the admin and the helper. The admin manages the cupboard by creating, updating, and removing needs, and also manages the hippos in the system. Helpers can view available needs, search for items, choose a hippo to support, add needs to a funding basket, and check out to fund those needs.
 
->The main domain concepts are the cupboard, needs, hippos, funding basket, checkout process, and data backlog. Needs are stored in the >cupboard and are associated with hippos. Helpers interact with these needs by selecting items to place in their funding basket and >then completing checkout. The checkout process funds the selected needs and updates the system’s stored information. The data backlog >represents the tracked information in the system, including available needs and funded items.
-
-Overall, the domain model shows the main concepts of the U-Fund system and how users interact with them at a conceptual level, without focusing on technical implementation details such as controllers, DAOs, or frontend components.
-
+>The main domain concepts are the cupboard, needs, hippos, funding basket, checkout process, and data backlog. Needs are stored in the cupboard. Helpers interact with these needs by selecting items to place in their funding basket, selecting hippos to fund, and then completing checkout. The checkout process funds the selected needs and updates the system’s stored information. The data backlog represents the tracked information in the system, including available needs and funded items.
 
 ## Architecture and Design
 
@@ -123,10 +120,6 @@ This section describes the application architecture.
 ### Summary
 
 The following Tiers/Layers diagram shows a high-level view of the webapp's architecture. 
-**NOTE**: detailed diagrams are required in later sections of this document.
-> _**[Sprint 1]** (Augment this diagram with your **own** rendition and representations of sample system classes, placing them into the appropriate Component box (blue rectangle) inside the corresponding Layer. Focus on what is currently required to support **Sprint 1 - Demo requirements**. Make sure to describe your design choices in the corresponding _**Tier Section**_ and also in the _**OO Design Principles**_ section below.)_
-
-![The Tiers & Layers of the Architecture](architectural-model.png)
 
 The web application is built using the **Presentation**(frontend), **Application**(backend), **Data** tiered architecture. 
 
@@ -137,6 +130,61 @@ The Application (backend) tier exposes RESTful APIs, implements business logic, 
 The Data contains the mechanisms responsible for storing, retrieving, and managing the application’s data using low‑level storage systems.
 
 Both the Application and Data tiers are implemented using Java and the Spring Framework, with details of their internal components provided below.
+
+
+### Architectural Model
+
+```mermaid
+flowchart LR
+    %% Presentation Tier
+    subgraph PT[Presentation Tier]
+        direction TB
+        subgraph PL[Presentation Layer]
+            direction LR
+            VC[View Components<br/>LoginComponent<br/>HelperDashboardComponent<br/>AdminDashboardComponent]
+            CS[Client Services<br/>NeedsService<br/>HipposService<br/>UserService]
+        end
+    end
+
+    %% Application Tier
+    subgraph AT[Application Tier]
+        direction TB
+
+        subgraph API[API Layer]
+            direction LR
+            CTRL[Controllers<br/>UserController<br/>CupboardController<br/>BasketController<br/>HippoController]
+        end
+
+        subgraph BL[Business Layer]
+            direction LR
+            BUS[Business Logic<br/>Role handling<br/>Basket checkout<br/>Hippo selection<br/>Need management]
+            ENT[Entities / Models<br/>User<br/>Need<br/>Hippo]
+        end
+
+        subgraph PERS[Persistence Layer]
+            direction LR
+            DAO[DAO Interfaces<br/>UserDAO<br/>CupboardDAO<br/>BasketDAO<br/>HippoDAO]
+            FILEDAO[File DAO Classes<br/>UserFileDAO<br/>CupboardFileDAO<br/>BasketFileDAO<br/>HippoFileDAO]
+        end
+    end
+
+    %% Data Tier
+    subgraph DT[Data Tier]
+        direction TB
+        subgraph DL[Data Layer]
+            STORAGE[Data Storage<br/>users.json<br/>needs.json<br/>basket.json<br/>hippos.json]
+        end
+    end
+
+    VC --> CS
+    CS --> CTRL
+    CTRL --> BUS
+    CTRL --> ENT
+    BUS --> DAO
+    DAO --> FILEDAO
+    FILEDAO --> STORAGE
+```
+    
 
 
 ### Overview of User Interface
