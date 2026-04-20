@@ -3,10 +3,6 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
-> _The following template provides the headings for your Design
-> Documentation.  As you edit each section make sure you remove these
-> commentary 'blockquotes'; the lines that start with a > character
-> and appear in the generated PDF in italics but do so only **after** all team members agree that the requirements for that section and current Sprint have been met. **Do not** delete future Sprint expectations._
 
 ## Team Information
 * Team name: 1a Codemonkeys
@@ -24,7 +20,6 @@ This is a summary of the project.
 Our project is a mutli-paged web application for our UFund campaign **Hungry Hippos**. It allows users to log in, along with an admin role and helper role. The admin can define what **Needs** they require for feeding their hippos, and helpers can fund those **Needs**.
 
 ### Glossary and Acronyms
-> _**[Sprint 2 & 4]** Provide a table of terms and acronyms._
 
 | Term | Definition |
 |------|------------|
@@ -40,91 +35,83 @@ Our project is a mutli-paged web application for our UFund campaign **Hungry Hip
 
 This section describes the features of the application.
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
-
 ### Definition of MVP
 The MVP for this project is a simple web app where users can log in with just a username (no real security), with “admin” acting as the manager and all other users as helpers. Helpers can browse, search, and fund needs by adding them to a basket and checking out, while the manager can create, edit, and remove needs. All data is saved to files so changes persist between sessions, even after logging out.
 
 ### MVP Features
->  _**[Sprint 4]** Provide a list of top-level Epics and/or Stories of the MVP._
+
+**Epic 1: User Login and Role Access**  
+
+Users can log in to the application and are directed to the correct interface based on whether they are an admin or a helper.
+
+**Epic 2: View and Search Needs**  
+
+Helpers can view the list of available needs in the cupboard and search for specific needs.
+
+**Epic 3: Manage Funding Basket**  
+
+Helpers can add needs to a funding basket, remove needs from the basket, and review the basket before checkout.
+
+**Epic 4: Fund Needs Through Checkout**  
+
+Helpers can check out their basket to fund selected needs.
+
+**Epic 5: Manage Needs**  
+
+The admin can create, update, and delete needs in the cupboard.
+
+**Epic 6: Persistent Data Storage**  
+
+The system stores users, needs, baskets, and hippo information in files so that data is preserved between sessions.
+
+**Epic 7: Manage and View Hippos**
+
+The admin can create, update, and remove hippos, while helpers can view the list of hippos and choose which hippo they want to fund.
 
 ### Enhancements
-> _**[Sprint 4]** Describe what enhancements you have implemented for the project._
+**Enhancement 1: Hippo Selection and Display**
+Helpers can select a specific hippo to fund needs for, and the interface will display which hippo they are currently funding while they add needs to their basket and check out.
+**Enhancement 2: Hippos Map**
+The main page of the application includes a map that shows the locations of all active hippos, allowing users to see where the hippos are located and choose which ones they want to fund.
 
-
-## Application Domain
+## U-Fund Domain Model
 
 ```mermaid
-classDiagram
-%% ------------------ FRONTEND ------------------
-class AppModule
-class AppRoutingModule
-class AppComponent
-class AppCSS
-class StylesCSS
+flowchart LR
+    Helper[Helper]
+    Admin[Admin]
+    Need[Need]
+    Cupboard[Cupboard]
+    Basket[Funding Basket]
+    Checkout[Checkout]
+    Hippo[Hippo]
+    Backlog[Data Backlog]
 
-AppModule --> AppComponent
-AppModule --> AppRoutingModule
-AppComponent --> AppCSS
-AppModule --> StylesCSS
+    Helper -->|views and selects| Need
+    Need -->|stored in| Cupboard
+    Helper -->|adds needs to| Basket
+    Basket -->|contains| Need
+    Helper -->|checks out through| Checkout
+    Checkout -->|funds| Need
 
-%% Admin
-class AdminModule
-class AdminRoutingModule
-class DashboardComponent
-AdminModule --> AdminRoutingModule
-AdminModule --> DashboardComponent
+    Admin -->|creates / updates / removes| Need
+    Admin -->|manages| Cupboard
+    Admin -->|views| Backlog
 
-%% Login
-class LoginComponent
+    Hippo -->|associated with| Basket
+    Helper -->|chooses/funds| Hippo
 
-%% Services
-class NeedsService
-AppModule --> NeedsService
+    Basket -->|tracks selected needs| Backlog
+    Checkout -->|updates funded needs in| Backlog
+    Cupboard -->|updates availability in| Backlog
+  ```
 
-%% ------------------ BACKEND ------------------
-class NeedsJSON
-class UfundApiApplication
-class WebConfig
 
-%% Controllers
-class CupboardController
-
-%% Models
-class Need
-
-%% Persistence
-class CupboardDAO
-class CupboardFileDAO
-
-%% Tests
-class CupboardControllerTest
-class UfundApiApplicationTests
-
-%% Connections
-NeedsService --> CupboardController
-CupboardController --> Need
-CupboardController --> CupboardDAO
-CupboardDAO <|-- CupboardFileDAO
-UfundApiApplication --> CupboardController
-UfundApiApplication --> WebConfig
-CupboardControllerTest --> CupboardController
-UfundApiApplicationTests --> UfundApiApplication
-```
 
 This section describes the application domain.
+>The main roles in the system are the admin and the helper. The admin manages the cupboard by creating, updating, and removing needs, and also manages the hippos in the system. Helpers can view available needs, search for items, choose a hippo to support, add needs to a funding basket, and check out to fund those needs.
 
-> Sprint 2 - High level overview of the domain
-> In the highest level of our domain heirarchy, we have our backend (ufund-api) and our frontend(ufund-ui/ufund-frontend). In our backend, 
-> we have our data directory, containing json files, which store our cupboard and user information for persistence. Along 
-> with this, inside src/main we have three layers: controller, model, and persistence. The last thing we have in our backend is our 
-> ApiApplication.
-> For our frontend, we have the basic angular project structure as well as a service class to interface with our backend conroller, as 
-> well as a main app module, which contains our admin/user modules, as well as their respective components. The last thing contained in 
-> our app module is a login module which will direct to a user/admin module after login.
-
+>The main domain concepts are the cupboard, needs, hippos, funding basket, checkout process, and data backlog. Needs are stored in the cupboard. Helpers interact with these needs by selecting items to place in their funding basket, selecting hippos to fund, and then completing checkout. The checkout process funds the selected needs and updates the system’s stored information. The data backlog represents the tracked information in the system, including available needs and funded items.
 
 ## Architecture and Design
 
@@ -133,10 +120,6 @@ This section describes the application architecture.
 ### Summary
 
 The following Tiers/Layers diagram shows a high-level view of the webapp's architecture. 
-**NOTE**: detailed diagrams are required in later sections of this document.
-> _**[Sprint 1]** (Augment this diagram with your **own** rendition and representations of sample system classes, placing them into the appropriate Component box (blue rectangle) inside the corresponding Layer. Focus on what is currently required to support **Sprint 1 - Demo requirements**. Make sure to describe your design choices in the corresponding _**Tier Section**_ and also in the _**OO Design Principles**_ section below.)_
-
-![The Tiers & Layers of the Architecture](architectural-model.png)
 
 The web application is built using the **Presentation**(frontend), **Application**(backend), **Data** tiered architecture. 
 
@@ -147,6 +130,61 @@ The Application (backend) tier exposes RESTful APIs, implements business logic, 
 The Data contains the mechanisms responsible for storing, retrieving, and managing the application’s data using low‑level storage systems.
 
 Both the Application and Data tiers are implemented using Java and the Spring Framework, with details of their internal components provided below.
+
+
+### Architectural Model
+
+```mermaid
+flowchart LR
+    %% Presentation Tier
+    subgraph PT[Presentation Tier]
+        direction TB
+        subgraph PL[Presentation Layer]
+            direction LR
+            VC[View Components<br/>LoginComponent<br/>HelperDashboardComponent<br/>AdminDashboardComponent]
+            CS[Client Services<br/>NeedsService<br/>HipposService<br/>UserService]
+        end
+    end
+
+    %% Application Tier
+    subgraph AT[Application Tier]
+        direction TB
+
+        subgraph API[API Layer]
+            direction LR
+            CTRL[Controllers<br/>UserController<br/>CupboardController<br/>BasketController<br/>HippoController]
+        end
+
+        subgraph BL[Business Layer]
+            direction LR
+            BUS[Business Logic<br/>Role handling<br/>Basket checkout<br/>Hippo selection<br/>Need management]
+            ENT[Entities / Models<br/>User<br/>Need<br/>Hippo]
+        end
+
+        subgraph PERS[Persistence Layer]
+            direction LR
+            DAO[DAO Interfaces<br/>UserDAO<br/>CupboardDAO<br/>BasketDAO<br/>HippoDAO]
+            FILEDAO[File DAO Classes<br/>UserFileDAO<br/>CupboardFileDAO<br/>BasketFileDAO<br/>HippoFileDAO]
+        end
+    end
+
+    %% Data Tier
+    subgraph DT[Data Tier]
+        direction TB
+        subgraph DL[Data Layer]
+            STORAGE[Data Storage<br/>users.json<br/>needs.json<br/>basket.json<br/>hippos.json]
+        end
+    end
+
+    VC --> CS
+    CS --> CTRL
+    CTRL --> BUS
+    CTRL --> ENT
+    BUS --> DAO
+    DAO --> FILEDAO
+    FILEDAO --> STORAGE
+```
+    
 
 
 ### Overview of User Interface
@@ -168,111 +206,151 @@ The second page, the hippo list for helpers, displays a list of all active hippo
 ![Helper Hippo View](helper_hippos.png)
 
 ### Presentation Tier
-> _**[Sprint 4]** Provide a summary of the Presentation Tier UI of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
+In out ptoject the Presentation Tier in this project is the frontend part of the system and is implemented using Angular. It is responsible for displaying the user interface and allowing users to interact with the main features of the application. This tier includes modules, components, routing, and service classes that work together to display information and send user requests to the backend. The main components in this tier support both helper and admin interactions. For example, the login component allows users to sign in and directs them to the correct interface based on their role. The helper dashboard allows users to view available needs, search for items in the cupboard, view the list of hippos, choose a hippo for checkout, manage their funding basket, and complete checkout. The admin dashboard allows admins to create, update, and remove needs and manage hippos. Service classes in the Presentation Tier are responsible for communicating with the backend API. When a user performs an action in the interface, such as searching for a need or adding an item to the funding basket, the appropriate Angular service sends an HTTP request to the backend and returns the response to the component so the interface can be updated. Overall, the Presentation Tier provides the visible interface of the system and is the place where user actions begin.
 
-> _**[Sprint 4]** You must  provide at least **2 sequence diagrams** as is relevant to a particular aspects 
-> of the design that you are describing.  (**For example**, in a shopping experience application you might create a 
-> sequence diagram of a customer searching for an item and adding to their cart.)
-> As these can span multiple tiers, be sure to include the round-trip, starting at an HTTP request from the client-side (frontend), covering steps through the server-side (backend) and reaching data storage
-> to help illustrate the end-to-end flow._
+## Sequence Diagram: Customer searches for a need and adds it to the funding basket
 
-> _**[Sprint 4]** To effectively illustrate the system, you should include static **class diagrams**  where they are relevant to your design. Some additional guidance is provided below:_
+### Description
+This sequence diagram shows a customer searching for a need in the Angular frontend and then adding a selected need to the funding basket.
+
+### Sequence Diagram
+```mermaid
+sequenceDiagram
+    actor customer as customer:Customer
+    participant ui as ui:AngularUI
+    participant needController as needController:NeedController
+    participant needDao as needDao:NeedDAO
+    participant basketController as basketController:BasketController
+    participant basketDao as basketDao:BasketDAO
+
+    customer->>ui: Enter search keyword
+    ui->>needController: GET /needs?name=name
+    note over needController: searchNeeds(name)
+    needController->>needDao: findNeeds(conatainsText)
+    needDao-->>needController: matchingNeeds
+    needController-->>ui: 200 OK + matchingNeeds
+    ui-->>customer: Display matching needs
+
+
+    customer->>ui: Select need and click "Add to Basket"
+    ui->>basketController: POST /basket/{userId}
+    note over basketController: addToBasket(userId, needId)
+    basketController->>basketDao: addToBasket(userId, needId)
+
+    alt current basket exists
+        basketDao->>basketDao: get current basket
+    else current basket is null
+        basketDao->>basketDao: create new basket map
+    end
+
+    basketDao->>basketDao: put(needId, need)
+    basketDao->>basketDao: save()
+    basketDao-->>basketController: addedNeed
+    basketController-->>ui: 201 Created + addedNeed
+    ui-->>customer: Display the basket with the added nee
+```
+## Sequence Diagram: Admin creates a need and it appears in the cupboard
+### Description
+This sequence diagram shows an admin user creating a new need through the Angular frontend, which then gets added to the cupboard and becomes visible to all users.
+### Sequence Diagram
+```mermaid
+sequenceDiagram
+    actor admin as admin:Admin
+    participant ui as ui:AngularUI
+    participant cupboardController as cupboardController:CupboardController
+    participant cupboardDao as cupboardDao:CupboardDAO
+
+    admin->>ui: Fill out need creation form
+    admin->>ui: Click Create button
+    ui->>cupboardController: POST /cupboard with need data
+    note over cupboardController: createNeed(need)
+
+    cupboardController->>cupboardDao: createNeed(need)
+    cupboardDao->>cupboardDao: load()
+    cupboardDao->>cupboardDao: getNeedsArray()
+    cupboardDao->>cupboardDao: nextId()
+    cupboardDao->>cupboardDao: add new need to array
+    cupboardDao->>cupboardDao: save()
+    cupboardDao-->>cupboardController: createdNeed
+
+    cupboardController-->>ui: 201 Created + createdNeed
+    ui-->>admin: Display success message
+
+    ui->>cupboardController: GET /cupboard
+    note over cupboardController: getNeeds()
+    cupboardController->>cupboardDao: getNeeds()
+    cupboardDao-->>cupboardController: allNeeds
+    cupboardController-->>ui: 200 OK + allNeeds
+    ui-->>admin: Display updated cupboard with new need
+```
+
+
+<!-- > _**[Sprint 4]** To effectively illustrate the system, you should include static **class diagrams**  where they are relevant to your design. Some additional guidance is provided below:_
  >* _Class diagrams apply to the **Application** tier and more specifically within its relevant **Layers**._
 >* _A single class diagram of the entire system will not be effective. You may start with one, but will need to break it down into smaller sections to account for requirements of each of the Layer's static models below._
  >* _Correct labeling of relationships with proper notation for the relationship type, multiplicities, and navigation information will be important._
- >* _Include other details such as attributes and method signatures that you think are needed to support the level of detail in your discussion._
+ >* _Include other details such as attributes and method signatures that you think are needed to support the level of detail in your discussion._ -->
 
 ### Application Tier
-> _**[Sprint 4]** Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the Presentation
-> Tier above._
-> 
+The Application Tier is the backend part of the system. It receives requests from the Angular frontend, handles the main actions of the system, and works with stored data. This tier includes controllers, model classes, and DAO components. The controllers handle requests, the model classes represent the main data, and the DAO components save and retrieve data.
 #### API Layer
-**[Sprint 1, 4]** Provide a summary of this architectural layer.
-> Sprint 1: The API layer is simple, consisting of a controller class which allows access to our initial cupboard. It allows us to add/remove/edit/access needs stored in the cupboard as a developer.
+The API layer handles HTTP requests from the Angular frontend and connects them to the rest of the backend system. It is made up of controller classes that define REST endpoints for the main features of the application. These controllers process requests, call the needed DAO components, and return responses to the frontend.
 
-**CupboardController.Java**
-> This class represents the access to our cupboard Data Access Object and implements behaviors the admin can access via HTTP requests.
+**CupboardController.java**
 
-**BasketController.Java**
-> This class represents the access to our funding basket Data Access Object and implements the behaviors a user can use to view/edit/remove Needs
-> to/from their funding basket.
+This controller handles requests related to needs in the cupboard. It allows users to view and search for needs, and it allows the admin to create, update, and delete needs.
 
-**UserController.Java**
-> This class represents access to our user Data Access Object and implements methdods for accessing user data. This is primarily used by the system
-> for user authorization and data persistence.
+**BasketController.java**
 
-> _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
-> static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
+This controller handles requests related to the funding basket. It allows helpers to view their basket, add needs to it, remove needs from it, and checkout to fund the needs.
+
+**UserController.java**
+
+This controller handles requests related to user management. It allows users to log in to existing accounts and create new user accounts. It also determines whether a user is an admin or a helper.
+
+**HippoController.java**
+
+This controller handles requests related to hippos. It allows the admin to view, add, and remove hippos, and it allows helpers to view the list of hippos and choose one to fund needs for.
+
+#### API Layer Class Diagram
+###### CupboardController
 
 ```mermaid
 classDiagram
-
 class CupboardController {
-  +getNeed(id)
+  -cupboardDAO: CupboardDAO
+  +BasketController(basketDAO: BasketDAO, cupboardDAO: CupboardDAO)
+  +getNeed(id: int)
   +getNeeds()
-  +searchNeeds(name)
-  +createNeed(need)
-  +updateNeed(need)
-  +deleteNeed(id)
+  +searchNeeds(name: String)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
 }
-
-class UserController {
-  +getAllUsers()
-  +getUser(id)
-  +login(request)
-  +createUser(username, password)
-}
-
-class LoginRequest
-
-class BasketController {
-  +getBasket(userid)
-  +addToBasket(userid, need)
-  +removeFromBasket(userid, needId)
-  +checkout(userId)
-}
-
-class HippoController.java {
-  
-}
-
-UserController --> LoginRequest
-```
-
-#### Business Layer
-**[Sprint 1, 4]** Provide a summary of this architectural layer.
-> Sprint 2: Since the business logic required for our current project is relatively simple, our business layer is not entirely seperated from our API layer. Most of our very simple business logic is simply contained inside the controller functions and classes defined above.
-> [Link to related classes](#api-layer)
-
-> _At appropriate places as part of this narrative provide **one** or more updated and **properly labeled**
-> static models (UML class diagrams) with some details such as associations (connections) between classes, and critical attributes and methods. (**Be sure** to revisit the Static **UML Review Sheet** to ensure your class diagrams are using correct format and syntax.)_
-
-#### Persistence Layer
-**[Sprint 1, 4]** Provide a summary of this architectural layer.
-> Our persistence layer naturally relates closely to the API and Business layer, but implements data access to our json files used for storage and persistence.
-
-**BasketFileDAO** 
-> This class implements the actions defined in BasketDAO and accesses the basket.json file storing all funding basket information. It implements actions such as add/remove/get a need from each given basket.
-
-**CupboardFileDAO**
-> This class implements the actions defined in CupboardDAO and accesses the needs.json file storing all needs contained in the cupboard. It also implements actions relating to the cupboard such as search/get/add/remove/edit a need in the file.
-
-**UserFileDAO**
-> This class implements the actions defined in UserDAO and accesses the users.json file storing all user information. It allows for adding/removing/verifying user information.
-
-```mermaid
-classDiagram
-
-%% Interfaces
-class BasketDAO {
+class CupboardDAO {
   <<interface>>
 }
 
-class UserDAO {
+class Need 
+
+CupboardController --> CupboardDAO : uses
+CupboardController --> Need : manages
+```
+###### BasketController
+
+```mermaid
+classDiagram
+class BasketController {
+  -basketDAO: BasketDAO
+  -cupboardDAO: CupboardDAO
+  +BasketController(basketDAO: BasketDAO, cupboardDAO: CupboardDAO)
+  +getBasket(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +checkout(userId: int)
+}
+
+class BasketDAO {
   <<interface>>
 }
 
@@ -280,64 +358,460 @@ class CupboardDAO {
   <<interface>>
 }
 
+class Need
+
+BasketController --> BasketDAO : uses
+BasketController --> CupboardDAO : uses
+BasketController --> Need : accepts/returns
+```
+
+###### UserController
+
+```mermaid
+classDiagram
+class UserController {
+  -userDAO: UserDAO
+  +UserController(userDAO: UserDAO)
+  +getAllUsers()
+  +getUser(id: int)
+  +login(loginrequest: LoginRequest)
+  +createUser(username: String, password: String)
+}
+
+class LoginRequest {
+    -username: String
+    -password: String
+    LoginRequest(username: String, password: String)
+    +getUsername()
+    +getPassword()
+}
+
+class UserDAO {
+  <<interface>>
+}
+
+class User
+
+UserController --> UserDAO : uses
+UserController --> User : returns
+UserController --> LoginRequest : uses
+```
+
+###### HippoController
+
+```mermaid
+classDiagram
+class HippoController {
+  -hippoDAO: HippoDAO
+  +HippoController(hippoDAO: HippoDAO)
+  +getAllHippos()
+  +getHippo(id: int)
+  +searchHippos(name: String)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+}
+
 class HippoDAO {
   <<interface>>
 }
 
-%% Implementations
+class Hippo
+
+HippoController --> HippoDAO : uses
+HippoController --> Hippo : accepts/returns
+```
+
+
+
+
+#### Business Layer
+The Business Layer contains the main rules and logic of the system. In this project, a separate Business Layer was not created because the required logic is relatively simple. Instead, the main system logic is handled within the API layer and model classes.
+For example, the controller classes handle actions such as user login, determining whether a user is an admin or a helper, adding needs to a basket, and checking out funded needs. Because these operations are straightforward, the project does not currently include separate service or business classes.As a result, no separate class diagram is provided for the Business Layer. The related logic is represented in the API Layer class diagrams above.
+> [Link to related classes](#api-layer)
+
+#### Persistence Layer
+Our persistence layer naturally relates closely to the API and Business layer, but implements data access to our json files used for storage and persistence.
+
+**BasketFileDAO** 
+
+This class implements the actions defined in BasketDAO and accesses the basket.json file storing all funding basket information. It implements actions such as add/remove/get a need from each given basket.
+
+**CupboardFileDAO**
+
+This class implements the actions defined in CupboardDAO and accesses the needs.json file storing all needs contained in the cupboard. It also implements actions relating to the cupboard such as search/get/add/remove/edit a need in the file.
+
+**UserFileDAO**
+
+This class implements the actions defined in UserDAO and accesses the users.json file storing all user information. It allows for adding/removing/verifying user information.
+
+**HippoFileDAO**
+
+This class implements the actions defined in HippoDAO and accesses the hippos.json file storing all hippo information. It allows for adding/removing/editing hippo information.
+
+#### Persistence Layer Class Diagram
+
+###### BasketFileDAO
+
+```mermaid
+classDiagram
 class BasketFileDAO {
+  -filename: String
+  -userBaskets: Map~Integer, Map~Integer, Need~~
+  -objectMapper: ObjectMapper
+  +BasketFileDAO(filename: String, objectMapper: ObjectMapper)
   -save()
   -load()
-  +getNeeds(userId)
-  +addToBasket(userId, need)
-  +removeFromBasket(userId, need)
-  +clearBasket(userId)
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
+}
+
+class BasketDAO {
+  <<interface>>
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
+}
+
+class Need
+
+class basket{
+  <<file>>
+}
+
+BasketFileDAO ..|> BasketDAO
+BasketFileDAO --> Need : accepts / returns
+BasketFileDAO --> basket : reads/writes
+```
+
+###### CupboardFileDAO
+
+```mermaid
+classDiagram
+class CupboardFileDAO {
+  -filename: String
+  -needs: Map~Integer, Need~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +CupboardFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getNeedsArray()
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class CupboardDAO {
+  <<interface>>
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class Need
+
+class needs{
+  <<file>>
+}
+
+CupboardFileDAO ..|> CupboardDAO
+CupboardFileDAO --> Need : accepts / returns
+CupboardFileDAO --> needs : reads/writes
+```
+
+###### UserFileDAO
+
+```mermaid
+classDiagram
+class UserFileDAO {
+  -filename: String
+  -users: Map~Integer, User~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +UserFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getUsersArray()
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
+}
+
+class UserDAO {
+  <<interface>>
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
+}
+
+class User
+
+class users{
+  <<file>>
+}
+
+UserFileDAO ..|> UserDAO
+UserFileDAO --> User : accepts / returns
+UserFileDAO --> users : reads/writes
+```
+
+###### HippoFileDAO
+
+```mermaid
+classDiagram
+class HippoFileDAO {
+  -filename: String
+  -hippos: Map~Integer, Hippo~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +HippoFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getHipposArray()
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
+}
+
+class HippoDAO {
+  <<interface>>
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
+}
+
+class Hippo
+
+class hippos{
+  <<file>>
+}
+
+HippoFileDAO ..|> HippoDAO
+HippoFileDAO --> Hippo : accepts / returns
+HippoFileDAO --> hippos : reads/writes
+```
+
+
+
+
+
+
+
+### Data Tier
+The Data Tier is the part of the system responsible for storing and retrieving persistent data. In this project, data is stored in JSON files rather than in a database. This tier works closely with the persistence layer of the Application Tier, where the DAO implementations read from and write to these files. The Data Tier includes the JSON files that hold the cupboard needs, user information, funding baskets, and hippo information. These files are accessed and modified by the corresponding DAO classes in the persistence layer to ensure that changes made through the API layer are saved and can be retrieved in future sessions.
+> [Link to related classes](#persistence-layer)
+
+## Connected Application Class Diagram
+
+```mermaid
+classDiagram
+
+%% =========================
+%% API LAYER
+%% =========================
+class CupboardController {
+  -cupboardDAO: CupboardDAO
+  +CupboardController(cupboardDAO: CupboardDAO)
+  +getNeed(id: int)
+  +getNeeds()
+  +searchNeeds(name: String)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketController {
+  -basketDAO: BasketDAO
+  -cupboardDAO: CupboardDAO
+  +BasketController(basketDAO: BasketDAO, cupboardDAO: CupboardDAO)
+  +getBasket(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +checkout(userId: int)
+}
+
+class UserController {
+  -userDAO: UserDAO
+  +UserController(userDAO: UserDAO)
+  +getAllUsers()
+  +getUser(id: int)
+  +login(loginRequest: LoginRequest)
+  +createUser(username: String, password: String)
+}
+
+class HippoController {
+  -hippoDAO: HippoDAO
+  +HippoController(hippoDAO: HippoDAO)
+  +getAllHippos()
+  +getHippo(id: int)
+  +searchHippos(name: String)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+}
+
+class LoginRequest {
+  -username: String
+  -password: String
+  +LoginRequest(username: String, password: String)
+  +getUsername()
+  +getPassword()
+}
+
+%% =========================
+%% MODEL CLASSES
+%% =========================
+class Need
+class User
+class Hippo
+
+%% =========================
+%% DAO INTERFACES
+%% =========================
+class CupboardDAO {
+  <<interface>>
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketDAO {
+  <<interface>>
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
+}
+
+class UserDAO {
+  <<interface>>
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
+}
+
+class HippoDAO {
+  <<interface>>
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
+}
+
+%% =========================
+%% FILE DAO IMPLEMENTATIONS
+%% =========================
+class CupboardFileDAO {
+  -filename: String
+  -needs: Map~Integer, Need~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +CupboardFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getNeedsArray()
+  +getNeeds()
+  +findNeeds(containsText: String)
+  +getNeed(id: int)
+  +createNeed(need: Need)
+  +updateNeed(need: Need)
+  +deleteNeed(id: int)
+}
+
+class BasketFileDAO {
+  -filename: String
+  -userBaskets: Map~Integer, Map~Integer, Need~~
+  -objectMapper: ObjectMapper
+  +BasketFileDAO(filename: String, objectMapper: ObjectMapper)
+  -save()
+  -load()
+  +getNeeds(userId: int)
+  +addToBasket(userId: int, need: Need)
+  +removeFromBasket(userId: int, needId: int)
+  +clearBasket(userId: int)
 }
 
 class UserFileDAO {
-  - __nextId() int__
-  - getUsersArray() User[]
-  - save() boolean
-  - load() boolean
-  + getUsers() User[]
-  + getUser(id) User
-  + findByUsername(username) User
-  - createUser(user) User
-  + createHelper(username, password) User
-  + deleteUser(id) boolean
-  +updateUser(user) User
-}
-
-class CupboardFileDAO {
-  - __nextId() int__
-  - getNeedsArray() Need[]
-  - getNeedsArray(containsText) Need[]
-  - save() boolean
-  - load() boolean
-  + getNeeds() Need[] 
-  + findNeeds(containsText) Need[]
-  + getNeed(id) Need
-  + createNeed(need) Need
-  + updateNeed(need) Need
-  + deleteNeed(id) boolean
+  -filename: String
+  -users: Map~Integer, User~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +UserFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getUsersArray()
+  +getUsers()
+  +getUser(id: int)
+  +findByUsername(username: String)
+  +createUser(user: User)
+  +createHelper(username: String, password: String)
+  +deleteUser(id: int)
+  +updateUser(user: User)
 }
 
 class HippoFileDAO {
-
+  -filename: String
+  -hippos: Map~Integer, Hippo~
+  -objectMapper: ObjectMapper
+  -nextId: int
+  +HippoFileDAO(filename: String, objectMapper: ObjectMapper)
+  -nextId(): int
+  -save()
+  -load()
+  -getHipposArray()
+  +getHippos()
+  +getHippo(id: int)
+  +createHippo(hippo: Hippo)
+  +updateHippo(hippo: Hippo)
+  +deleteHippo(id: int)
+  +findHippo(containsText: String)
 }
 
-%% Domain Models
-class Need {
+%% =========================
+%% DATA FILES
+%% =========================
+class needs_json {
+  <<file>>
 }
 
-class User {
-}
-
-class Hippo {
-
-}
-
-%% File Resources (represented as classes for diagram clarity)
 class basket_json {
   <<file>>
 }
@@ -346,39 +820,61 @@ class users_json {
   <<file>>
 }
 
-class needs_json {
-  <<file>>
-}
-
 class hippos_json {
   <<file>>
 }
 
-%% Interface Implementations
+%% =========================
+%% API -> DAO RELATIONSHIPS
+%% =========================
+CupboardController --> CupboardDAO : uses
+CupboardController --> Need : manages
+
+BasketController --> BasketDAO : uses
+BasketController --> CupboardDAO : uses
+BasketController --> Need : accepts / returns
+
+UserController --> UserDAO : uses
+UserController --> LoginRequest : accepts
+UserController --> User : returns
+
+HippoController --> HippoDAO : uses
+HippoController --> Hippo : accepts / returns
+
+%% =========================
+%% DAO -> MODEL RELATIONSHIPS
+%% =========================
+CupboardDAO --> Need : stores / returns
+BasketDAO --> Need : stores / returns
+UserDAO --> User : stores / returns
+HippoDAO --> Hippo : stores / returns
+
+%% =========================
+%% FILE DAO IMPLEMENTATIONS
+%% =========================
+CupboardFileDAO ..|> CupboardDAO
 BasketFileDAO ..|> BasketDAO
 UserFileDAO ..|> UserDAO
-CupboardFileDAO ..|> CupboardDAO
 HippoFileDAO ..|> HippoDAO
 
-%% File Access Relationships
-BasketFileDAO --> basket_json : reads/writes
-UserFileDAO --> users_json : reads/writes
-CupboardFileDAO --> needs_json : reads/writes
-HippoFileDAO --> hippos_json : reads/writes
+%% =========================
+%% FILE DAO -> MODEL
+%% =========================
+CupboardFileDAO --> Need : accepts / returns
+BasketFileDAO --> Need : accepts / returns
+UserFileDAO --> User : accepts / returns
+HippoFileDAO --> Hippo : accepts / returns
 
-%% Domain Usage
-BasketFileDAO --> Need
-CupboardFileDAO --> Need
-UserFileDAO --> User
-HippoFileDAO --> Hippo
+%% =========================
+%% FILE DAO -> DATA FILES
+%% =========================
+CupboardFileDAO --> needs_json : reads / writes
+BasketFileDAO --> basket_json : reads / writes
+UserFileDAO --> users_json : reads / writes
+HippoFileDAO --> hippos_json : reads / writes
 ```
 
 
-### Data Tier
-> _**[Sprint 1, 4]** Provide a summary of this tier of your architecture. This
-> section will follow the same instructions that are given for the Presentation
-> Tier above._
-> 
 ## OO Design Principles
 
 In our design, we focused on a few key Object-Oriented principles to keep the system clean and easy to maintain.
@@ -428,10 +924,6 @@ The `<label>` element is missing a connection to its corresponding input field, 
 > Sprint 3: We have now passed all of our acceptacnce criteria for sprint 3 aswell. Each criteria has been tested by every member of the team to ensure no small bugs were missed.
 
 ### Unit Testing and Code Coverage
-> _**[Sprint 4]** Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets._
 
 > **[Sprint 3]** As of sprint 3, we have added an extra model for our Hippo data, and implemented testing for this. Our overall test coverage is still above 90% after these changes.
 
