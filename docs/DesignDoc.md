@@ -877,15 +877,31 @@ HippoFileDAO --> hippos_json : reads / writes
 
 ## OO Design Principles
 
-In our design, we focused on a few key Object-Oriented principles to keep the system clean and easy to maintain.
+In our design, we focused on several key Object-Oriented principles to keep the system clean, maintainable, and consistent across the Presentation, Application, and Data tiers.
 
-We applied Encapsulation by keeping data and behavior within the same classes. For example, Need and User store their own data, while classes like CupboardFileDAO and UserFileDAO handle all file interactions internally, preventing other parts of the system from directly accessing JSON files.
+### **Encapsulation**
+> **Application Tier:** `Need`, `User`, and `Hippo` models store their own data, while classes like `CupboardFileDAO` handle all file interactions internally. This prevents controllers from directly accessing or understanding the structure of the JSON files.
 
-We also used Abstraction through interfaces like CupboardDAO, UserDAO, and BasketDAO. These define what actions can be performed without exposing how they are implemented, allowing controllers such as CupboardController to work with data without worrying about storage details.
+> **Presentation Tier:** Angular components encapsulate their own UI logic and styles. For instance, the `BasketComponent` manages the state of the user's current selection without exposing those internal details to the rest of the application.
 
-Finally, we followed the Single Responsibility Principle (SRP) by giving each class one clear role. Controllers handle requests, DAO classes manage data, and models represent the data itself, making the system easier to understand and modify.
+### **Abstraction**
+> **Application Tier:** We utilized interfaces like `CupboardDAO`, `UserDAO`, and `BasketDAO`. These define *what* actions can be performed (e.g., `getNeeds()`) without exposing *how* they are implemented, allowing `CupboardController` to work with data without being tied to a specific storage format.
 
-> _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
+> **Presentation Tier:** Angular Services (like `NeedsService`) abstract the complexity of HTTP communication. Components simply call service methods to get data, remaining "blind" to the backend's REST API structure and endpoints.
+
+### **Single Responsibility Principle (SRP)**
+
+> **Application Tier:** Controllers are strictly responsible for handling web requests and responses, DAO classes focus solely on data persistence in JSON files, and Models represent the data structure itself.
+
+> **Presentation Tier:** We separate the logic for "how things look" (Components) from the logic for "how data is fetched" (Services). This ensures that a change in the UI layout doesn't require a change in how we talk to the backend.
+
+### **Dependency Injection (DI)**
+
+> **Application Tier:** Spring Boot automatically injects the correct DAO implementations into our Controllers. This makes the system more modular, as the Controller doesn't need to manually instantiate its dependencies.
+
+> **Presentation Tier:** Angular injects services into components via their constructors. This allows different parts of the UI to share a single instance of a service, ensuring that the "Funding Basket" remains consistent across different pages.
+
+###### _**[Sprint 3 & 4]** OO Design Principles now span across the Presentation, Application, and Data tiers._
 
 ## Static Code Analysis/Future Design Improvements
 
