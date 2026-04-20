@@ -397,6 +397,19 @@ Finally, we followed the Single Responsibility Principle (SRP) by giving each cl
 > Analysis Tool (SonarQube) and provide your analysis and recommendations.  
 > Include any relevant screenshot(s) with each area._
 
+Our backend recieved a score of C for reliability and A for maintainability. It has one issue in reliability , and 146 for maintainability as shown below. The frontend has a C for reliability and an A for maintainability, with 3 issues.
+
+> ![Overall Code Analysis](codeanalysis.png)
+
+The one issue in the backend has to do with setting the correct Http Status, as shown below.
+
+> ![Issue 1 Analysis](codeanalysis_issue1.png)
+
+The issue here is that if the user tries to delete something that was already deleted, it currently returns a 404. It should actually just return ok (204) 
+regardless of wether it has already been deleted or not. This allows for a cleaner user experience and removed unnecessary error handling.
+
+The second issue is..
+
 > _**[Sprint 4]** Discuss **future** refactoring and other design improvements your team would explore if the team had additional time._
 
 ## Testing
