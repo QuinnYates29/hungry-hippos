@@ -888,10 +888,6 @@ Finally, we followed the Single Responsibility Principle (SRP) by giving each cl
 > _**[Sprint 3 & 4]** OO Design Principles should span across **all tiers.**_
 
 ## Static Code Analysis/Future Design Improvements
-> _**[Sprint 4]** With the results from the Static Code Analysis exercise, 
-> **Identify 3-4** areas within your code that have been flagged by the Static Code 
-> Analysis Tool (SonarQube) and provide your analysis and recommendations.  
-> Include any relevant screenshot(s) with each area._
 
 Our backend recieved a score of C for reliability and A for maintainability. It has one issue in reliability , and 146 for maintainability as shown below. The frontend has a C for reliability and an A for maintainability, with 3 issues.
 
@@ -904,9 +900,19 @@ The one issue in the backend has to do with setting the correct Http Status, as 
 The issue here is that if the user tries to delete something that was already deleted, it currently returns a 404. It should actually just return ok (204) 
 regardless of wether it has already been deleted or not. This allows for a cleaner user experience and removed unnecessary error handling.
 
-The second issue is..
+The second issue is an improper function call to `fetchHippos()` in the frontend.
 
-> _**[Sprint 4]** Discuss **future** refactoring and other design improvements your team would explore if the team had additional time._
+> ![Issue 2 Analysis](codeanalysis_issue2.png)
+
+The function being called without parenthesis will cause ths function to not be called in the ngOnInit, meaning a new list of hippos will not be displayed when the page is opened. This can be fixed easily by adding parenthesis to at the end of the function call.
+
+The third issue is an improper association between a form label and its control in the frontend template.
+
+> ![Issue 3 Analysis](codeanalysis_issue3.png)
+
+The `<label>` element is missing a connection to its corresponding input field, which triggers accessibility warnings. Without this link, screen readers cannot identify which field the label describes, and users cannot click the label text to focus the input. This can be fixed by adding a `for` attribute to the label that matches the `id` of the input field.
+
+> If our team had additional time, we would spend a large portion going through this static code analysis and making small fixes to improve the reliability and maintainability of our code. Along with this, we would do more testing of the UI to ensure our product is "release ready".
 
 ## Testing
 > _This section will provide information about the testing performed
