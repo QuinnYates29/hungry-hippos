@@ -14,7 +14,7 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
+Hungry Hippos is a multi-paged web application that connects sanctuary administrators with community helpers to fund essential resources for hippopotamus care. Using an Angular frontend and Spring Boot backend, the platform allows admins to manage a "cupboard" of needs while helpers browse, select specific hippos, and fund items through a checkout process. All information, including user roles and hippo locations, is maintained through persistent data storage to ensure a consistent experience across sessions.
 
 ### Purpose
 Our project is a mutli-paged web application for our UFund campaign **Hungry Hippos**. It allows users to log in, along with an admin role and helper role. The admin can define what **Needs** they require for feeding their hippos, and helpers can fund those **Needs**.
