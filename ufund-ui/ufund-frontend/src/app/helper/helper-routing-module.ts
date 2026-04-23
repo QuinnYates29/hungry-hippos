@@ -5,9 +5,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HelperDashboard } from './pages/helper-dashboard/helper-dashboard';
+import { HippoDashboard } from './pages/hippo-dashboard/hippo-dashboard';
 
 const routes: Routes = [
-  {path:'helper-dashboard', component: HelperDashboard}
+  {path:'helper-dashboard', component: HelperDashboard},
+  {path: 'hippos-dashboard', component: HippoDashboard},
 ];
 
 @NgModule({

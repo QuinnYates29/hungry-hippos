@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing-module';
-import { Login } from '../login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { FormsModule } from '@angular/forms';
+import { HipposDashboard } from './pages/hippos-dashboard/hippos-dashboard';
 
 
 @NgModule({
   declarations: [
-    Login,
-    Dashboard
+    Dashboard,
+    HipposDashboard
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FormsModule
   ]
 })
 export class AdminModule { }

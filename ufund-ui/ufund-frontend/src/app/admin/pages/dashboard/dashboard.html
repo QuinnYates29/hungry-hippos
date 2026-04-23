@@ -1,18 +1,116 @@
-<div class="dashboard-container">
-    <h2>U-fund Cupboard Needs</h2>
-  
-    <div *ngIf="loading">Loading needs...</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hippo Cupboard Admin</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
 
-    <div *ngIf="!loading && needs.length === 0">No needs available.</div>
+<body>
 
-    <div *ngIf="!loading && needs.length > 0" class="needs-list">
-    <div *ngFor="let need of needs" class="need-card">
-        <h3>{{ need.name }}</h3>
-        <p><strong>Type:</strong> {{ need.type }}</p>
-        <p><strong>Cost:</strong> ${{ need.cost }}</p>
-        <p><strong>Quantity:</strong> {{ need.quantity }}</p>
 
-        <button (click)="removeNeed(need.id)">Remove</button>
-    </div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="hippo">🦛</div>
+    <h1>Hippo Cupboard</h1>
+    <button class="need-btn" (click)="openAddNeedBox()">+ Add Need</button>
+  </div>
+
+
+  <div class="stats" *ngIf="!loading && needs.length > 0">
+    Total Needs: {{ needs.length }}
+  </div>
+
+  <div *ngIf="loading" class="info">Loading...</div>
+
+
+  <div *ngIf="!loading && needs.length === 0" class="info">
+    No items yet 🦛
+  </div>
+
+  <div class="grid" *ngIf="!loading && needs.length > 0">
+    <div class="card" *ngFor="let need of needs">
+      <h3>{{ need.name }}</h3>
+      <p>{{ need.type }}</p>
+      <p>${{ need.cost }}</p>
+      <p>Qty: {{ need.quantity }}</p>
+
+      <div class="actions">
+        <button (click)="removeNeed(need.id)">🗑</button>
+        <button (click)="openEditNeedBox(need)">✏️</button>
+      </div>
     </div>
   </div>
+
+<div *ngIf="displayAddNeedBox" class="popup">
+    <div class="popup-box">
+      <h2>🦛 Add Need</h2>
+  
+      <label>
+        Name
+        <input [(ngModel)]="newNeed.name" placeholder="e.g. Canned Beans">
+      </label>
+  
+      <label>
+        Type
+        <input [(ngModel)]="newNeed.type" placeholder="e.g. Food">
+      </label>
+  
+      <label>
+        Cost ($)
+        <input type="number" [(ngModel)]="newNeed.cost" placeholder="0.00">
+      </label>
+  
+      <label>
+        Quantity
+        <input type="number" [(ngModel)]="newNeed.quantity" placeholder="0">
+      </label>
+  
+      <div class="popup-actions">
+        <button class="primary" (click)="addNewNeed()">Add</button>
+        <button (click)="closeAddNeedBox()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div *ngIf="displayEditNeedBox" class="popup">
+    <div class="popup-box">
+      <h2>✏️ Edit Item</h2>
+  
+      <label>
+        Name
+        <input [(ngModel)]="editCurNeed.name">
+      </label>
+  
+      <label>
+        Type
+        <input [(ngModel)]="editCurNeed.type">
+      </label>
+  
+      <label>
+        Cost ($)
+        <input type="number" [(ngModel)]="editCurNeed.cost">
+      </label>
+  
+      <label>
+        Quantity
+        <input type="number" [(ngModel)]="editCurNeed.quantity">
+      </label>
+  
+      <div class="popup-actions">
+        <button class="primary" (click)="editNeed()">Save</button>
+        <button (click)="closeEditNeedBox()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

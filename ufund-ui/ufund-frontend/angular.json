@@ -36,6 +36,7 @@
               }
             ],
             "styles": [
+              "leaflet/dist/leaflet.css",
               "src/styles.css"
             ]
           },

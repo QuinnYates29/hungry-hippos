@@ -10,208 +10,128 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.ufund.api.ufundapi.model.Need;
+import com.ufund.api.ufundapi.persistence.BasketDAO;
 import com.ufund.api.ufundapi.persistence.CupboardDAO;
 
 /**
- * Handles CupboardDAO requests
- * 
+ * Handles the REST API requests for the Funding Basket.
+ * Allows users to view, add, and remove items from their specific basket.
  * @author ars4041
+ * @author iz6341
  */
 
 @RestController
 @RequestMapping("basket")
 public class BasketController {
     private static final Logger LOG = Logger.getLogger(BasketController.class.getName());
-    private final CupboardDAO cupboardDao;
+    private final BasketDAO basketDAO;
+    private final CupboardDAO cupboardDAO;
 
     /**
-     * Creates a REST API controller to reponds to requests
-     * 
-     * @param cupboardDao The {@link cupboardDao Need Data Access Object} to perform CRUD operations
-     * <br>
-     * This dependency is injected by the Spring Framework
+     * Creates a REST API controller to respond to basket requests.
+     * * @param basketDao The {@link BasketDAO} used to perform CRUD operations on the basket.
      */
-    public BasketController(@Qualifier("basketFileDAO") CupboardDAO cupboardDao) {
-    this.cupboardDao = cupboardDao;
+    public BasketController(BasketDAO basketDao, CupboardDAO cupboardDao) {
+        this.basketDAO = basketDao;
+        this.cupboardDAO = cupboardDao;
+    }
+
+   
+
+    /**
+     * Responds to the GET request for a specific user's Funding Basket.
+     * @param userId The ID of the user whose basket is being retrieved
+     * @return ResponseEntity with an array of {@link Need} objects and HTTP status OK,
+     * otherwise, INTERNAL_SERVER_ERROR
+     */
+    @GetMapping("/{userId}")
+    public ResponseEntity<Need[]> getBasket(@PathVariable int userId) {
+        LOG.info("GET /basket/" + userId);
+        try {
+            Need[] needs = basketDAO.getNeeds(userId);
+            if(needs!=null){
+                return new ResponseEntity<>(needs, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(needs, HttpStatus.NOT_FOUND);
+            }
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
-     * Responds to the GET request for a {@linkplain Need need} for the given id
-     * 
-     * @param id The id used to locate the {@link Need need}
-     * 
-     * @return ResponseEntity with {@link Need need} object and HTTP status of OK if found<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * Adds a {@link Need} to a specific user's basket.
+     * @param userId The ID of the user adding the item
+     * @param need The {@link Need} object to be added
+     * @return ResponseEntity with the added {@link Need} and HTTP status CREATED,
+     * otherwise, INTERNAL_SERVER_ERROR
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<Need> getNeed(@PathVariable int id) {
-        LOG.info("GET /needs/" + id);
+    @PostMapping("/{userId}")
+    public ResponseEntity<Need> addToBasket(@PathVariable int userId, @RequestBody Need need) {
+        LOG.info("POST /basket/" + userId + " " + need);
         try {
-            Need need = cupboardDao.getNeed(id);
-            if (need != null)
-                return new ResponseEntity<Need>(need,HttpStatus.OK);
+            Need addedNeed = basketDAO.addToBasket(userId, need);
+            return new ResponseEntity<>(addedNeed, HttpStatus.CREATED);
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * Removes a specific {@link Need} from a user's basket.
+     * @param userId The ID of the user removing the item
+     * @param needId The ID of the {@link Need} to be removed
+     * @return ResponseEntity with HTTP status OK if deleted,
+     * NOT_FOUND if the item or basket didn't exist,
+     * otherwise, INTERNAL_SERVER_ERROR
+     */
+    @DeleteMapping("/{userId}/{needId}")
+    public ResponseEntity<Void> removeFromBasket(@PathVariable int userId, @PathVariable int needId) {
+        LOG.info("DELETE /basket/" + userId + "/" + needId);
+        try {
+            boolean deleted = basketDAO.removeFromBasket(userId, needId);
+            if (deleted)
+                return new ResponseEntity<>(HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+
     /**
-     * Responds to the GET request for all {@linkplain Need need}
-     * 
-     * @return ResponseEntity with array of {@link Need need} objects (may be empty) and
-     * HTTP status of OK<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
+     * Checks out a user's basket.
+     * Deletes each item in the basket from the main cupboard and then clears the basket.
+     * @param userId The ID of the user checking out
+     * @return HTTP OK if successful, otherwise INTERNAL_SERVER_ERROR
      */
-    @GetMapping("")
-    public ResponseEntity<Need[]> getNeeds() {
+    @PostMapping("/checkout/{userId}")
+    public ResponseEntity<Void> checkout(@PathVariable int userId) {
+        LOG.info("POST /basket/checkout/" + userId);
         try {
-            Need[] needs = cupboardDao.getNeeds();
-            if (needs != null) {
-                return ResponseEntity.ok(needs);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            //get all items currently in the user's basket
+            Need[] basketitems = basketDAO.getNeeds(userId);
+
+            //delete each from the main cupboard
+            for (Need item : basketitems) {
+                cupboardDAO.deleteNeed(item.getId());
             }
+
+            //clear the user's basket
+            basketDAO.clearBasket(userId);
+
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Error retrieving cupboard needs", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    /**
-     * Responds to the GET request for all {@linkplain Hero heroes} whose name contains
-     * the text in name
-     * 
-     * @param name The name parameter which contains the text used to find the {@link Hero heroes}
-     * 
-     * @return ResponseEntity with array of {@link Hero hero} objects (may be empty) and
-     * HTTP status of OK<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     * <p>
-     * Example: Find all heroes that contain the text "ma"
-     * GET http://localhost:8080/heroes/?name=ma
-     */
-    @GetMapping("/search")
-    public ResponseEntity<Need[]> searchNeeds(@RequestParam String name) {
-        LOG.info("GET /needs/?name="+name);
-
-            try {
-            Need[] needs = cupboardDao.getNeeds();
-            int accepted_size = 0;
-            for (Need need : needs) {
-                if (need.getName().toLowerCase().contains(name.toLowerCase().trim())) {
-                    accepted_size++;
-                }
-            }
-            Need[] accepted = new Need[accepted_size];
-            int ind = 0;
-            for (Need need : needs) {
-                if (need.getName().toLowerCase().contains(name.toLowerCase().trim())) {
-                    accepted[ind] = need;
-                    ind++;
-                }
-            }
-            if (accepted_size >= 0) {
-                return new ResponseEntity<>(accepted,HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Creates a {@linkplain Need need} with the provided need object
-     * 
-     * @param need - The {@link Need need} to create
-     * 
-     * @return ResponseEntity with created {@link Need need} object and HTTP status of CREATED<br>
-     * ResponseEntity with HTTP status of CONFLICT if {@link Need need} object already exists<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     */
-    @PostMapping("")
-    public ResponseEntity<Need> createNeed(@RequestBody Need need) {
-        LOG.info("POST /needs " + need);
-            try {
-            Need n = cupboardDao.getNeed(need.getId());
-            if (n == null) {
-                cupboardDao.createNeed(need);
-                return new ResponseEntity<>(n,HttpStatus.CREATED);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Updates the {@linkplain Need need} with the provided {@linkplain Need need} object, if it exists
-     * 
-     * @param hero The {@link Need need} to update
-     * 
-     * @return ResponseEntity with updated {@link Need need} object and HTTP status of OK if updated<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     */
-    @PutMapping("")
-    public ResponseEntity<Need> updateNeed(@RequestBody Need need) {
-        LOG.info("PUT /needs " + need);
-
-            try {
-            Need n = cupboardDao.updateNeed(need);
-            if (n != null) {
-                return new ResponseEntity<>(need,HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     * Deletes a {@linkplain Need need} with the given id
-     * 
-     * @param id The id of the {@link Need need} to deleted
-     * 
-     * @return ResponseEntity HTTP status of OK if deleted<br>
-     * ResponseEntity with HTTP status of NOT_FOUND if not found<br>
-     * ResponseEntity with HTTP status of INTERNAL_SERVER_ERROR otherwise
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Need> deleteNeed(@PathVariable int id) {
-        LOG.info("DELETE /needs/" + id);
-
-            try {
-            boolean deleted = cupboardDao.deleteNeed(id);
-            if (deleted != false) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-            else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE,e.getLocalizedMessage());
+            LOG.log(Level.SEVERE, e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

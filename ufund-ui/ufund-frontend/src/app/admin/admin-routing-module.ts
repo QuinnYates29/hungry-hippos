@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Login } from '../login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
+import { HipposDashboard } from './pages/hippos-dashboard/hippos-dashboard';
 
 const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'dashboard', component: Dashboard}
+  { path: 'dashboard', component: Dashboard}, 
+  { path: 'hippos-dashboard', component: HipposDashboard },
 ];
 
 @NgModule({

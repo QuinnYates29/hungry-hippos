@@ -1,3 +1,10 @@
+/**
+ * Test file for CupboardController.java class
+ * @author Quinn, Ilia, Aidan
+ * Specific test functions have authors above them for code submission for
+ * Unit Testing - Individual Assignment
+ */
+
 package com.ufund.api.ufundapi;
 
 import java.io.IOException;
@@ -28,6 +35,7 @@ class CupboardControllerTest {
 
     // =========================
     // Tests for getNeeds()
+    // Author: Quinn Yates
     // =========================
 
     @Test
@@ -80,6 +88,7 @@ class CupboardControllerTest {
 
     // =========================
     // Tests for deleteNeed()
+    // Author: Quinn Yates
     // =========================
 
     @Test
@@ -110,7 +119,8 @@ class CupboardControllerTest {
     }
 
     // =========================
-    // Tests for searchNeeds():
+    // Tests for searchNeeds():5ew
+    // Author: Ilia
     // =========================
     @Test
     public void testSearchNeedsFullName_Ok() throws IOException {
@@ -199,4 +209,80 @@ class CupboardControllerTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
     }
 
+
+    // =========================
+    // Tests for createNeed():
+    // Author: Aidan Sanderson
+    // =========================
+
+    @Test
+    public void testCreateNeed_Ok() throws IOException {
+        Need newNeed = new Need(2, "Pizza", "Food", 12, 6);
+        when(mockDao.getNeed(newNeed.getId())).thenReturn(null);
+        when(mockDao.createNeed(newNeed)).thenReturn(newNeed);
+        ResponseEntity<Need> response = controller.createNeed(newNeed);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Pizza", response.getBody().getName());
+        assertEquals("Food", response.getBody().getType());
+        assertEquals(12, response.getBody().getCost());
+        assertEquals(6, response.getBody().getQuantity());
     }
+
+    @Test
+    public void testCreateNeed_Conflict() throws IOException {
+        Need existingNeed = new Need(1, "Grass", "Food", 0, 10);
+        when(mockDao.getNeed(existingNeed.getId())).thenReturn(existingNeed);
+        ResponseEntity<Need> response = controller.createNeed(existingNeed);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
+    public void testCreateNeed_InternalServerError() throws IOException {
+        Need newNeed = new Need(3, "Grapes", "Food", 3.50, 13);
+        when(mockDao.getNeed(newNeed.getId())).thenThrow(new IOException());
+        ResponseEntity<Need> response = controller.createNeed(newNeed);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    // =========================
+    // Tests for updateNeed():
+    // Author: Aidan Sanderson
+    // =========================
+    
+    @Test
+    public void testUpdateNeed_Ok() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenReturn(need);
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals("Grapes", response.getBody().getName());
+        assertEquals("Food", response.getBody().getType());
+        assertEquals(3, response.getBody().getCost());
+        assertEquals(13, response.getBody().getQuantity());
+    }
+
+    @Test
+    public void testUpdateNeed_NotFound() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenReturn(null);
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    public void testUpdateNeed_InternalServerError() throws IOException {
+        Need need = new Need(3, "Grapes", "Food", 3, 13);
+        when(mockDao.updateNeed(need)).thenThrow(new IOException());
+        ResponseEntity<Need> response = controller.updateNeed(need);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+}

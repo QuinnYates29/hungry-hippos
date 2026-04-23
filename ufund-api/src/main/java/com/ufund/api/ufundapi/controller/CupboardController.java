@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.ufund.api.ufundapi.model.Need;
 import com.ufund.api.ufundapi.persistence.CupboardDAO;
@@ -25,6 +24,7 @@ import com.ufund.api.ufundapi.persistence.CupboardDAO;
  * Handles CupboardDAO requests
  * 
  * @author ars4041
+ *
  */
 
 @RestController
@@ -152,8 +152,8 @@ public class CupboardController {
             try {
             Need n = cupboardDao.getNeed(need.getId());
             if (n == null) {
-                cupboardDao.createNeed(need);
-                return new ResponseEntity<>(n,HttpStatus.CREATED);
+                Need createdNeed = cupboardDao.createNeed(need);
+                return new ResponseEntity<>(createdNeed,HttpStatus.CREATED);
             }
             else {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -217,4 +217,5 @@ public class CupboardController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
 }

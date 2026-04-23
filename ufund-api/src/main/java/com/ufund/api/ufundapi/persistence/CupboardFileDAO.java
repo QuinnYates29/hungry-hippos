@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufund.api.ufundapi.model.Need;
+import java.io.IOException;
 
 /**
  * Implements the functionality for JSON file-based peristance for Heroes
@@ -148,30 +149,30 @@ public class CupboardFileDAO implements CupboardDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Need[] getNeeds() {
+    public Need[] getNeeds() throws IOException {
         synchronized(needs) {
             return getNeedsArray();
         }
     }
 
     /**
-    ** {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Need[] findNeeds(String containsText) {
+    public Need[] findNeeds(String containsText) throws IOException {
         synchronized(needs) {
             return getNeedsArray(containsText);
         }
     }
 
     /**
-    ** {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public Need getNeed(int id) {
+    public Need getNeed(int id) throws IOException {
         synchronized(needs) {
             if (needs.containsKey(id))
                 return needs.get(id);
@@ -181,7 +182,7 @@ public class CupboardFileDAO implements CupboardDAO {
     }
 
     /**
-    ** {@inheritDoc}
+    * {@inheritDoc}
      */
     @Override
     public Need createNeed(Need need) throws IOException {
@@ -202,7 +203,7 @@ public class CupboardFileDAO implements CupboardDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public Need updateNeed(Need need) throws IOException {
@@ -217,7 +218,7 @@ public class CupboardFileDAO implements CupboardDAO {
     }
 
     /**
-    ** {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean deleteNeed(int id) throws IOException {

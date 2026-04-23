@@ -7,12 +7,14 @@ import { CommonModule } from '@angular/common';
 import { HelperDashboard } from './pages/helper-dashboard/helper-dashboard';
 import { HelperRoutingModule } from './helper-routing-module';
 import { HelperSearch } from './pages/helper-search/helper-search';
+import { HippoDashboard } from './pages/hippo-dashboard/hippo-dashboard';
 
 
 @NgModule({
   declarations: [
     HelperDashboard,
-    HelperSearch
+    HelperSearch,
+    HippoDashboard
   ],
   imports: [
     CommonModule,

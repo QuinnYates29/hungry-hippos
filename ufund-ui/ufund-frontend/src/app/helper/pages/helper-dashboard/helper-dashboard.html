@@ -1,8 +1,32 @@
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
 <div class="helper-dashboard-container">
+  <div class="header">
+    <div class="header-left">
+      <h1>🦛 Hippos Needs</h1>
+      <div class="helper-tag">Helper Access</div>
+    </div>
+    <div class="header-right">
+      <div class="hippo-checkout-banner" *ngIf="activeHippo">
+        <h3>🛒 Shopping for: {{ activeHippo.name }}</h3>
+        <small>Species: {{ activeHippo.species }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showSuccess" class="checkout-window">
+    <div class="message-checkout">
+      <div class="success-message"></div>
+      <h2>Checkout Complete!</h2>
+      <p *ngIf="activeHippo">
+        💜 You just helped <strong>{{ activeHippo.name }}</strong>
+      </p>
+      <button class="confirm-button" (click)="closeWindow()">OK</button>
+    </div>
+  </div>
 
   <div class="header-row">
-    <!-- <h2>U-fund Cupboard Needs</h2> -->
-
     <div class="basket-container">
       <button class="basket-button" (click)="toggleBasket()">
         🛒 Basket ({{ basketNeeds.length }})
@@ -23,14 +47,23 @@
             Remove
           </button>
         </div>
-
+        <div *ngIf="basketNeeds.length > 0" class="basket-footer">
+        <hr>
+        <button class="checkout-button" (click)="checkout()">
+          Checkout
+        </button>
       </div>
+      </div>
+
     </div>
   </div>
+
   <h2>U-fund Cupboard Needs</h2>
   <app-helper-search (resultsFound)="handleSearchResults($any($event))"></app-helper-search>
+
   <div *ngIf="loadingNeeds">Loading needs...</div>
   <div *ngIf="!loadingNeeds && needs.length === 0">No needs available.</div>
+
   <div *ngIf="!loadingNeeds && needs.length > 0" class="needs-list">
     <div *ngFor="let need of needs; let last = last">
       <div class="need-card">
